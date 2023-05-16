@@ -1,0 +1,87 @@
+{% extends 'root.html' %}
+{% block content %}
+<div class="container-xxl bg-primary page-header">
+    <div class="container text-center">
+        <h1 class="text-white animated zoomIn mb-3">健康監測</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center">
+                <li class="breadcrumb-item"><a class="text-white" href="{% url 'index' %}">Home</a></li>
+                <li class="breadcrumb-item text-white active" aria-current="page">健康健側</a></li>
+                <!--<li class="breadcrumb-item text-white active" aria-current="page">Contact</li>-->
+            </ol>
+        </nav>
+    </div>
+</div>
+</div>
+
+<!-- Contact Start -->
+<div class="container-xxl py-6">
+    <div class="container">
+        <div class="mx-auto text-center wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+            <h2 class="mb-5">健康監測手開單</h2><h3>{{ QC_ID }}</h3>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-7 wow fadeInUp" data-wow-delay="0.3s">
+               <!-- <p class="text-center mb-4">The contact form is currently inactive. Get a functional and working contact form with Ajax & PHP in a few minutes. Just copy and paste the files, add a little code and you're done. <a href="https://htmlcodex.com/contact-form">Download Now</a>.</p>-->
+                <form>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="subject" placeholder="系所" name="department" required>
+                                <label for="subject">系所</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="name" placeholder="計畫主持人" name='pi' required>
+                                <label for="name">計畫主持人</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="email" placeholder="聯絡人" name="contact"required >
+                                <label for="email">聯絡人</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="name" placeholder="實驗室電話" name='lab-phone' required>
+                                <label for="name">實驗室電話</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="email" placeholder="聯絡人手機" name="contact-number" required>
+                                <label for="email">聯絡人手機</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="sample" placeholder="送檢數目" name='sample-number'  required>
+                                <label for="sample">送檢數目</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <h4  style="display: inline-block;">總價:</h4>
+                                <h1 id="total-price" style="display: inline-block; margin-left: 10px;">0</h1>
+                            </div>
+                        </div>
+                       <div class="col-12">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="備註" id="message" style="height: 100px"></textarea>
+                                <label for="message">備註</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-primary w-100 py-3" type="submit">送出</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Contact End -->
+{% load static %}
+{% endblock content  %} 
