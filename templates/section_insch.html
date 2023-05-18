@@ -12,6 +12,141 @@
         </nav>
     </div>
 </div>
+<!-- Contact Start -->
+<div class="container-xxl py-6">
+    <div class="container">
+        <div class="mx-auto text-center wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+            <h2 class="mb-5">病理切片(校內)手開單</h2 ><h3 style="display: inline-block;">編號:</h3><h3 style="display: inline-block; margin-left: 10px;">{{ PC_ID }}</h3>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-7 wow fadeInUp" data-wow-delay="0.3s">
+               <!-- <p class="text-center mb-4">The contact form is currently inactive. Get a functional and working contact form with Ajax & PHP in a few minutes. Just copy and paste the files, add a little code and you're done. <a href="https://htmlcodex.com/contact-form">Download Now</a>.</p>-->
+                <form action="section_insch" method="post">
+                    {% csrf_token %} 
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="subject" placeholder="系所" name="department" required>
+                                <label for="subject">系所</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="name" placeholder="計畫主持人" name='pi' required>
+                                <label for="name">計畫主持人</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="email" placeholder="聯絡人" name="contact"required >
+                                <label for="email">聯絡人</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="name" placeholder="實驗室電話" name='lab-phone' required>
+                                <label for="name">實驗室電話</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="email" placeholder="聯絡人手機" name="contact-number" required>
+                                <label for="email">聯絡人手機</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-floating">
+                                <input type="date" class="form-control" id="date" placeholder="送檢日期" name='date'  required>
+                                <label for="sample">送檢日期</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="number" class="form-control pc" id="sample-pc-a" placeholder="送檢數目" name='a'  required>
+                                <label for="sample">組織包埋(蠟)</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="number" class="form-control pc" id="sample-pc-b" placeholder="送檢數目" name='b'  required>
+                                <label for="sample">蠟切片(組織空白片)</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="number" class="form-control pc" id="sample-pc-c" placeholder="送檢數目" name='c'  required>
+                                <label for="sample">蠟切片(免疫組織空白片)</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="number" class="form-control pc" id="sample-pc-d" placeholder="送檢數目" name='d'  required>
+                                <label for="sample">H&E染色</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="number" class="form-control pcc" id="sample-pc-e" placeholder="送檢數目" name='e'  required>
+                                <label for="sample">H&E以外染色</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="number" class="form-control pc" id="sample-pc-f" placeholder="送檢數目" name='f'  required>
+                                <label for="sample">脫鈣</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="number" class="form-control pc" id="sample-pc-g" placeholder="送檢數目" name='g'  required>
+                                <label for="sample">冷凍切片</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="number" class="form-control pc" id="sample-pc-h" placeholder="送檢數目" name='h'  required>
+                                <label for="sample">冷凍包埋</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="number" class="form-control pc" id="sample-pc-i" placeholder="送檢數目" name='i'  required>
+                                <label for="sample">免疫組織染色(不含抗體)</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="number" class="form-control pc" id="sample-pc-j" placeholder="送檢數目" name='j'  required>
+                                <label for="sample">病理切片一般判讀</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="number" class="form-control pc" id="sample-pc-k" placeholder="送檢數目" name='k'  required>
+                                <label for="sample">病理切片照相</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <h4  style="display: inline-block;">總價:</h4>
+                                <h1 id="pc-total-price-in-sch" style="display: inline-block; margin-left: 10px;">0</h1>
+                            </div>
+                        </div>
+                       <div class="col-12">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="備註" id="message" style="height: 100px"></textarea>
+                                <label for="message">備註</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-primary w-100 py-3" type="submit">送出</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+<!-- Contact End -->
 {% load static %}
 {% endblock content  %} 
