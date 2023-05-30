@@ -7,7 +7,7 @@ from django.utils import timezone
 Health Minitor
 '''
 class QC(models.Model):
-    qcid = models.CharField(unique=True, max_length=10,default=None)
+    qcid = models.CharField(unique=True, max_length=11,default=None)
     department = models.CharField(max_length=1000,null=True,blank=True,default=None)
     pi = models.CharField(max_length=1000,null=True,blank=True,default=None)
     lab_tel = models.CharField(max_length=20,null=True,blank=True,default=None)
@@ -15,6 +15,8 @@ class QC(models.Model):
     contact_tel = models.CharField(max_length=10,null=True,blank=True,default=None)
     date = models.DateField()
     number = models.IntegerField(default=0,null=True,blank=True)
+    file = models.CharField(max_length=255, null=True, blank=True)
+    pay = models.BooleanField(default=False)
     class Meta:
         verbose_name = '健康監測手開單'
         verbose_name_plural = '健康監測手開單'
@@ -33,7 +35,7 @@ class QC(models.Model):
                 # 如果该年份下没有序号，从001开始
                 num = 1
             # 生成新的qcid
-            self.qcid = f"{year}QC{str(num).zfill(3)}"
+            self.qcid = f"{year}QC{str(num).zfill(4)}"
             Max_ID.objects.update(QC_max=self.qcid)
         super().save(*args, **kwargs)
 
@@ -45,7 +47,7 @@ serum & blood
 '''
 
 class SC(models.Model):
-    scid = models.CharField(unique=True, max_length=10,default=None)
+    scid = models.CharField(unique=True, max_length=11,default=None)
     department = models.CharField(max_length=1000,null=True,blank=True,default=None)
     pi = models.CharField(max_length=1000,null=True,blank=True,default=None)
     lab_tel = models.CharField(max_length=20,null=True,blank=True,default=None)
@@ -54,6 +56,8 @@ class SC(models.Model):
     date = models.DateField()
     serum = models.IntegerField(default=0,null=True,blank=True)
     bloodcell = models.IntegerField(default=0,null=True,blank=True)
+    file = models.CharField(max_length=255, null=True, blank=True)
+    pay = models.BooleanField(default=False)
     class Meta:
         verbose_name = '血液血清手開單'
         verbose_name_plural = '血液血清手開單'
@@ -71,7 +75,7 @@ class SC(models.Model):
                 # 如果该年份下没有序号，从001开始
                 num = 1
         
-            self.scid = f"{year}SC{str(num).zfill(3)}"
+            self.scid = f"{year}SC{str(num).zfill(4)}"
             Max_ID.objects.update(SC_max=self.scid)
         super().save(*args, **kwargs)
 
@@ -82,13 +86,15 @@ For inside school
 
 
 class PC_INS(models.Model):
-    pc_ins_id = models.CharField(unique=True, max_length=10,default=None)
+    pc_ins_id = models.CharField(unique=True, max_length=11,default=None)
     department = models.CharField(max_length=1000,null=True,blank=True,default=None)
     pi = models.CharField(max_length=1000,null=True,blank=True,default=None)
     lab_tel = models.CharField(max_length=20,null=True,blank=True,default=None)
     contact = models.CharField(max_length=10,null=True,blank=True,default=None)
     contact_tel = models.CharField(max_length=10,null=True,blank=True,default=None)
     date = models.DateField()
+    file = models.CharField(max_length=255, null=True, blank=True)
+    pay = models.BooleanField(default=False)
     A = models.IntegerField(default=0,null=True,blank=True)
     B = models.IntegerField(default=0,null=True,blank=True)
     C = models.IntegerField(default=0,null=True,blank=True)
@@ -117,7 +123,7 @@ class PC_INS(models.Model):
                 # 如果该年份下没有序号，从001开始
                 num = 1
             # 生成新的qcid
-            self.pc_ins_id = f"{year}PC{str(num).zfill(3)}"
+            self.pc_ins_id = f"{year}PC{str(num).zfill(4)}"
             Max_ID.objects.update(PC_max=self.pc_ins_id)
         super().save(*args, **kwargs)
 
@@ -126,13 +132,15 @@ For outside school
 '''
 
 class PC_OUS(models.Model):
-    pc_out_id = models.CharField(unique=True, max_length=10,default=None)
+    pc_out_id = models.CharField(unique=True, max_length=11,default=None)
     department = models.CharField(max_length=1000,null=True,blank=True,default=None)
     pi = models.CharField(max_length=1000,null=True,blank=True,default=None)
     lab_tel = models.CharField(max_length=20,null=True,blank=True,default=None)
     contact = models.CharField(max_length=10,null=True,blank=True,default=None)
     contact_tel = models.CharField(max_length=10,null=True,blank=True,default=None)
     date = models.DateField()
+    file = models.CharField(max_length=255, null=True, blank=True)
+    pay = models.BooleanField(default=False)
     A = models.IntegerField(default=0,null=True,blank=True)
     B = models.IntegerField(default=0,null=True,blank=True)
     C = models.IntegerField(default=0,null=True,blank=True)
@@ -161,7 +169,7 @@ class PC_OUS(models.Model):
                 # 如果该年份下没有序号，从001开始
                 num = 1
             # 生成新的qcid
-            self.pc_out_id = f"{year}PC{str(num).zfill(3)}"
+            self.pc_out_id = f"{year}PC{str(num).zfill(4)}"
             Max_ID.objects.update(PC_max=self.pc_out_id)
         super().save(*args, **kwargs)
 '''
@@ -169,13 +177,13 @@ For industry
 '''
 
 class PC_IND(models.Model):
-    pc_ind_id = models.CharField(unique=True, max_length=10,default=None)
+    pc_ind_id = models.CharField(unique=True, max_length=11,default=None)
     department = models.CharField(max_length=1000,null=True,blank=True,default=None)
-    pi = models.CharField(max_length=1000,null=True,blank=True,default=None)
-    lab_tel = models.CharField(max_length=20,null=True,blank=True,default=None)
     contact = models.CharField(max_length=10,null=True,blank=True,default=None)
     contact_tel = models.CharField(max_length=10,null=True,blank=True,default=None)
     date = models.DateField()
+    file = models.CharField(max_length=255, null=True, blank=True)
+    pay = models.BooleanField(default=False)
     A = models.IntegerField(default=0,null=True,blank=True)
     B = models.IntegerField(default=0,null=True,blank=True)
     C = models.IntegerField(default=0,null=True,blank=True)
@@ -204,8 +212,8 @@ class PC_IND(models.Model):
                 # 如果该年份下没有序号，从001开始
                 num = 1
             # 生成新的qcid
-            self.pc_ind_id = f"{year}PC{str(num).zfill(3)}"
-            Max_ID.objects.update(PC_max=self.pc_oupc_ind_idt_id)
+            self.pc_ind_id = f"{year}PC{str(num).zfill(4)}"
+            Max_ID.objects.update(PC_max=self.pc_ind_id)
         super().save(*args, **kwargs)
 
 

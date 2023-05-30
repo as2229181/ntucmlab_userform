@@ -435,3 +435,9 @@
     padding-right: 0;
     border-right: none;
 }
+.delete-but{
+    border: none;
+    background-color:none;
+    color: rgb(216, 14, 14); /* 修改顏色為你想要的顏色 */
+    cursor: pointer;
+  }

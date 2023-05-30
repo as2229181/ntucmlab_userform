@@ -217,7 +217,7 @@ class PC_INSAdmin(admin.ModelAdmin):
 
 class PC_INDAdmin(admin.ModelAdmin):
    
-    list_display=['pc_ind_id','department','pi','lab_tel','contact','contact_tel','date','A','B','C','D','E','F','G','H','I','J','K']
+    list_display=['pc_ind_id','department','contact','contact_tel','date','A','B','C','D','E','F','G','H','I','J','K']
     def pc_ind_id(self, obj):
         return obj.pc_ind_id
     pc_ind_id.short_description = '單號'
@@ -226,13 +226,6 @@ class PC_INDAdmin(admin.ModelAdmin):
         return obj.department
     department.short_description = '系所'
 
-    def pi(self, obj):
-        return obj.pi
-    pi.short_description = '計畫主持人'
-
-    def lab_tel(self, obj):
-        return obj.lab_tel
-    lab_tel.short_description = '實驗室電話'
 
     def contact(self, obj):
         return obj.contact

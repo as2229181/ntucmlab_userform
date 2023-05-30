@@ -58,9 +58,24 @@ $(document).ready(function(){
         $('#pc-total-price-ind').text(price_out_ind);
        
     })
+    
+  
+  
+})
 
-
-
-
-
+$(document).on('click', '.delete-but', function() {
+  let id = $(this).attr('data-id')
+    let form_type =$(this).attr('data-formtype')
+    $.ajax({
+      url:'/form/delete_form',
+      data:{
+        'id':id,
+        'form_type':form_type
+      },
+      datatype:'json',
+      
+      success:function(response){
+        $('#form_table').html(response.data)
+      }
+    })
 })
