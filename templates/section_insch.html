@@ -63,78 +63,84 @@
                         <div class="col-md-6">
                             <div class="form-floating">
                                 <input type="number" class="form-control pc" id="sample-pc-a" placeholder="送檢數目" name='a'  required>
-                                <label for="sample">組織包埋(蠟)</label>
+                                <label for="sample"><span style="color: red;">1</span> 組織包埋(蠟)</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
                                 <input type="number" class="form-control pc" id="sample-pc-b" placeholder="送檢數目" name='b'  required>
-                                <label for="sample">蠟切片(組織空白片)</label>
+                                <label for="sample"><span style="color: red;">2</span> 蠟切片(組織空白片)</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
                                 <input type="number" class="form-control pc" id="sample-pc-c" placeholder="送檢數目" name='c'  required>
-                                <label for="sample">蠟切片(免疫組織空白片)</label>
+                                <label for="sample"><span style="color: red;">3</span> 蠟切片(免疫組織空白片)</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
                                 <input type="number" class="form-control pc" id="sample-pc-d" placeholder="送檢數目" name='d'  required>
-                                <label for="sample">H&E染色</label>
+                                <label for="sample"><span style="color: red;">4</span> H&E染色</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="number" class="form-control pcc" id="sample-pc-e" placeholder="送檢數目" name='e'  required>
-                                <label for="sample">H&E以外染色</label>
+                                <input type="number" class="form-control pc" id="sample-pc-e" placeholder="送檢數目" name='e'  required>
+                                <label for="sample"><span style="color: red;">5</span> H&E以外染色</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
                                 <input type="number" class="form-control pc" id="sample-pc-f" placeholder="送檢數目" name='f'  required>
-                                <label for="sample">脫鈣</label>
+                                <label for="sample"><span style="color: red;">6</span> 脫鈣</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
                                 <input type="number" class="form-control pc" id="sample-pc-g" placeholder="送檢數目" name='g'  required>
-                                <label for="sample">冷凍切片</label>
+                                <label for="sample"><span style="color: red;">7</span> 冷凍切片</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
                                 <input type="number" class="form-control pc" id="sample-pc-h" placeholder="送檢數目" name='h'  required>
-                                <label for="sample">冷凍包埋</label>
+                                <label for="sample"><span style="color: red;">8</span> 冷凍包埋</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
                                 <input type="number" class="form-control pc" id="sample-pc-i" placeholder="送檢數目" name='i'  required>
-                                <label for="sample">免疫組織染色(不含抗體)</label>
+                                <label for="sample"><span style="color: red;">9</span> 免疫組織染色(不含抗體)</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
                                 <input type="number" class="form-control pc" id="sample-pc-j" placeholder="送檢數目" name='j'  required>
-                                <label for="sample">病理切片一般判讀</label>
+                                <label for="sample"><span style="color: red;">10</span> 病理切片一般判讀</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
                                 <input type="number" class="form-control pc" id="sample-pc-k" placeholder="送檢數目" name='k'  required>
-                                <label for="sample">病理切片照相</label>
+                                <label for="sample"><span style="color: red;">11</span> 病理切片照相</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="apply-number" placeholder="申請單編號請以、分隔" name='apply-number'  required>
+                                <label for="sample">申請單編號</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
                                 <h4  style="display: inline-block;">總價:</h4>
-                                <h1 id="pc-total-price-in-sch" style="display: inline-block; margin-left: 10px;">0</h1>
+                                <h1 id="pc-total-price-out-sch" style="display: inline-block; margin-left: 10px;">0</h1>
                             </div>
                         </div>
                        <div class="col-12">
                             <div class="form-floating">
-                                <textarea class="form-control" placeholder="備註" id="message" style="height: 100px"></textarea>
+                                <textarea class="form-control" placeholder="備註" id="message" style="height: 100px" name="description" ></textarea>
                                 <label for="message">備註</label>
                             </div>
                         </div>

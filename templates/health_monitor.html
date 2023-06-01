@@ -46,26 +46,32 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="name" placeholder="實驗室電話" name='lab-phone' required>
+                                <input type="tel" class="form-control" id="tel" placeholder="實驗室電話" name='lab-phone' required>
                                 <label for="name">實驗室電話</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="email" placeholder="聯絡人手機" name="contact-number" required>
+                                <input type="text" class="form-control" id="phone" placeholder="聯絡人手機" name="contact-number" required>
                                 <label for="email">聯絡人手機</label>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-floating">
                                 <input type="date" class="form-control" id="date" placeholder="送檢日期" name='date'  required>
-                                <label for="sample">送檢日期</label>
+                                <label for="date">送檢日期</label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="number" class="form-control" id="sample" placeholder="送檢數目" name='sample-number'  required>
-                                <label for="sample">送檢數目</label>
+                                <input type="number" class="form-control" id="mus" placeholder="送檢數目" name='mus-number'  required>
+                                <label for="mus">小鼠送檢數目</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="number" class="form-control" id="rat" placeholder="送檢數目" name='rat-number'  required>
+                                <label for="rat">大鼠送檢數目</label>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -76,7 +82,7 @@
                         </div>
                        <div class="col-12">
                             <div class="form-floating">
-                                <textarea class="form-control" placeholder="備註" id="message" style="height: 100px"></textarea>
+                                <textarea class="form-control" placeholder="備註" id="message" style="height: 100px" name="description"></textarea>
                                 <label for="message">備註</label>
                             </div>
                         </div>

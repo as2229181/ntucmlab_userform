@@ -39,7 +39,7 @@
 							<td>
 								{{qc.date}}
 							</td>
-                            {% if qc.pay == true %}
+                            {% if qc.pay == True %}
 							<td class="text-center">
 								<span class="label label-default">已繳費</span>
 							</td>
@@ -58,12 +58,12 @@
 										<i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
 									</span>
 								</a>
-								<a href="#" class="table-link">
+								<button  class="table-link update-but"  data-formtype="QC" data-id="{{ qc.qcid }}">
 									<span class="fa-stack">
 										<i class="fa fa-square fa-stack-2x"></i>
 										<i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
 									</span>
-								</a>
+								</button>
 								<button  class="table-link danger  delete-but" data-formtype="QC" data-id="{{ qc.qcid }}">
 									<span class="fa-stack">
 										<i class="fa fa-square fa-stack-2x"></i>

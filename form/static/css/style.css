@@ -441,3 +441,10 @@
     color: rgb(216, 14, 14); /* 修改顏色為你想要的顏色 */
     cursor: pointer;
   }
+
+.update-but{
+    border: none;
+    background-color:none;
+    color: rgb(11, 247, 200); /* 修改顏色為你想要的顏色 */
+    cursor: pointer;
+  }

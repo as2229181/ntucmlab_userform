@@ -12,46 +12,13 @@ class QCAdmin(admin.ModelAdmin):
         'contact',
         'contact_tel',
         'date',
-        'number',
-    ]
-
-    def qcid(self, obj):
-        return obj.qcid
-
-    def department(self, obj):
-        return obj.department
-
-    def pi(self, obj):
-        return obj.pi
-
-    def lab_tel(self, obj):
-        return obj.lab_tel
-
-    def contact(self, obj):
-        return obj.contact
-
-    def contact_tel(self, obj):
-        return obj.contact_tel
-
-    def date(self, obj):
-        return obj.date
-
-    def number(self, obj):
-        return obj.number
-
-    # 設置列表欄位的標題
-    qcid.short_description = '單號'
-    department.short_description = '系所'
-    pi.short_description = '計畫主持人'
-    lab_tel.short_description = '實驗室電話'
-    contact.short_description = '聯絡人'
-    contact_tel.short_description = '聯絡人電話'
-    date.short_description = '日期'
-    number.short_description = '數量'
+        'mus_number',
+        'rat_number'
+    ] 
 
 class SCAdmin(admin.ModelAdmin):    
     
-    list_display=['scid','department','pi','lab_tel','contact','contact_tel','date','serum','bloodcell']
+    list_display=['scid','department','pi','lab_tel','contact','contact_tel','date','serum','CBC','申請單編號']
     def scid(self, obj):
         return obj.scid
     scid.short_description = '單號'
@@ -83,12 +50,10 @@ class SCAdmin(admin.ModelAdmin):
     def serum(self, obj):
         return obj.number
     serum.short_description = '血清數量'
-    def bloodcell(self, obj):
-        return obj.number
-    bloodcell.short_description = '血液數量'
+    
 class PC_OUSAdmin(admin.ModelAdmin):   
     
-    list_display=['pc_out_id','department','pi','lab_tel','contact','contact_tel','date','A','B','C','D','E','F','G','H','I','J','K']
+    
     def pc_out_id(self, obj):
         return obj.pc_out_id
     pc_out_id.short_description = '單號'
@@ -117,42 +82,45 @@ class PC_OUSAdmin(admin.ModelAdmin):
         return obj.date
     date.short_description = '日期'
 
-    def a(self, obj):
-        return obj.number
-    a.short_description = '組織包埋(蠟)'
-    def b(self, obj):
-        return obj.number
-    b.short_description = '蠟切片(組織空白片)'
-    def c(self, obj):
-        return obj.number
-    c.short_description = '蠟切片(免疫組織空白片)'
-    def d(self, obj):
-        return obj.number
-    d.short_description = 'H&E染色'
-    def e(self, obj):
-        return obj.number
-    e.short_description = 'H&E以外染色'
-    def f(self, obj):
-        return obj.number
-    f.short_description = '脫鈣'
-    def g(self, obj):
-        return obj.number
-    g.short_description = '冷凍切片'
-    def h(self, obj):
-        return obj.number
-    h.short_description = '冷凍包埋'
-    def i(self, obj):
-        return obj.number
-    i.short_description = '免疫組織染色(不含抗體)'
-    def j(self, obj):
-        return obj.number
-    j.short_description = '病理切片一般判讀'
-    def k(self, obj):
-        return obj.number
-    k.short_description = '病理切片照相'
+    def A_display(self, obj):
+        return obj.A
+    A_display.short_description = '1'
+    def B_display(self, obj):
+        return obj.B
+    B_display.short_description = '2'
+    def C_display(self, obj):
+        return obj.C
+    C_display.short_description = '3'
+    def D_display(self, obj):
+        return obj.D
+    D_display.short_description = '4'
+    def E_display(self, obj):
+        return obj.E
+    E_display.short_description = '5'
+    def F_display(self, obj):
+        return obj.F
+    F_display.short_description = '6'
+    def G_display(self, obj):
+        return obj.G
+    G_display.short_description = '7'
+    def H_display(self, obj):
+        return obj.H
+    H_display.short_description = '8'
+    def I_display(self, obj):
+        return obj.I
+    I_display.short_description = '9'
+    def J_display(self, obj):
+        return obj.J
+    J_display.short_description = '10'
+    def K_display(self, obj):
+        return obj.K
+    K_display.short_description = '11'
+    list_display=['pc_out_id','department','pi','lab_tel','contact','contact_tel','date','A_display','B_display','C_display','D_display','E_display','F_display',
+                  'G_display','H_display','I_display','J_display','K_display','申請單編號']
 class PC_INSAdmin(admin.ModelAdmin):
     
-    list_display=['pc_ins_id','department','pi','lab_tel','contact','contact_tel','date','A','B','C','D','E','F','G','H','I','J','K']
+    list_display=['pc_ins_id','department','pi','lab_tel','contact','contact_tel','date','A_display','B_display','C_display','D_display','E_display','F_display',
+                  'G_display','H_display','I_display','J_display','K_display','申請單編號']
     def pc_ins_id(self, obj):
         return obj.pc_ins_id
     pc_ins_id.short_description = '單號'
@@ -181,43 +149,44 @@ class PC_INSAdmin(admin.ModelAdmin):
         return obj.date
     date.short_description = '日期'
 
-    def a(self, obj):
-        return obj.number
-    a.short_description = '組織包埋(蠟)'
-    def b(self, obj):
-        return obj.number
-    b.short_description = '蠟切片(組織空白片)'
-    def c(self, obj):
-        return obj.number
-    c.short_description = '蠟切片(免疫組織空白片)'
-    def d(self, obj):
-        return obj.number
-    d.short_description = 'H&E染色'
-    def e(self, obj):
-        return obj.number
-    e.short_description = 'H&E以外染色'
-    def f(self, obj):
-        return obj.number
-    f.short_description = '脫鈣'
-    def g(self, obj):
-        return obj.number
-    g.short_description = '冷凍切片'
-    def h(self, obj):
-        return obj.number
-    h.short_description = '冷凍包埋'
-    def i(self, obj):
-        return obj.number
-    i.short_description = '免疫組織染色(不含抗體)'
-    def j(self, obj):
-        return obj.number
-    j.short_description = '病理切片一般判讀'
-    def k(self, obj):
-        return obj.number
-    k.short_description = '病理切片照相'
+    def A_display(self, obj):
+        return obj.A
+    A_display.short_description = '1'
+    def B_display(self, obj):
+        return obj.B
+    B_display.short_description = '2'
+    def C_display(self, obj):
+        return obj.C
+    C_display.short_description = '3'
+    def D_display(self, obj):
+        return obj.D
+    D_display.short_description = '4'
+    def E_display(self, obj):
+        return obj.E
+    E_display.short_description = '5'
+    def F_display(self, obj):
+        return obj.F
+    F_display.short_description = '6'
+    def G_display(self, obj):
+        return obj.G
+    G_display.short_description = '7'
+    def H_display(self, obj):
+        return obj.H
+    H_display.short_description = '8'
+    def I_display(self, obj):
+        return obj.I
+    I_display.short_description = '9'
+    def J_display(self, obj):
+        return obj.J
+    J_display.short_description = '10'
+    def K_display(self, obj):
+        return obj.K
+    K_display.short_description = '11'
 
 class PC_INDAdmin(admin.ModelAdmin):
    
-    list_display=['pc_ind_id','department','contact','contact_tel','date','A','B','C','D','E','F','G','H','I','J','K']
+    list_display=['pc_ind_id','department','contact','contact_tel','date','A_display','B_display','C_display','D_display','E_display','F_display',
+                  'G_display','H_display','I_display','J_display','K_display','申請單編號']
     def pc_ind_id(self, obj):
         return obj.pc_ind_id
     pc_ind_id.short_description = '單號'
@@ -239,39 +208,42 @@ class PC_INDAdmin(admin.ModelAdmin):
         return obj.date
     date.short_description = '日期'
 
-    def a(self, obj):
-        return obj.a
-    a.short_description = '組織包埋(蠟)'
-    def b(self, obj):
-        return obj.b
-    b.short_description = '蠟切片(組織空白片)'
-    def c(self, obj):
-        return obj.c
-    c.short_description = '蠟切片(免疫組織空白片)'
-    def d(self, obj):
-        return obj.d
-    d.short_description = 'H&E染色'
-    def e(self, obj):
-        return obj.e
-    e.short_description = 'H&E以外染色'
-    def f(self, obj):
-        return obj.f
-    f.short_description = '脫鈣'
-    def g(self, obj):
-        return obj.g
-    g.short_description = '冷凍切片'
-    def h(self, obj):
-        return obj.h
-    h.short_description = '冷凍包埋'
-    def i(self, obj):
-        return obj.i
-    i.short_description = '免疫組織染色(不含抗體)'
-    def j(self, obj):
-        return obj.j
-    j.short_description = '病理切片一般判讀'
-    def k(self, obj):
-        return obj.k
-    k.short_description = '病理切片照相'
+    def A_display(self, obj):
+        return obj.A
+    A_display.short_description = '1'
+    def B_display(self, obj):
+        return obj.B
+    B_display.short_description = '2'
+    def C_display(self, obj):
+        return obj.C
+    C_display.short_description = '3'
+    def D_display(self, obj):
+        return obj.D
+    D_display.short_description = '4'
+    def E_display(self, obj):
+        return obj.E
+    E_display.short_description = '5'
+    def F_display(self, obj):
+        return obj.F
+    F_display.short_description = '6'
+    def G_display(self, obj):
+        return obj.G
+    G_display.short_description = '7'
+    def H_display(self, obj):
+        return obj.H
+    H_display.short_description = '8'
+    def I_display(self, obj):
+        return obj.I
+    I_display.short_description = '9'
+    def J_display(self, obj):
+        return obj.J
+    J_display.short_description = '10'
+    def K_display(self, obj):
+        return obj.K
+    K_display.short_description = '11'
+
+
+
 admin.site.register(QC, QCAdmin)
 admin.site.register(SC, SCAdmin)
 admin.site.register(PC_IND, PC_INDAdmin)

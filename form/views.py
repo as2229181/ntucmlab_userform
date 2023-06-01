@@ -28,9 +28,12 @@ def health_monitor(request):
         lab_tel=request.POST['lab-phone']
         contact=request.POST['contact']
         contact_tel=request.POST['contact-number']
-        number=request.POST['sample-number']
+        mus_number=request.POST['mus-number']
+        rat_number=request.POST['rat-number']
         date= request.POST['date']
-        NEW_QC=QC.objects.create(department=department,date=date,pi=pi,lab_tel=lab_tel,contact=contact,contact_tel=contact_tel,number=number)
+        description =request.POST['description']
+       
+        NEW_QC=QC.objects.create(department=department,date=date,description=description,pi=pi,lab_tel=lab_tel,contact=contact,contact_tel=contact_tel,mus_number=mus_number,rat_number=rat_number)
         NEW_QC.save()
         # wb= load_workbook('C:/Users/user/ntumclab/venv/userform/form/static/健康監測手開帳單v1.0.xlsx',read_only=False, write_only=False)
         # print(wb.sheetnames)
@@ -60,9 +63,11 @@ def health_monitor(request):
         ws.range('E5').value = lab_tel
         ws.range('B6').value = contact
         ws.range('E6').value = contact_tel
-        ws.range('E11').value = number
+        ws.range('E11').value = mus_number
+        ws.range('E12').value = rat_number
         ws.range('B7').value = date
         ws.range('F2').value = qc_id
+        ws.range('B16').value=description
         new_file_path = f"C:/Users/user/Desktop/手開單/健康監測/{qc_id}.xlsx"
         wb.save(new_file_path)
         qc_file=QC.objects.get(qcid=qc_id)
@@ -88,9 +93,11 @@ def blood_serum(request):
         contact=request.POST['contact1']
         contact_tel=request.POST['contact-number1']
         serum=request.POST['serum-number']
-        blood=request.POST['blood-number']
+        CBC=request.POST['blood-number']
         date= request.POST['date']
-        NEW_SC = SC.objects.create(department=department,date=date,pi=pi,lab_tel=lab_tel,contact=contact,contact_tel=contact_tel,serum=serum,bloodcell=blood)
+        description =request.POST['description']
+        申請單編號 =request.POST['apply-number']
+        NEW_SC = SC.objects.create(department=department,申請單編號=申請單編號,description=description,date=date,pi=pi,lab_tel=lab_tel,contact=contact,contact_tel=contact_tel,serum=serum,CBC=CBC)
         NEW_SC.save()
         wb = xw.Book('C:/Users/user/ntumclab/venv/userform/form/static/血液血清手開帳單v1.0.xlsx')
         ws = wb.sheets['Sheet1 ']
@@ -100,9 +107,11 @@ def blood_serum(request):
         ws.range('B6').value = contact
         ws.range('E6').value = contact_tel
         ws.range('E11').value =serum
-        ws.range('E12').value =blood
+        ws.range('E12').value =CBC
         ws.range('B7').value =date
         ws.range('F2').value =sc_id
+        ws.range('B18').value =申請單編號
+        ws.range('B17').value=description
         new_file_path = (f"C:/Users/user/Desktop/手開單/血液血清/{sc_id}.xlsx")
         wb.save(new_file_path)
        
@@ -128,6 +137,8 @@ def section_insch(request):
         lab_tel=request.POST['lab-phone']
         contact=request.POST['contact']
         contact_tel=request.POST['contact-number']
+        description=request.POST['description']
+        申請單編號 =request.POST['apply-number']
         a=request.POST['a']
         b=request.POST['b']
         c=request.POST['c']
@@ -140,15 +151,17 @@ def section_insch(request):
         j=request.POST['j']
         k=request.POST['k']
         date= request.POST['date']
-        NEW_PC_INS = PC_INS.objects.create(department=department,date=date,pi=pi,lab_tel=lab_tel,contact=contact,contact_tel=contact_tel,A=a,B=b,C=c,D=d,E=e,F=f,G=g,H=h,I=i,J=j,K=k)
+        
+        NEW_PC_INS = PC_INS.objects.create(department=department,申請單編號=申請單編號,description=description,date=date,pi=pi,lab_tel=lab_tel,contact=contact,contact_tel=contact_tel,A=a,B=b,C=c,D=d,E=e,F=f,G=g,H=h,I=i,J=j,K=k)
         NEW_PC_INS.save()
-        wb = xw.Book('C:/Users/user/ntumclab/venv/userform/form/static/病理切片校內.xlsx')
+        wb = xw.Book('C:/Users/user/ntumclab/venv/userform/form/static/病理切片校內 v2.0.xlsx')
         ws = wb.sheets['Sheet1 ']
         ws.range('B4').value = department
         ws.range('B5').value = pi
         ws.range('E5').value = lab_tel
         ws.range('B6').value = contact
         ws.range('E6').value = contact_tel
+        ws.range('B26').value = description
         ws.range('E11').value =a
         ws.range('E12').value =b
         ws.range('E13').value =c
@@ -161,7 +174,7 @@ def section_insch(request):
         ws.range('E20').value =j
         ws.range('E21').value =k
         ws.range('B7').value =date
-        ws.range('B27').value =pc_id
+        ws.range('B27').value =申請單編號
         new_file_path = (f"C:/Users/user/Desktop/手開單/校內/{pc_id}.xlsx")
         wb.save(new_file_path)
        
@@ -188,6 +201,8 @@ def section_outsch(request):
         lab_tel=request.POST['lab-phone']
         contact=request.POST['contact']
         contact_tel=request.POST['contact-number']
+        description=request.POST['description']
+        申請單編號 =request.POST['apply-number']
         a=request.POST['a']
         b=request.POST['b']
         c=request.POST['c']
@@ -200,9 +215,9 @@ def section_outsch(request):
         j=request.POST['j']
         k=request.POST['k']
         date= request.POST['date']
-        NEW_PC_OUS = PC_OUS.objects.create(department=department,date=date,pi=pi,lab_tel=lab_tel,contact=contact,contact_tel=contact_tel,A=a,B=b,C=c,D=d,E=e,F=f,G=g,H=h,I=i,J=j,K=k)
+        NEW_PC_OUS = PC_OUS.objects.create(department=department,申請單編號=申請單編號,description=description,date=date,pi=pi,lab_tel=lab_tel,contact=contact,contact_tel=contact_tel,A=a,B=b,C=c,D=d,E=e,F=f,G=g,H=h,I=i,J=j,K=k)
         NEW_PC_OUS.save()
-        wb = xw.Book('C:/Users/user/ntumclab/venv/userform/form/static/病理切片校外.xlsx')
+        wb = xw.Book('C:/Users/user/ntumclab/venv/userform/form/static/病理切片校外 v2.0.xlsx')
         ws = wb.sheets['Sheet1 ']
         ws.range('B4').value = department
         ws.range('B5').value = pi
@@ -221,7 +236,8 @@ def section_outsch(request):
         ws.range('E20').value =j
         ws.range('E21').value =k
         ws.range('B7').value =date
-        ws.range('B29').value =pc_id
+        ws.range('B29').value =申請單編號
+        ws.range('B28').value =description
         new_file_path = (f"C:/Users/user/Desktop/手開單/校外/{pc_id}.xlsx")
         wb.save(new_file_path)
        
@@ -245,6 +261,8 @@ def section_industry(request):
         department=request.POST['department']
         contact=request.POST['contact']
         contact_tel=request.POST['contact-number']
+        description=request.POST['description']
+        申請單編號 =request.POST['apply-number']
         a=request.POST['a']
         b=request.POST['b']
         c=request.POST['c']
@@ -257,9 +275,9 @@ def section_industry(request):
         j=request.POST['j']
         k=request.POST['k']
         date= request.POST['date']
-        NEW_PC_IND = PC_IND.objects.create(department=department,date=date,contact=contact,contact_tel=contact_tel,A=a,B=b,C=c,D=d,E=e,F=f,G=g,H=h,I=i,J=j,K=k)
+        NEW_PC_IND = PC_IND.objects.create(department=department,申請單編號=申請單編號,description=description,date=date,contact=contact,contact_tel=contact_tel,A=a,B=b,C=c,D=d,E=e,F=f,G=g,H=h,I=i,J=j,K=k)
         NEW_PC_IND.save()
-        wb = xw.Book('C:/Users/user/ntumclab/venv/userform/form/static/病理產業價.xlsx')
+        wb = xw.Book('C:/Users/user/ntumclab/venv/userform/form/static/病理產業價 v2.0.xlsx')
         ws = wb.sheets['Sheet1 ']
         ws.range('B4').value = department
         ws.range('B5').value = contact
@@ -276,7 +294,8 @@ def section_industry(request):
         ws.range('E19').value =j
         ws.range('E20').value =k
         ws.range('B6').value =date
-        ws.range('B26').value =pc_id
+        ws.range('B26').value =申請單編號
+        ws.range('B25').value =description
         new_file_path = (f"C:/Users/user/Desktop/手開單/產業/{pc_id}.xlsx")
         wb.save(new_file_path)
         sc_file=PC_IND.objects.get(pc_ind_id=pc_id)
@@ -369,10 +388,74 @@ def delete_form(request):
         data= render_to_string('back/async/pcinslist.html',{'PCs':all_form,'pc_type':PC_IND})
         return JsonResponse({'data':data})
 
+def update_pay(request):
+    form_type=request.GET['form_type']
+    form_id =request.GET['id']
+    if form_type == 'QC':
+        object_data = QC.objects.get(qcid=form_id)
+        if object_data.pay == False:
+            object_data.pay=True
+            object_data.save()
+            all_form=QC.objects.all().order_by('-date')
+            data= render_to_string('back/async/qclist.html',{'QCs':all_form})
+            return JsonResponse({'data':data})
+        else:
+            all_form=QC.objects.all().order_by('-date')
+            data= render_to_string('back/async/qclist.html',{'QCs':all_form})
+            return JsonResponse({'data':data})    
+        
+    elif form_type == 'SC':
+        object_data = SC.objects.get(scid=form_id)
+        if object_data.pay == False:
+            object_data.pay=True
+            object_data.save()
+            all_form=SC.objects.all().order_by('-date')
+            data= render_to_string('back/async/sclist.html',{'SCs':all_form})
+            return JsonResponse({'data':data})
+        else:               
+            all_form=SC.objects.all().order_by('-date')
+            data= render_to_string('back/async/sclist.html',{'SCs':all_form})
+            return JsonResponse({'data':data})
+    elif form_type == 'PC_INS':
+        object_data = PC_INS.objects.get(pc_ins_id=form_id)
+        if object_data.pay == False:
+            object_data.pay=True
+            object_data.save()
+            all_form=PC_INS.objects.all().order_by('-date')
+            data= render_to_string('back/async/pcinslist.html',{'PCs':all_form})
+            return JsonResponse({'data':data})
+        else:      
+            all_form=PC_INS.objects.all().order_by('-date')
+            data= render_to_string('back/async/pcinslist.html',{'PCs':all_form})
+            return JsonResponse({'data':data})
+    elif form_type == 'PC_OUS':
+        object_data = PC_OUS.objects.get(pc_out_id=form_id)
+        print(object_data)
+        if object_data.pay == False:
+            object_data.pay=True
+            print(1)
+            object_data.save()
+            all_form=PC_OUS.objects.all().order_by('-date')
+            data= render_to_string('back/async/pcinslist.html',{'PCs':all_form,'pc_type':PC_OUS})
+            return JsonResponse({'data':data})
+        else:
+            print(2)
+            all_form=PC_OUS.objects.all().order_by('-date')
+            data= render_to_string('back/async/pcinslist.html',{'PCs':all_form,'pc_type':PC_OUS})
+            return JsonResponse({'data':data})
+    else:
+        object_data = PC_IND.objects.get(pc_ind_id=form_id)
+        if object_data.pay == False:
+            object_data.pay=True
+            object_data.save()
+            all_form=PC_IND.objects.all().order_by('-date')
+            data= render_to_string('back/async/pcinslist.html',{'PCs':all_form,'pc_type':PC_IND})
+            return JsonResponse({'data':data})
 
-
-
-
+        else:          
+            all_form=PC_IND.objects.all().order_by('-date')
+            data= render_to_string('back/async/pcinslist.html',{'PCs':all_form,'pc_type':PC_IND})
+            return JsonResponse({'data':data})
 
 
 

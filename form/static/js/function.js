@@ -1,14 +1,23 @@
 $(document).ready(function(){
-    $("#sample").on('input',function(){
-        let number = parseInt($('#sample').val());
-        console.log('number');
-        if (isNaN(number) ){
+    $("#mus , #rat").on('input',function(){
+        let mus = parseInt($('#mus').val());
+        let rat = parseInt($('#rat').val());
+        console.log(mus)
+        console.log(rat)
+        if (isNaN(mus) && isNaN(rat) ){
             $('#total-price').text(0);
-            return false;
+        } else if (isNaN(mus)) {
+          let price = rat * 3020;
+          $('#total-price').text(price);
+        }else if (isNaN(rat)) {
+          let price = mus * 4650;
+          $('#total-price').text(price);
         }
         else{
-            let price = number * 4650;
-            $('#total-price').text(price);}
+            let price = mus * 4650 + rat * 3020;
+            $('#total-price').text(price);
+          }
+            return false;
     })
     $("#sample-serum , #sample-blood ") .on('input',function(){
         let serum = parseInt($('#sample-serum').val());
@@ -65,7 +74,9 @@ $(document).ready(function(){
 
 $(document).on('click', '.delete-but', function() {
   let id = $(this).attr('data-id')
-    let form_type =$(this).attr('data-formtype')
+  let form_type =$(this).attr('data-formtype')
+  console.log(id)
+  console.log(form_type)
     $.ajax({
       url:'/form/delete_form',
       data:{
@@ -74,6 +85,23 @@ $(document).on('click', '.delete-but', function() {
       },
       datatype:'json',
       
+      success:function(response){
+        $('#form_table').html(response.data)
+      }
+    })
+})
+$(document).on('click', '.update-but', function() {
+  let id = $(this).attr('data-id')
+  let form_type =$(this).attr('data-formtype')
+  console.log(id)
+  console.log(form_type)
+    $.ajax({
+      url:'/form/update_pay',
+      data:{
+        'id':id,
+        'form_type':form_type
+      },
+      datatype:'json',
       success:function(response){
         $('#form_table').html(response.data)
       }

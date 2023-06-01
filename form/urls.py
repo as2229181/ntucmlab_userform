@@ -15,4 +15,6 @@ urlpatterns=[
     path('PC_IND_view',views.PC_IND_view,name='PC_IND_view'),
     path('delete_form',views.delete_form,name='delete_form'),
 
+    path('update_pay',views.update_pay,name='update_pay'),
+
 ]
