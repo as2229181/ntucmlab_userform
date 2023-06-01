@@ -18,7 +18,8 @@ class QC(models.Model):
     
     mus_number = models.IntegerField(default=0,null=True,blank=True)
     rat_number = models.IntegerField(default=0,null=True,blank=True)
-    file = models.CharField(max_length=255, null=True, blank=True)
+    excel_file = models.CharField(max_length=255, null=True, blank=True)
+    pdf_file = models.CharField(max_length=255, null=True, blank=True)
     pay = models.BooleanField(default=False)
     class Meta:
         verbose_name = '健康監測手開單'
@@ -61,7 +62,8 @@ class SC(models.Model):
     申請單編號=models.CharField(max_length=1000,null=True,blank=True,default=None)
     serum = models.IntegerField(default=0,null=True,blank=True)
     CBC = models.IntegerField(default=0,null=True,blank=True)
-    file = models.CharField(max_length=255, null=True, blank=True)
+    excel_file = models.CharField(max_length=255, null=True, blank=True)
+    pdf_file = models.CharField(max_length=255, null=True, blank=True)
     pay = models.BooleanField(default=False)
     class Meta:
         verbose_name = '血液血清手開單'
@@ -100,7 +102,8 @@ class PC_INS(models.Model):
     date = models.DateField()
     description= models.CharField(max_length=1000,null=True,blank=True,default=None)
     申請單編號=models.CharField(max_length=1000,null=True,blank=True,default=None)
-    file = models.CharField(max_length=255, null=True, blank=True)
+    excel_file = models.CharField(max_length=255, null=True, blank=True)
+    pdf_file = models.CharField(max_length=255, null=True, blank=True)
     pay = models.BooleanField(default=False)
     A = models.IntegerField(default=0,null=True,blank=True)
     B = models.IntegerField(default=0,null=True,blank=True)
@@ -148,7 +151,8 @@ class PC_OUS(models.Model):
     date = models.DateField()
     description= models.CharField(max_length=1000,null=True,blank=True,default=None)
     申請單編號=models.CharField(max_length=1000,null=True,blank=True,default=None)
-    file = models.CharField(max_length=255, null=True, blank=True)
+    excel_file = models.CharField(max_length=255, null=True, blank=True)
+    pdf_file = models.CharField(max_length=255, null=True, blank=True)
     pay = models.BooleanField(default=False)
     A = models.IntegerField(default=0,null=True,blank=True)
     B = models.IntegerField(default=0,null=True,blank=True)
@@ -193,7 +197,8 @@ class PC_IND(models.Model):
     date = models.DateField()
     description= models.CharField(max_length=1000,null=True,blank=True,default=None)
     申請單編號=models.CharField(max_length=1000,null=True,blank=True,default=None)
-    file = models.CharField(max_length=255, null=True, blank=True)
+    excel_file = models.CharField(max_length=255, null=True, blank=True)
+    pdf_file = models.CharField(max_length=255, null=True, blank=True)
     pay = models.BooleanField(default=False)
     A = models.IntegerField(default=0,null=True,blank=True)
     B = models.IntegerField(default=0,null=True,blank=True)

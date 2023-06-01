@@ -1,7 +1,10 @@
 from openpyxl import load_workbook
 from django.http import HttpResponse
 from .models import *
-def add_to_excel(request):
-    wb= load_workbook('userform/form/static/健康監測手開帳單v1.0.xls')
-    ws = wb['sheet1']
-    form_data = QC.objects.all().values()
+from win32com import client
+def convert_to_pdf(input_path, output_path):
+    excel = client.Dispatch("Excel.Application")#利用dispatch連接 microsoft 應用程式  這裡是連接到excel
+    doc = excel.Workbooks.Open(input_path)
+    doc.SaveAs(output_path, FileFormat=57)  # FileFormat = 57 是 PDF 格式
+    doc.Close()
+    excel.Quit()

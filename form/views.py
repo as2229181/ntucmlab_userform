@@ -4,6 +4,7 @@ from django.utils import timezone
 import xlwings as xw
 from django.template.loader import render_to_string
 from django.http import JsonResponse
+from .utils import convert_to_pdf
 import os
 # Create your views here.
 def index(request):
@@ -31,8 +32,7 @@ def health_monitor(request):
         mus_number=request.POST['mus-number']
         rat_number=request.POST['rat-number']
         date= request.POST['date']
-        description =request.POST['description']
-       
+        description =request.POST['description']        
         NEW_QC=QC.objects.create(department=department,date=date,description=description,pi=pi,lab_tel=lab_tel,contact=contact,contact_tel=contact_tel,mus_number=mus_number,rat_number=rat_number)
         NEW_QC.save()
         # wb= load_workbook('C:/Users/user/ntumclab/venv/userform/form/static/健康監測手開帳單v1.0.xlsx',read_only=False, write_only=False)
@@ -67,11 +67,18 @@ def health_monitor(request):
         ws.range('E12').value = rat_number
         ws.range('B7').value = date
         ws.range('F2').value = qc_id
-        ws.range('B16').value=description
-        new_file_path = f"C:/Users/user/Desktop/手開單/健康監測/{qc_id}.xlsx"
-        wb.save(new_file_path)
+        ws.range('B17').value=description
+        password='88516'
+        # 使用 Excel VBA 的 Protect 方法
+        ws.api.Cells.Locked = True
+        ws.api.Protect(Password=password)
+        excel_file_path = f"C:/Users/user/Desktop/手開單/健康監測/excel/{qc_id}.xlsx"
+        pdf_file_path = f"C:/Users/user/Desktop/手開單/健康監測/pdf/{qc_id}.pdf"
+        wb.save(excel_file_path)
+        wb.close()
+        convert_to_pdf(excel_file_path,pdf_file_path)
         qc_file=QC.objects.get(qcid=qc_id)
-        qc_file.file= new_file_path
+        qc_file.excel_file,qc_file.pdf_file= excel_file_path,pdf_file_path
         qc_file.save()
         return redirect('QC_view')
     return render(request,'health_monitor.html',context)
@@ -112,11 +119,17 @@ def blood_serum(request):
         ws.range('F2').value =sc_id
         ws.range('B18').value =申請單編號
         ws.range('B17').value=description
-        new_file_path = (f"C:/Users/user/Desktop/手開單/血液血清/{sc_id}.xlsx")
-        wb.save(new_file_path)
-       
+        password='88516'
+        # 使用 Excel VBA 的 Protect 方法
+        ws.api.Cells.Locked = True
+        ws.api.Protect(Password=password)
+        excel_file_path = (f"C:/Users/user/Desktop/手開單/血液血清/excel/{sc_id}.xlsx")
+        pdf_file_path= (f"C:/Users/user/Desktop/手開單/血液血清/pdf/{sc_id}.pdf")
+        wb.save(excel_file_path)
+        wb.close()
+        convert_to_pdf(excel_file_path,pdf_file_path)
         sc_file=SC.objects.get(scid=sc_id)
-        sc_file.file= new_file_path
+        sc_file.excel_file,sc_file.pdf_file= excel_file_path,pdf_file_path
         sc_file.save()
         return redirect('SC_view')
     return render(request,'blood_serum.html',context)
@@ -175,11 +188,18 @@ def section_insch(request):
         ws.range('E21').value =k
         ws.range('B7').value =date
         ws.range('B27').value =申請單編號
-        new_file_path = (f"C:/Users/user/Desktop/手開單/校內/{pc_id}.xlsx")
-        wb.save(new_file_path)
-       
+        ws.range('F2').value =pc_id
+        password='88516'
+        # 使用 Excel VBA 的 Protect 方法
+        ws.api.Cells.Locked = True
+        ws.api.Protect(Password=password)
+        excel_file_path = (f"C:/Users/user/Desktop/手開單/校內/excel/{pc_id}.xlsx")
+        pdf_file_path = (f"C:/Users/user/Desktop/手開單/校內/pdf/{pc_id}.pdf")
+        wb.save(excel_file_path)
+        wb.close()
+        convert_to_pdf(excel_file_path,pdf_file_path)
         sc_file=PC_INS.objects.get(pc_ins_id=pc_id)
-        sc_file.file= new_file_path
+        sc_file.excel_file,sc_file.pdf_file= excel_file_path,pdf_file_path
         sc_file.save()
         return redirect('PC_IN_view')
 
@@ -215,6 +235,7 @@ def section_outsch(request):
         j=request.POST['j']
         k=request.POST['k']
         date= request.POST['date']
+        
         NEW_PC_OUS = PC_OUS.objects.create(department=department,申請單編號=申請單編號,description=description,date=date,pi=pi,lab_tel=lab_tel,contact=contact,contact_tel=contact_tel,A=a,B=b,C=c,D=d,E=e,F=f,G=g,H=h,I=i,J=j,K=k)
         NEW_PC_OUS.save()
         wb = xw.Book('C:/Users/user/ntumclab/venv/userform/form/static/病理切片校外 v2.0.xlsx')
@@ -238,11 +259,20 @@ def section_outsch(request):
         ws.range('B7').value =date
         ws.range('B29').value =申請單編號
         ws.range('B28').value =description
-        new_file_path = (f"C:/Users/user/Desktop/手開單/校外/{pc_id}.xlsx")
-        wb.save(new_file_path)
-       
+        ws.range('F2').value =pc_id
+        password='88516'
+        # 使用 Excel VBA 的 Protect 方法
+        ws.api.Cells.Locked = True
+        ws.api.Protect(Password=password)
+        excel_file_path = (f"C:/Users/user/Desktop/手開單/校外/excel/{pc_id}.xlsx")
+        pdf_file_path = (f"C:/Users/user/Desktop/手開單/校外/pdf/{pc_id}.pdf")
+        wb.save(excel_file_path)
+        wb.close()
+        convert_to_pdf(excel_file_path,pdf_file_path)
+        
+
         sc_file=PC_OUS.objects.get(pc_out_id=pc_id)
-        sc_file.file= new_file_path
+        sc_file.excel_file,sc_file.excel_file= excel_file_path,pdf_file_path
         sc_file.save()
         return redirect('PC_OUT_view')
     return render(request,'section_outsch.html',context)
@@ -296,10 +326,18 @@ def section_industry(request):
         ws.range('B6').value =date
         ws.range('B26').value =申請單編號
         ws.range('B25').value =description
-        new_file_path = (f"C:/Users/user/Desktop/手開單/產業/{pc_id}.xlsx")
-        wb.save(new_file_path)
+        ws.range('F2').value =pc_id
+        password='88516'
+        # 使用 Excel VBA 的 Protect 方法
+        ws.api.Cells.Locked = True
+        ws.api.Protect(Password=password)
+        excel_file_path = (f"C:/Users/user/Desktop/手開單/產業/excel/{pc_id}.xlsx")
+        pdf_file_path = (f"C:/Users/user/Desktop/手開單/產業/pdf/{pc_id}.pdf")
+        wb.save(excel_file_path)
+        wb.close()
+        convert_to_pdf(excel_file_path,pdf_file_path)
         sc_file=PC_IND.objects.get(pc_ind_id=pc_id)
-        sc_file.file= new_file_path
+        sc_file.excel_file,sc_file.pdf_file= excel_file_path,pdf_file_path
         sc_file.save()
         return redirect('PC_IND_view')
     return render(request,'section_industry.html',context)
@@ -349,40 +387,46 @@ def delete_form(request):
     form_id =request.GET['id']
     if form_type == 'QC':
         object_data = QC.objects.get(qcid=form_id)
-        file_path = os.path.abspath(object_data.file)
-        os.remove(file_path)
+        excel_file_path = os.path.abspath(object_data.excel_file)
+        pdf_file_path = os.path.abspath(object_data.pdf_file)
+        os.remove(excel_file_path); os.remove(pdf_file_path)
         object_data.delete()        
         all_form=QC.objects.all().order_by('-date')
         data= render_to_string('back/async/qclist.html',{'QCs':all_form})
         return JsonResponse({'data':data})
     elif form_type == 'SC':
         object_data = SC.objects.get(scid=form_id)
-        file_path = os.path.abspath(object_data.file)
-        os.remove(file_path)
+        excel_file_path = os.path.abspath(object_data.excel_file)
+        pdf_file_path = os.path.abspath(object_data.pdf_file)
+        os.remove(excel_file_path); os.remove(pdf_file_path)
         object_data.delete()        
         all_form=SC.objects.all().order_by('-date')
         data= render_to_string('back/async/qclist.html',{'SCs':all_form})
         return JsonResponse({'data':data})
     elif form_type == 'PC_INS':
         object_data = PC_INS.objects.get(pc_ins_id=form_id)
-        file_path = os.path.abspath(object_data.file)
-        os.remove(file_path)
+        print(object_data)
+        excel_file_path = os.path.abspath(object_data.excel_file)
+        pdf_file_path = os.path.abspath(object_data.pdf_file)
+        os.remove(excel_file_path); os.remove(pdf_file_path)
         object_data.delete()        
         all_form=PC_INS.objects.all().order_by('-date')
         data= render_to_string('back/async/pcinslist.html',{'PCs':all_form})
         return JsonResponse({'data':data})
     elif form_type == 'PC_OUS':
         object_data = PC_OUS.objects.get(pc_out_id=form_id)
-        file_path = os.path.abspath(object_data.file)
-        os.remove(file_path)
+        excel_file_path = os.path.abspath(object_data.excel_file)
+        pdf_file_path = os.path.abspath(object_data.pdf_file)
+        os.remove(excel_file_path); os.remove(pdf_file_path)
         object_data.delete()        
         all_form=PC_OUS.objects.all().order_by('-date')
         data= render_to_string('back/async/pcinslist.html',{'PCs':all_form,'pc_type':PC_OUS})
         return JsonResponse({'data':data})
     else:
         object_data = PC_IND.objects.get(pc_ind_id=form_id)
-        file_path = os.path.abspath(object_data.file)
-        os.remove(file_path)
+        excel_file_path = os.path.abspath(object_data.excel_file)
+        pdf_file_path = os.path.abspath(object_data.pdf_file)
+        os.remove(excel_file_path); os.remove(pdf_file_path)
         object_data.delete()        
         all_form=PC_IND.objects.all().order_by('-date')
         data= render_to_string('back/async/pcinslist.html',{'PCs':all_form,'pc_type':PC_IND})
