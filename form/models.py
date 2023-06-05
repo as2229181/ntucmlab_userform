@@ -2,17 +2,30 @@ from django.db import models
 from shortuuid.django_fields import ShortUUIDField
 from django.utils import timezone
 # Create your models here.
+class Principal_Investigator(models.Model):
+    
+    department = models.CharField(max_length=1000,null=True,blank=True,default=None)
+    name = models.CharField(max_length=1000,null=True,blank=True,default=None)
+    lab_tel = models.CharField(max_length=20,null=True,blank=True,default=None)
+    class Meta:
+        verbose_name = '實驗室負責人'
+        verbose_name_plural = '實驗室負責人'
 
+
+class Contact(models.Model):
+    pi=models.ForeignKey(Principal_Investigator,on_delete=models.SET_NULL,null=True,blank=True)
+    name = models.CharField(max_length=1000,null=True,blank=True,default=None)
+    contact_number = models.CharField(max_length=1000,null=True,blank=True,default=None)
+    class Meta:
+        verbose_name = '聯絡人'
+        verbose_name_plural = '聯絡人'
 '''
 Health Minitor
 '''
 class QC(models.Model):
     qcid = models.CharField(unique=True, max_length=11,default=None)
-    department = models.CharField(max_length=1000,null=True,blank=True,default=None)
-    pi = models.CharField(max_length=1000,null=True,blank=True,default=None)
-    lab_tel = models.CharField(max_length=20,null=True,blank=True,default=None)
-    contact = models.CharField(max_length=10,null=True,blank=True,default=None)
-    contact_tel = models.CharField(max_length=10,null=True,blank=True,default=None)
+    pi = models.ForeignKey(Principal_Investigator,on_delete=models.SET_NULL,null=True,blank=True,related_name='qc_pi')
+    contact = models.ForeignKey(Contact,on_delete=models.SET_NULL,null=True,blank=True,related_name='qc_contact')
     date = models.DateField()
     description= models.CharField(max_length=1000,null=True,blank=True,default=None)
     
@@ -52,11 +65,8 @@ serum & blood
 
 class SC(models.Model):
     scid = models.CharField(unique=True, max_length=11,default=None)
-    department = models.CharField(max_length=1000,null=True,blank=True,default=None)
-    pi = models.CharField(max_length=1000,null=True,blank=True,default=None)
-    lab_tel = models.CharField(max_length=20,null=True,blank=True,default=None)
-    contact = models.CharField(max_length=10,null=True,blank=True,default=None)
-    contact_tel = models.CharField(max_length=10,null=True,blank=True,default=None)
+    pi = models.ForeignKey(Principal_Investigator,on_delete=models.SET_NULL,null=True,blank=True,related_name='sc_pi')
+    contact = models.ForeignKey(Contact,on_delete=models.SET_NULL,null=True,blank=True,related_name='sc_contact')
     date = models.DateField()
     description= models.CharField(max_length=1000,null=True,blank=True,default=None)
     申請單編號=models.CharField(max_length=1000,null=True,blank=True,default=None)
@@ -94,11 +104,8 @@ For inside school
 
 class PC_INS(models.Model):
     pc_ins_id = models.CharField(unique=True, max_length=11,default=None)
-    department = models.CharField(max_length=1000,null=True,blank=True,default=None)
-    pi = models.CharField(max_length=1000,null=True,blank=True,default=None)
-    lab_tel = models.CharField(max_length=20,null=True,blank=True,default=None)
-    contact = models.CharField(max_length=10,null=True,blank=True,default=None)
-    contact_tel = models.CharField(max_length=10,null=True,blank=True,default=None)
+    pi = models.ForeignKey(Principal_Investigator,on_delete=models.SET_NULL,null=True,blank=True,related_name='pc_ins_pi')
+    contact = models.ForeignKey(Contact,on_delete=models.SET_NULL,null=True,blank=True,related_name='pc_ins_contact')
     date = models.DateField()
     description= models.CharField(max_length=1000,null=True,blank=True,default=None)
     申請單編號=models.CharField(max_length=1000,null=True,blank=True,default=None)
@@ -143,11 +150,8 @@ For outside school
 
 class PC_OUS(models.Model):
     pc_out_id = models.CharField(unique=True, max_length=11,default=None)
-    department = models.CharField(max_length=1000,null=True,blank=True,default=None)
-    pi = models.CharField(max_length=1000,null=True,blank=True,default=None)
-    lab_tel = models.CharField(max_length=20,null=True,blank=True,default=None)
-    contact = models.CharField(max_length=10,null=True,blank=True,default=None)
-    contact_tel = models.CharField(max_length=10,null=True,blank=True,default=None)
+    pi = models.ForeignKey(Principal_Investigator,on_delete=models.SET_NULL,null=True,blank=True,related_name='pc_ous_pi')
+    contact = models.ForeignKey(Contact,on_delete=models.SET_NULL,null=True,blank=True,related_name='pc_ous_contact')
     date = models.DateField()
     description= models.CharField(max_length=1000,null=True,blank=True,default=None)
     申請單編號=models.CharField(max_length=1000,null=True,blank=True,default=None)
@@ -191,9 +195,7 @@ For industry
 
 class PC_IND(models.Model):
     pc_ind_id = models.CharField(unique=True, max_length=11,default=None)
-    department = models.CharField(max_length=1000,null=True,blank=True,default=None)
-    contact = models.CharField(max_length=10,null=True,blank=True,default=None)
-    contact_tel = models.CharField(max_length=10,null=True,blank=True,default=None)
+    contact = models.ForeignKey(Contact,on_delete=models.SET_NULL,null=True,blank=True,related_name='pc_ind_contact')
     date = models.DateField()
     description= models.CharField(max_length=1000,null=True,blank=True,default=None)
     申請單編號=models.CharField(max_length=1000,null=True,blank=True,default=None)
@@ -237,4 +239,6 @@ class Max_ID(models.Model):
     QC_max = models.CharField(max_length=1000,null=True,blank=True,default=None)
     SC_max = models.CharField(max_length=1000,null=True,blank=True,default=None)
     PC_max = models.CharField(max_length=1000,null=True,blank=True,default=None)
-    
+
+
+

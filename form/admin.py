@@ -2,15 +2,31 @@ from django.contrib import admin
 
 # Register your models here.
 from .models import *
+
+
+class ContactAdmin(admin.ModelAdmin):
+
+    list_display = [        
+        'pi',
+        'name',
+        'contact_number',
+    ] 
+    def A_display(self, obj):
+        return obj.pi.name
+
+class Principal_InvestigatorAdmin(admin.ModelAdmin):
+    list_display = [
+        'department',
+        'name',
+        'lab_tel',
+    ] 
+
 class QCAdmin(admin.ModelAdmin):
     search_fields = ('name', 'category__name',)
     list_display = [
         'qcid',
-        'department',
         'pi',
-        'lab_tel',
         'contact',
-        'contact_tel',
         'date',
         'mus_number',
         'rat_number'
@@ -18,69 +34,10 @@ class QCAdmin(admin.ModelAdmin):
 
 class SCAdmin(admin.ModelAdmin):    
     
-    list_display=['scid','department','pi','lab_tel','contact','contact_tel','date','serum','CBC','申請單編號']
-    def scid(self, obj):
-        return obj.scid
-    scid.short_description = '單號'
-
-    def department(self, obj):
-        return obj.department
-    department.short_description = '系所'
-
-    def pi(self, obj):
-        return obj.pi
-    pi.short_description = '計畫主持人'
-
-    def lab_tel(self, obj):
-        return obj.lab_tel
-    lab_tel.short_description = '實驗室電話'
-
-    def contact(self, obj):
-        return obj.contact
-    contact.short_description = '聯絡人'
-
-    def contact_tel(self, obj):
-        return obj.contact_tel
-    contact_tel.short_description = '聯絡人電話'
-
-    def date(self, obj):
-        return obj.date
-    date.short_description = '日期'
-
-    def serum(self, obj):
-        return obj.number
-    serum.short_description = '血清數量'
+    list_display=['scid','pi','contact','date','serum','CBC','申請單編號']
+    
     
 class PC_OUSAdmin(admin.ModelAdmin):   
-    
-    
-    def pc_out_id(self, obj):
-        return obj.pc_out_id
-    pc_out_id.short_description = '單號'
-
-    def department(self, obj):
-        return obj.department
-    department.short_description = '系所'
-
-    def pi(self, obj):
-        return obj.pi
-    pi.short_description = '計畫主持人'
-
-    def lab_tel(self, obj):
-        return obj.lab_tel
-    lab_tel.short_description = '實驗室電話'
-
-    def contact(self, obj):
-        return obj.contact
-    contact.short_description = '聯絡人'
-
-    def contact_tel(self, obj):
-        return obj.contact_tel
-    contact_tel.short_description = '聯絡人電話'
-
-    def date(self, obj):
-        return obj.date
-    date.short_description = '日期'
 
     def A_display(self, obj):
         return obj.A
@@ -115,39 +72,13 @@ class PC_OUSAdmin(admin.ModelAdmin):
     def K_display(self, obj):
         return obj.K
     K_display.short_description = '11'
-    list_display=['pc_out_id','department','pi','lab_tel','contact','contact_tel','date','A_display','B_display','C_display','D_display','E_display','F_display',
+    list_display=['pc_out_id','pi','contact','date','A_display','B_display','C_display','D_display','E_display','F_display',
                   'G_display','H_display','I_display','J_display','K_display','申請單編號']
 class PC_INSAdmin(admin.ModelAdmin):
     
-    list_display=['pc_ins_id','department','pi','lab_tel','contact','contact_tel','date','A_display','B_display','C_display','D_display','E_display','F_display',
+    list_display=['pc_ins_id','pi','contact','date','A_display','B_display','C_display','D_display','E_display','F_display',
                   'G_display','H_display','I_display','J_display','K_display','申請單編號']
-    def pc_ins_id(self, obj):
-        return obj.pc_ins_id
-    pc_ins_id.short_description = '單號'
-
-    def department(self, obj):
-        return obj.department
-    department.short_description = '系所'
-
-    def pi(self, obj):
-        return obj.pi
-    pi.short_description = '計畫主持人'
-
-    def lab_tel(self, obj):
-        return obj.lab_tel
-    lab_tel.short_description = '實驗室電話'
-
-    def contact(self, obj):
-        return obj.contact
-    contact.short_description = '聯絡人'
-
-    def contact_tel(self, obj):
-        return obj.contact_tel
-    contact_tel.short_description = '聯絡人電話'
-
-    def date(self, obj):
-        return obj.date
-    date.short_description = '日期'
+    
 
     def A_display(self, obj):
         return obj.A
@@ -185,28 +116,9 @@ class PC_INSAdmin(admin.ModelAdmin):
 
 class PC_INDAdmin(admin.ModelAdmin):
    
-    list_display=['pc_ind_id','department','contact','contact_tel','date','A_display','B_display','C_display','D_display','E_display','F_display',
+    list_display=['pc_ind_id','contact','date','A_display','B_display','C_display','D_display','E_display','F_display',
                   'G_display','H_display','I_display','J_display','K_display','申請單編號']
-    def pc_ind_id(self, obj):
-        return obj.pc_ind_id
-    pc_ind_id.short_description = '單號'
-
-    def department(self, obj):
-        return obj.department
-    department.short_description = '系所'
-
-
-    def contact(self, obj):
-        return obj.contact
-    contact.short_description = '聯絡人'
-
-    def contact_tel(self, obj):
-        return obj.contact_tel
-    contact_tel.short_description = '聯絡人電話'
-
-    def date(self, obj):
-        return obj.date
-    date.short_description = '日期'
+    
 
     def A_display(self, obj):
         return obj.A
@@ -243,7 +155,8 @@ class PC_INDAdmin(admin.ModelAdmin):
     K_display.short_description = '11'
 
 
-
+admin.site.register(Principal_Investigator,Principal_InvestigatorAdmin)
+admin.site.register(Contact,ContactAdmin)
 admin.site.register(QC, QCAdmin)
 admin.site.register(SC, SCAdmin)
 admin.site.register(PC_IND, PC_INDAdmin)

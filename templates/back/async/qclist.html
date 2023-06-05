@@ -4,6 +4,7 @@
             <th><span >編號</span></th>
             <th><span>日期</span></th>
             <th class="text-center"><span>繳費</span></th>
+            
             <th><span>實驗室負責人</span></th>
             <th>&nbsp;</th>
         </tr>
@@ -29,7 +30,7 @@
             </td>
             {% endif %}
             <td>
-                <a href="#">{{ qc.pi }}</a>
+                <a href="#">{{ qc.pi.name }}</a>
             </td>
             <td style="width: 20%;">
                 <a href="#" class="table-link">

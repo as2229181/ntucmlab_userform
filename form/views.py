@@ -32,9 +32,10 @@ def health_monitor(request):
         mus_number=request.POST['mus-number']
         rat_number=request.POST['rat-number']
         date= request.POST['date']
-        description =request.POST['description']        
-        NEW_QC=QC.objects.create(department=department,date=date,description=description,pi=pi,lab_tel=lab_tel,contact=contact,contact_tel=contact_tel,mus_number=mus_number,rat_number=rat_number)
-        NEW_QC.save()
+        description =request.POST['description']
+        Pi,created = Principal_Investigator.objects.get_or_create(department=department,name=pi,lab_tel=lab_tel)
+        contact1,created =Contact.objects.get_or_create(pi=Pi,name=contact,contact_number=contact_tel)      
+        QC.objects.create(pi=Pi,date=date,description=description,mus_number=mus_number,rat_number=rat_number,contact=contact1)
         # wb= load_workbook('C:/Users/user/ntumclab/venv/userform/form/static/健康監測手開帳單v1.0.xlsx',read_only=False, write_only=False)
         # print(wb.sheetnames)
        
@@ -104,8 +105,9 @@ def blood_serum(request):
         date= request.POST['date']
         description =request.POST['description']
         申請單編號 =request.POST['apply-number']
-        NEW_SC = SC.objects.create(department=department,申請單編號=申請單編號,description=description,date=date,pi=pi,lab_tel=lab_tel,contact=contact,contact_tel=contact_tel,serum=serum,CBC=CBC)
-        NEW_SC.save()
+        Pi,created = Principal_Investigator.objects.get_or_create(department=department,name=pi,lab_tel=lab_tel)
+        contact1,created =Contact.objects.get_or_create(pi=Pi,name=contact,contact_number=contact_tel)   
+        NEW_SC = SC.objects.create(申請單編號=申請單編號,description=description,date=date,pi=Pi,contact=contact1,serum=serum,CBC=CBC)
         wb = xw.Book('C:/Users/user/ntumclab/venv/userform/form/static/血液血清手開帳單v1.0.xlsx')
         ws = wb.sheets['Sheet1 ']
         ws.range('B4').value = department
@@ -164,9 +166,9 @@ def section_insch(request):
         j=request.POST['j']
         k=request.POST['k']
         date= request.POST['date']
-        
-        NEW_PC_INS = PC_INS.objects.create(department=department,申請單編號=申請單編號,description=description,date=date,pi=pi,lab_tel=lab_tel,contact=contact,contact_tel=contact_tel,A=a,B=b,C=c,D=d,E=e,F=f,G=g,H=h,I=i,J=j,K=k)
-        NEW_PC_INS.save()
+        Pi,created = Principal_Investigator.objects.get_or_create(department=department,name=pi,lab_tel=lab_tel)
+        contact1,created =Contact.objects.get_or_create(pi=Pi,name=contact,contact_number=contact_tel)   
+        PC_INS.objects.create(申請單編號=申請單編號,description=description,date=date,pi=Pi,contact=contact1,A=a,B=b,C=c,D=d,E=e,F=f,G=g,H=h,I=i,J=j,K=k)
         wb = xw.Book('C:/Users/user/ntumclab/venv/userform/form/static/病理切片校內 v2.0.xlsx')
         ws = wb.sheets['Sheet1 ']
         ws.range('B4').value = department
@@ -235,9 +237,10 @@ def section_outsch(request):
         j=request.POST['j']
         k=request.POST['k']
         date= request.POST['date']
+        Pi,created = Principal_Investigator.objects.get_or_create(department=department,name=pi,lab_tel=lab_tel)
+        contact1,created =Contact.objects.get_or_create(pi=Pi,name=contact,contact_number=contact_tel)   
+        NEW_PC_OUS = PC_OUS.objects.create(申請單編號=申請單編號,description=description,date=date,pi=Pi,contact=contact1,A=a,B=b,C=c,D=d,E=e,F=f,G=g,H=h,I=i,J=j,K=k)
         
-        NEW_PC_OUS = PC_OUS.objects.create(department=department,申請單編號=申請單編號,description=description,date=date,pi=pi,lab_tel=lab_tel,contact=contact,contact_tel=contact_tel,A=a,B=b,C=c,D=d,E=e,F=f,G=g,H=h,I=i,J=j,K=k)
-        NEW_PC_OUS.save()
         wb = xw.Book('C:/Users/user/ntumclab/venv/userform/form/static/病理切片校外 v2.0.xlsx')
         ws = wb.sheets['Sheet1 ']
         ws.range('B4').value = department
@@ -305,8 +308,9 @@ def section_industry(request):
         j=request.POST['j']
         k=request.POST['k']
         date= request.POST['date']
-        NEW_PC_IND = PC_IND.objects.create(department=department,申請單編號=申請單編號,description=description,date=date,contact=contact,contact_tel=contact_tel,A=a,B=b,C=c,D=d,E=e,F=f,G=g,H=h,I=i,J=j,K=k)
-        NEW_PC_IND.save()
+        contact1,created =Contact.objects.get_or_create(name=contact,contact_number=contact_tel)   
+        NEW_PC_IND = PC_IND.objects.create(申請單編號=申請單編號,description=description,date=date,contact=contact1,A=a,B=b,C=c,D=d,E=e,F=f,G=g,H=h,I=i,J=j,K=k)
+        
         wb = xw.Book('C:/Users/user/ntumclab/venv/userform/form/static/病理產業價 v2.0.xlsx')
         ws = wb.sheets['Sheet1 ']
         ws.range('B4').value = department
@@ -411,7 +415,7 @@ def delete_form(request):
         os.remove(excel_file_path); os.remove(pdf_file_path)
         object_data.delete()        
         all_form=PC_INS.objects.all().order_by('-date')
-        data= render_to_string('back/async/pcinslist.html',{'PCs':all_form})
+        data= render_to_string('back/async/pcinslist.html',{'PCs':all_form,'pc_type':PC_INS})
         return JsonResponse({'data':data})
     elif form_type == 'PC_OUS':
         object_data = PC_OUS.objects.get(pc_out_id=form_id)
