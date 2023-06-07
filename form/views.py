@@ -3,8 +3,8 @@ from .models import *
 from django.utils import timezone
 import xlwings as xw
 from django.template.loader import render_to_string
-from django.http import JsonResponse
-from .utils import convert_to_pdf
+from django.http import JsonResponse,HttpResponse
+from .utils import convert_to_pdf,IDgenerator,pay_status_change
 import subprocess
 import os
 # Create your views here.
@@ -16,12 +16,7 @@ def health_monitor(request):
     year = timezone.now().year
     max_id= Max_ID.objects.get().QC_max   
     print(max_id[:4] ) 
-    if year == int(max_id[:4]):
-        num = int(max_id[6:])+1
-        qc_id =  f"{year}QC{str(num).zfill(4)}"
-    else:
-        num=1
-        qc_id =  f"{year}QC{str(num).zfill(4)}"
+    qc_id=IDgenerator(year,max_id,'QC')
     print(qc_id)
     context={'QC_ID':qc_id}
     if request.method == 'POST':
@@ -36,28 +31,7 @@ def health_monitor(request):
         description =request.POST['description']
         Pi,created = Principal_Investigator.objects.get_or_create(department=department,name=pi,lab_tel=lab_tel)
         contact1,created =Contact.objects.get_or_create(pi=Pi,name=contact,contact_number=contact_tel)      
-        QC.objects.create(pi=Pi,date=date,description=description,mus_number=mus_number,rat_number=rat_number,contact=contact1)
-        # wb= load_workbook('C:/Users/user/ntumclab/venv/userform/form/static/健康監測手開帳單v1.0.xlsx',read_only=False, write_only=False)
-        # print(wb.sheetnames)
-       
-        
-        # # Open the template file and create a copy of the worksheet
-       
-        
-        # # Iterate over the cells to copy data and formatting
-       
-        # ws = wb.get_sheet_by_name('Sheet1 ')
-        # ws.cell(row=4,column=2,value=department)
-        # ws.cell(row=5,column=2,value=pi)
-        # ws.cell(row=5,column=5,value=lab_tel)
-        # ws.cell(row=6,column=2,value=contact)
-        # ws.cell(row=6,column=5,value=contact_tel)
-        # ws.cell(row=11,column=5,value=number)
-        # ws.cell(row=7,column=2,value=date)
-        # ws.cell(row=2,column=6,value=qc_id)
-       
-        # new_file_path = (f"C:/Users/user/Desktop/手開單/健康監測/{qc_id}.xlsx")
-        # ws.save(new_file_path)       
+        QC.objects.create(pi=Pi,date=date,description=description,mus_number=mus_number,rat_number=rat_number,contact=contact1)    
         wb = xw.Book('C:/Users/user/ntumclab/venv/userform/form/static/健康監測手開帳單v1.0.xlsx')
         ws = wb.sheets['Sheet1 ']
         ws.range('B4').value = department
@@ -89,19 +63,14 @@ def health_monitor(request):
 def blood_serum(request):
     year = timezone.now().year
     max_id= Max_ID.objects.get().SC_max
-    if year == int(max_id[:4]):
-        num = int(max_id[6:])+1
-        sc_id =  f"{year}SC{str(num).zfill(4)}"
-    else:
-        num=1
-        sc_id =  f"{year}SC{str(num).zfill(4)}"
+    sc_id=IDgenerator(year,max_id,'SC')
     context={'SC_ID':sc_id}
     if request.method == 'POST':
-        department=request.POST['department1']
-        pi=request.POST['pi1']
-        lab_tel=request.POST['lab-phone1']
+        department=request.POST['department']
+        pi=request.POST['pi']
+        lab_tel=request.POST['lab-phone']
         contact=request.POST['contact1']
-        contact_tel=request.POST['contact-number1']
+        contact_tel=request.POST['contact-number']
         serum=request.POST['serum-number']
         CBC=request.POST['blood-number']
         date= request.POST['date']
@@ -109,7 +78,7 @@ def blood_serum(request):
         申請單編號 =request.POST['apply-number']
         Pi,created = Principal_Investigator.objects.get_or_create(department=department,name=pi,lab_tel=lab_tel)
         contact1,created =Contact.objects.get_or_create(pi=Pi,name=contact,contact_number=contact_tel)   
-        NEW_SC = SC.objects.create(申請單編號=申請單編號,description=description,date=date,pi=Pi,contact=contact1,serum=serum,CBC=CBC)
+        SC.objects.create(申請單編號=申請單編號,description=description,date=date,pi=Pi,contact=contact1,serum=serum,CBC=CBC)
         wb = xw.Book('C:/Users/user/ntumclab/venv/userform/form/static/血液血清手開帳單v1.0.xlsx')
         ws = wb.sheets['Sheet1 ']
         ws.range('B4').value = department
@@ -142,12 +111,7 @@ def blood_serum(request):
 def section_insch(request):
     year = timezone.now().year
     max_id= Max_ID.objects.get().PC_max
-    if year == int(max_id[:4]):
-        num = int(max_id[6:])+1
-        pc_id =  f"{year}PC{str(num).zfill(4)}"
-    else:
-        num=1
-        pc_id =  f"{year}PC{str(num).zfill(4)}"
+    pc_id=IDgenerator(year,max_id,'PC')
     context={'PC_ID':pc_id}
     if request.method == 'POST':
         department=request.POST['department']
@@ -214,12 +178,7 @@ def section_insch(request):
 def section_outsch(request):
     year = timezone.now().year
     max_id= Max_ID.objects.get().PC_max
-    if year == int(max_id[:4]):
-        num = int(max_id[6:])+1
-        pc_id =  f"{year}PC{str(num).zfill(4)}"
-    else:
-        num=1
-        pc_id =  f"{year}PC{str(num).zfill(4)}"
+    pc_id=IDgenerator(year,max_id,'PC')
     context={'PC_ID':pc_id}
     if request.method == 'POST':
         department=request.POST['department']
@@ -287,12 +246,7 @@ def section_outsch(request):
 def section_industry(request):
     year = timezone.now().year
     max_id= Max_ID.objects.get().PC_max
-    if year == int(max_id[:4]):
-        num = int(max_id[6:])+1
-        pc_id =  f"{year}PC{str(num).zfill(4)}"
-    else:
-        num=1
-        pc_id =  f"{year}PC{str(num).zfill(4)}"
+    pc_id=IDgenerator(year,max_id,'PC')
     context={'PC_ID':pc_id}
     if request.method == 'POST':
         department=request.POST['department']
@@ -444,71 +398,84 @@ def delete_form(request):
 def update_pay(request):
     form_type=request.GET['form_type']
     form_id =request.GET['id']
-    if form_type == 'QC':
-        object_data = QC.objects.get(qcid=form_id)
-        if object_data.pay == False:
-            object_data.pay=True
-            object_data.save()
-            all_form=QC.objects.all().order_by('-date')
-            data= render_to_string('back/async/qclist.html',{'QCs':all_form})
-            return JsonResponse({'data':data})
-        else:
-            all_form=QC.objects.all().order_by('-date')
-            data= render_to_string('back/async/qclist.html',{'QCs':all_form})
-            return JsonResponse({'data':data})    
+    model_type=eval(form_type)
+    data=pay_status_change(model_type,form_id)
+    return JsonResponse({'data':data})
+    # if form_type == 'QC':
+    #     object_data = QC.objects.get(qcid=form_id)
+    #     if object_data.pay == False:
+    #         object_data.pay=True
+    #         object_data.save()
+    #         all_form=QC.objects.all().order_by('-date')
+    #         data= render_to_string('back/async/qclist.html',{'QCs':all_form})
+    #         return JsonResponse({'data':data})
+    #     else:
+    #         object_data.pay=False
+    #         object_data.save()
+    #         all_form=QC.objects.all().order_by('-date')
+    #         data= render_to_string('back/async/qclist.html',{'QCs':all_form})
+    #         return JsonResponse({'data':data})    
         
-    elif form_type == 'SC':
-        object_data = SC.objects.get(scid=form_id)
-        if object_data.pay == False:
-            object_data.pay=True
-            object_data.save()
-            all_form=SC.objects.all().order_by('-date')
-            data= render_to_string('back/async/sclist.html',{'SCs':all_form})
-            return JsonResponse({'data':data})
-        else:               
-            all_form=SC.objects.all().order_by('-date')
-            data= render_to_string('back/async/sclist.html',{'SCs':all_form})
-            return JsonResponse({'data':data})
-    elif form_type == 'PC_INS':
-        object_data = PC_INS.objects.get(pc_ins_id=form_id)
-        if object_data.pay == False:
-            object_data.pay=True
-            object_data.save()
-            all_form=PC_INS.objects.all().order_by('-date')
-            data= render_to_string('back/async/pcinslist.html',{'PCs':all_form})
-            return JsonResponse({'data':data})
-        else:      
-            all_form=PC_INS.objects.all().order_by('-date')
-            data= render_to_string('back/async/pcinslist.html',{'PCs':all_form})
-            return JsonResponse({'data':data})
-    elif form_type == 'PC_OUS':
-        object_data = PC_OUS.objects.get(pc_out_id=form_id)
-        print(object_data)
-        if object_data.pay == False:
-            object_data.pay=True
-            print(1)
-            object_data.save()
-            all_form=PC_OUS.objects.all().order_by('-date')
-            data= render_to_string('back/async/pcinslist.html',{'PCs':all_form,'pc_type':PC_OUS})
-            return JsonResponse({'data':data})
-        else:
-            print(2)
-            all_form=PC_OUS.objects.all().order_by('-date')
-            data= render_to_string('back/async/pcinslist.html',{'PCs':all_form,'pc_type':PC_OUS})
-            return JsonResponse({'data':data})
-    else:
-        object_data = PC_IND.objects.get(pc_ind_id=form_id)
-        if object_data.pay == False:
-            object_data.pay=True
-            object_data.save()
-            all_form=PC_IND.objects.all().order_by('-date')
-            data= render_to_string('back/async/pcinslist.html',{'PCs':all_form,'pc_type':PC_IND})
-            return JsonResponse({'data':data})
+    # elif form_type == 'SC':
+    #     object_data = SC.objects.get(scid=form_id)
+    #     if object_data.pay == False:
+    #         object_data.pay=True
+    #         object_data.save()
+    #         all_form=SC.objects.all().order_by('-date')
+    #         data= render_to_string('back/async/sclist.html',{'SCs':all_form})
+    #         return JsonResponse({'data':data})
+    #     else:
+    #         object_data.pay=False
+    #         object_data.save()               
+    #         all_form=SC.objects.all().order_by('-date')
+    #         data= render_to_string('back/async/sclist.html',{'SCs':all_form})
+    #         return JsonResponse({'data':data})
+    # elif form_type == 'PC_INS':
+    #     object_data = PC_INS.objects.get(pc_ins_id=form_id)
+    #     if object_data.pay == False:
+    #         object_data.pay=True
+    #         object_data.save()
+    #         all_form=PC_INS.objects.all().order_by('-date')
+    #         data= render_to_string('back/async/pcinslist.html',{'PCs':all_form})
+    #         return JsonResponse({'data':data})
+    #     else:
+    #         object_data.pay=False
+    #         object_data.save()      
+    #         all_form=PC_INS.objects.all().order_by('-date')
+    #         data= render_to_string('back/async/pcinslist.html',{'PCs':all_form})
+    #         return JsonResponse({'data':data})
+    # elif form_type == 'PC_OUS':
+    #     object_data = PC_OUS.objects.get(pc_out_id=form_id)
+    #     print(object_data)
+    #     if object_data.pay == False:
+    #         object_data.pay=True
+    #         print(1)
+    #         object_data.save()
+    #         all_form=PC_OUS.objects.all().order_by('-date')
+    #         data= render_to_string('back/async/pcinslist.html',{'PCs':all_form,'pc_type':PC_OUS})
+    #         return JsonResponse({'data':data})
+    #     else:
+    #         print(2)
+    #         object_data.pay=False
+    #         object_data.save()
+    #         all_form=PC_OUS.objects.all().order_by('-date')
+    #         data= render_to_string('back/async/pcinslist.html',{'PCs':all_form,'pc_type':PC_OUS})
+    #         return JsonResponse({'data':data})
+    # else:
+    #     object_data = PC_IND.objects.get(pc_ind_id=form_id)
+    #     if object_data.pay == False:
+    #         object_data.pay=True
+    #         object_data.save()
+    #         all_form=PC_IND.objects.all().order_by('-date')
+    #         data= render_to_string('back/async/pcinslist.html',{'PCs':all_form,'pc_type':PC_IND})
+    #         return JsonResponse({'data':data})
 
-        else:          
-            all_form=PC_IND.objects.all().order_by('-date')
-            data= render_to_string('back/async/pcinslist.html',{'PCs':all_form,'pc_type':PC_IND})
-            return JsonResponse({'data':data})
+    #     else:
+    #         object_data.pay=False
+    #         object_data.save()          
+    #         all_form=PC_IND.objects.all().order_by('-date')
+    #         data= render_to_string('back/async/pcinslist.html',{'PCs':all_form,'pc_type':PC_IND})
+    #         return JsonResponse({'data':data})
 
 
 
