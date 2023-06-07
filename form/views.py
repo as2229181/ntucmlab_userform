@@ -5,6 +5,7 @@ import xlwings as xw
 from django.template.loader import render_to_string
 from django.http import JsonResponse
 from .utils import convert_to_pdf
+import subprocess
 import os
 # Create your views here.
 def index(request):
@@ -78,6 +79,7 @@ def health_monitor(request):
         wb.save(excel_file_path)
         wb.close()
         convert_to_pdf(excel_file_path,pdf_file_path)
+        subprocess.run(['start', pdf_file_path], shell=True)
         qc_file=QC.objects.get(qcid=qc_id)
         qc_file.excel_file,qc_file.pdf_file= excel_file_path,pdf_file_path
         qc_file.save()
@@ -130,6 +132,7 @@ def blood_serum(request):
         wb.save(excel_file_path)
         wb.close()
         convert_to_pdf(excel_file_path,pdf_file_path)
+        subprocess.run(['start', pdf_file_path], shell=True)
         sc_file=SC.objects.get(scid=sc_id)
         sc_file.excel_file,sc_file.pdf_file= excel_file_path,pdf_file_path
         sc_file.save()
@@ -200,6 +203,7 @@ def section_insch(request):
         wb.save(excel_file_path)
         wb.close()
         convert_to_pdf(excel_file_path,pdf_file_path)
+        subprocess.run(['start', pdf_file_path], shell=True)
         sc_file=PC_INS.objects.get(pc_ins_id=pc_id)
         sc_file.excel_file,sc_file.pdf_file= excel_file_path,pdf_file_path
         sc_file.save()
@@ -272,10 +276,10 @@ def section_outsch(request):
         wb.save(excel_file_path)
         wb.close()
         convert_to_pdf(excel_file_path,pdf_file_path)
-        
+        subprocess.run(['start', pdf_file_path], shell=True)
 
         sc_file=PC_OUS.objects.get(pc_out_id=pc_id)
-        sc_file.excel_file,sc_file.excel_file= excel_file_path,pdf_file_path
+        sc_file.excel_file,sc_file.pdf_file= excel_file_path,pdf_file_path
         sc_file.save()
         return redirect('PC_OUT_view')
     return render(request,'section_outsch.html',context)
@@ -340,6 +344,7 @@ def section_industry(request):
         wb.save(excel_file_path)
         wb.close()
         convert_to_pdf(excel_file_path,pdf_file_path)
+        subprocess.run(['start', pdf_file_path], shell=True)
         sc_file=PC_IND.objects.get(pc_ind_id=pc_id)
         sc_file.excel_file,sc_file.pdf_file= excel_file_path,pdf_file_path
         sc_file.save()
