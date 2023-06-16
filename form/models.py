@@ -3,9 +3,9 @@ from shortuuid.django_fields import ShortUUIDField
 from django.utils import timezone
 # Create your models here.
 class Principal_Investigator(models.Model):
-    
+    pi = models.CharField(max_length=1000,null=True,blank=True,default=None)
     department = models.CharField(max_length=1000,null=True,blank=True,default=None)
-    name = models.CharField(max_length=1000,null=True,blank=True,default=None)
+    
     lab_tel = models.CharField(max_length=20,null=True,blank=True,default=None)
     class Meta:
         verbose_name = '實驗室負責人'

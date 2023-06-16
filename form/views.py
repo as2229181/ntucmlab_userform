@@ -29,7 +29,7 @@ def health_monitor(request):
         rat_number=request.POST['rat-number']
         date= request.POST['date']
         description =request.POST['description']
-        Pi,created = Principal_Investigator.objects.get_or_create(department=department,name=pi,lab_tel=lab_tel)
+        Pi,created = Principal_Investigator.objects.get_or_create(department=department,pi=pi,lab_tel=lab_tel)
         contact1,created =Contact.objects.get_or_create(pi=Pi,name=contact,contact_number=contact_tel)      
         QC.objects.create(pi=Pi,date=date,description=description,mus_number=mus_number,rat_number=rat_number,contact=contact1)    
         wb = xw.Book('C:/Users/user/ntumclab/venv/userform/form/static/健康監測手開帳單v1.0.xlsx')
@@ -76,7 +76,7 @@ def blood_serum(request):
         date= request.POST['date']
         description =request.POST['description']
         申請單編號 =request.POST['apply-number']
-        Pi,created = Principal_Investigator.objects.get_or_create(department=department,name=pi,lab_tel=lab_tel)
+        Pi,created = Principal_Investigator.objects.get_or_create(department=department,pi=pi,lab_tel=lab_tel)
         contact1,created =Contact.objects.get_or_create(pi=Pi,name=contact,contact_number=contact_tel)   
         SC.objects.create(申請單編號=申請單編號,description=description,date=date,pi=Pi,contact=contact1,serum=serum,CBC=CBC)
         wb = xw.Book('C:/Users/user/ntumclab/venv/userform/form/static/血液血清手開帳單v1.0.xlsx')
@@ -133,7 +133,7 @@ def section_insch(request):
         j=request.POST['j']
         k=request.POST['k']
         date= request.POST['date']
-        Pi,created = Principal_Investigator.objects.get_or_create(department=department,name=pi,lab_tel=lab_tel)
+        Pi,created = Principal_Investigator.objects.get_or_create(department=department,pi=pi,lab_tel=lab_tel)
         contact1,created =Contact.objects.get_or_create(pi=Pi,name=contact,contact_number=contact_tel)   
         PC_INS.objects.create(申請單編號=申請單編號,description=description,date=date,pi=Pi,contact=contact1,A=a,B=b,C=c,D=d,E=e,F=f,G=g,H=h,I=i,J=j,K=k)
         wb = xw.Book('C:/Users/user/ntumclab/venv/userform/form/static/病理切片校內 v2.0.xlsx')
@@ -200,7 +200,7 @@ def section_outsch(request):
         j=request.POST['j']
         k=request.POST['k']
         date= request.POST['date']
-        Pi,created = Principal_Investigator.objects.get_or_create(department=department,name=pi,lab_tel=lab_tel)
+        Pi,created = Principal_Investigator.objects.get_or_create(department=department,pi=pi,lab_tel=lab_tel)
         contact1,created =Contact.objects.get_or_create(pi=Pi,name=contact,contact_number=contact_tel)   
         NEW_PC_OUS = PC_OUS.objects.create(申請單編號=申請單編號,description=description,date=date,pi=Pi,contact=contact1,A=a,B=b,C=c,D=d,E=e,F=f,G=g,H=h,I=i,J=j,K=k)
         

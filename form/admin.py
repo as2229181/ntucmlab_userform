@@ -16,8 +16,9 @@ class ContactAdmin(admin.ModelAdmin):
 
 class Principal_InvestigatorAdmin(admin.ModelAdmin):
     list_display = [
+        'pi',
         'department',
-        'name',
+        
         'lab_tel',
     ] 
 
