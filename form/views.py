@@ -397,6 +397,7 @@ def delete_form(request):
 
 def update_pay(request):
     form_type=request.GET['form_type']
+
     form_id =request.GET['id']
     model_type=eval(form_type)
     data=pay_status_change(model_type,form_id)
