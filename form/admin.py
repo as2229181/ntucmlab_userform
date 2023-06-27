@@ -74,11 +74,11 @@ class PC_OUSAdmin(admin.ModelAdmin):
         return obj.K
     K_display.short_description = '11'
     list_display=['pc_out_id','pi','contact','date','A_display','B_display','C_display','D_display','E_display','F_display',
-                  'G_display','H_display','I_display','J_display','K_display','申請單編號']
+                  'G_display','H_display','I_display','J_display','K_display']
 class PC_INSAdmin(admin.ModelAdmin):
     
     list_display=['pc_ins_id','pi','contact','date','A_display','B_display','C_display','D_display','E_display','F_display',
-                  'G_display','H_display','I_display','J_display','K_display','申請單編號']
+                  'G_display','H_display','I_display','J_display','K_display']
     
 
     def A_display(self, obj):
@@ -118,7 +118,7 @@ class PC_INSAdmin(admin.ModelAdmin):
 class PC_INDAdmin(admin.ModelAdmin):
    
     list_display=['pc_ind_id','contact','date','A_display','B_display','C_display','D_display','E_display','F_display',
-                  'G_display','H_display','I_display','J_display','K_display','申請單編號']
+                  'G_display','H_display','I_display','J_display','K_display']
     
 
     def A_display(self, obj):
