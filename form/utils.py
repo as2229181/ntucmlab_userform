@@ -13,7 +13,7 @@ def convert_to_pdf(input_path, output_path):
 
 def IDgenerator(year,Max_id,prefix):
     if year == int(Max_id[:4]):
-        num = int(Max_id[6:])+1
+        num = int(Max_id[-4:])+1
         ID =  f"{year}{prefix}{str(num).zfill(4)}"
     else:
         num=1

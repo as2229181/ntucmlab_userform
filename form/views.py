@@ -192,10 +192,7 @@ def section_insch(request):
     return render(request,'section_insch.html')
 
 def section_outsch(request):
-    # year = timezone.now().year
-    # max_id= Max_ID.objects.get().PC_max
-    # pc_id=IDgenerator(year,max_id,'PC')
-    # context={'PC_ID':pc_id}
+    
     if request.method == 'POST':
         form_number = request.POST['no']
         department=request.POST['department']
@@ -326,6 +323,75 @@ def section_industry(request):
         return redirect('PC_IND_view')
     return render(request,'section_industry.html')
 
+def monthly_settlement(request):
+    year = timezone.now().year
+    max_id= Max_ID.objects.get().PC_max
+    ms_id=IDgenerator(year,max_id,'校內病理月結')
+    context={'MS_ID':ms_id}
+    if request.method == 'POST':
+        pi=request.POST['pi']
+        lab_tel=request.POST['lab-phone']
+        department = request.POST['department']
+        contact = request.POST['contact']
+        contact_tel = request.POST['contact-number']
+        description = request.POST['description']
+        discount = request.POST['discount']
+        申請單編號 =request.POST['apply-number']
+        a=request.POST['a']
+        b=request.POST['b']
+        c=request.POST['c']
+        d=request.POST['d']
+        e=request.POST['e']
+        f=request.POST['f']
+        g=request.POST['g']
+        h=request.POST['h']
+        i=request.POST['i']
+        j=request.POST['j']
+        k=request.POST['k']
+        date= request.POST['date']
+        Pi,created = Principal_Investigator.objects.get_or_create(department=department,pi=pi,lab_tel=lab_tel)
+        contact1,created =Contact.objects.get_or_create(name=contact,contact_number=contact_tel)   
+        new_ms = MS.objects.create(pi=Pi,discount=discount,description=description,date=date,contact=contact1,A=a,B=b,C=c,D=d,E=e,F=f,G=g,H=h,I=i,J=j,K=k,申請單編號=申請單編號)
+        file_path = os.path.join(os.path.dirname(__file__), 'static', '病理切片校內-月結版本 v1.0.xlsx')
+        wb = xw.Book(file_path)
+        ws = wb.sheets['Sheet1 ']
+        ws.range('B4').value = department
+        ws.range('B5').value = pi
+        ws.range('E5').value = lab_tel
+        ws.range('B6').value = contact
+        ws.range('E6').value = contact_tel
+        ws.range('E11').value =a
+        ws.range('E12').value =b
+        ws.range('E13').value =c
+        ws.range('E14').value =d
+        ws.range('E15').value =e
+        ws.range('E16').value =f
+        ws.range('E17').value =g
+        ws.range('E18').value =h
+        ws.range('E19').value =i
+        ws.range('E20').value =j
+        ws.range('E21').value =k
+        ws.range('B7').value =date
+        ws.range('D23').value =discount
+        ws.range('B27').value =description
+        ws.range('F2').value =ms_id
+        ws.range('B28').value =申請單編號
+        password='88516'
+        # 使用 Excel VBA 的 Protect 方法
+        ws.api.Cells.Locked = True
+        ws.api.Protect(Password=password)
+        excel_file_path = (f"C:/Users/user/Desktop/手開單/校內月結/excel/{ms_id}.xlsx")
+        pdf_file_path = (f"C:/Users/user/Desktop/手開單/校內月結/pdf/{ms_id}.pdf")
+        wb.save(excel_file_path)
+        wb.close()
+        convert_to_pdf(excel_file_path,pdf_file_path)
+        
+        ms_file=MS.objects.get(pc_id=ms_id) 
+        ms_file.excel_file,ms_file.pdf_file= excel_file_path,pdf_file_path
+        ms_file.save()
+        return redirect('monthly_settlement_view')
+    return render(request,'month_section_insch_list.html',context)
+
 
 def  QC_view(request):
     QCs = cache.get("QC")
@@ -370,6 +436,15 @@ def  PC_IND_view(request):
     }
     return render(request,'back/section_ind_list.html',context)
 
+def  monthly_settlement_view(request):
+    """校內病理月結 List"""
+    
+    ms = MS.objects.all().order_by('-date')
+    context = {
+        'MSs':ms
+    }
+    return render(request,'back/ms_list.html',context)
+
 def delete_form(request):
     form_type=request.GET['form_type']
     form_id =request.GET['id']
@@ -409,6 +484,15 @@ def delete_form(request):
         object_data.delete()        
         all_form=PC_OUS.objects.all().order_by('-date')
         data= render_to_string('back/async/pclist.html',{'PCs':all_form,'pc_type':PC_OUS})
+        return JsonResponse({'data':data})
+    elif form_type == 'MS':
+        object_data =MS.objects.get(pc_id=form_id)
+        excel_file_path = os.path.abspath(object_data.excel_file)
+        pdf_file_path = os.path.abspath(object_data.pdf_file)
+        os.remove(excel_file_path); os.remove(pdf_file_path)
+        object_data.delete()        
+        all_form=MS.objects.all().order_by('-date')
+        data= render_to_string('back/async/mslist.html',{'MSs':all_form})
         return JsonResponse({'data':data})
     else:
         object_data = PC_IND.objects.get(pc_ind_id=form_id)
