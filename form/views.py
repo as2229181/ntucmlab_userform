@@ -283,7 +283,7 @@ def section_industry(request):
         j = request.POST['j']
         k = request.POST['k']
         date = request.POST['date']
-        contact1,created = Contact.objects.get_or_create(name=contact,contact_number=contact_tel)   
+        contact1,created = Contact.objects.get_or_create(pi=None,name=contact,contact_number=contact_tel)   
         NEW_PC_IND = PC_IND.objects.create(pc_ind_id=form_number,discount=discount,description=description,date=date,contact=contact1,A=a,B=b,C=c,D=d,E=e,F=f,G=g,H=h,I=i,J=j,K=k)
         
         file_path = os.path.join(os.path.dirname(__file__), 'static', '病理產業價 v3.0.xlsx')
@@ -350,7 +350,7 @@ def monthly_settlement(request):
         k = request.POST['k']
         date = request.POST['date']
         Pi,created = Principal_Investigator.objects.get_or_create(department=department,pi=pi,lab_tel=lab_tel)
-        contact1,created = Contact.objects.get_or_create(name=contact,contact_number=contact_tel)   
+        contact1,created = Contact.objects.get_or_create(name=contact,contact_number=contact_tel,pi=Pi)   
         new_ms = MS.objects.create(pi=Pi,discount=discount,description=description,date=date,contact=contact1,A=a,B=b,C=c,D=d,E=e,F=f,G=g,H=h,I=i,J=j,K=k,申請單編號=申請單編號)
         file_path = os.path.join(os.path.dirname(__file__), 'static', '病理切片校內-月結版本 v1.0.xlsx')
         wb = xw.Book(file_path)
@@ -417,6 +417,7 @@ def  SC_view(request):
 @cache_page(60*15)
 def  PC_IN_view(request):
     PCs=PC_INS.objects.all().order_by('-date')
+    print(PCs)
     context={
         'PCs':PCs
     }
@@ -424,11 +425,12 @@ def  PC_IN_view(request):
 @cache_page(60*15)
 def  PC_OUT_view(request):
     PCs=PC_OUS.objects.all().order_by('-date')
+    print(PCs)
     context={
         'PCs':PCs
     }
     return render(request,'back/section_outsch_list.html',context)
-@cache_page(60*15)
+
 def  PC_IND_view(request):
     PCs=PC_IND.objects.all().order_by('-date')
     context={
@@ -449,8 +451,14 @@ def delete_form(request):
     form_type=request.GET['form_type']
     form_id =request.GET['id']
     model_type=eval(form_type)
-    data = delete_action(model_type,form_id)
-    return JsonResponse({'data':data})
+    message = " "
+    try:
+        data = delete_action(model_type,form_id)
+        print(data)
+    except Exception as e:
+        message = f"無法刪除檔案，請關閉檔案在嘗試刪除，錯誤訊息: {str(e)}"       
+        return HttpResponse(message)    
+    return JsonResponse({'data':data,"message":message})
     # if form_type == 'QC':
     #     object_data = QC.objects.get(qcid=form_id)
     #     excel_file_path = os.path.abspath(object_data.excel_file)
