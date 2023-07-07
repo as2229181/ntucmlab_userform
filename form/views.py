@@ -4,7 +4,7 @@ from django.utils import timezone
 import xlwings as xw
 from django.template.loader import render_to_string
 from django.http import JsonResponse,HttpResponse
-from .utils import convert_to_pdf,IDgenerator,pay_status_change
+from .utils import convert_to_pdf,IDgenerator,pay_status_change, delete_action
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 import subprocess
@@ -32,7 +32,7 @@ def health_monitor(request):
         rat_number=request.POST['rat-number']
         date= request.POST['date']
         discount = request.POST['discount']
-        print(discount)
+        print(type(discount))
         description =request.POST['description']
         Pi,created = Principal_Investigator.objects.get_or_create(department=department,pi=pi,lab_tel=lab_tel)
         contact1,created =Contact.objects.get_or_create(pi=Pi,name=contact,contact_number=contact_tel)      
@@ -50,7 +50,7 @@ def health_monitor(request):
         ws.range('E11').value = mus_number
         ws.range('E12').value = rat_number
         ws.range('B7').value = date
-        ws.range('D14').value = discount
+        ws.range('D14').value = int(discount)/100
         ws.range('B19').value=description
         password='88516'
         # 使用 Excel VBA 的 Protect 方法
@@ -97,25 +97,25 @@ def blood_serum(request):
         ws.range('E5').value = lab_tel
         ws.range('B6').value = contact
         ws.range('E6').value = contact_tel
-        ws.range('E11').value =serum
+        ws.range('E11').value = serum
         ws.range('E12').value =CBC
-        ws.range('B7').value =date
-        ws.range('F2').value =sc_id
-        ws.range('B19').value =申請單編號
-        ws.range('B18').value=description
-        ws.range('D14').value=discount
+        ws.range('B7').value = date
+        ws.range('F2').value = sc_id
+        ws.range('B19').value = 申請單編號
+        ws.range('B18').value = description
+        ws.range('D14').value = int(discount)/100
         password='88516'
         # 使用 Excel VBA 的 Protect 方法
         ws.api.Cells.Locked = True
         ws.api.Protect(Password=password)
         excel_file_path = (f"C:/Users/user/Desktop/手開單/血液血清/excel/{sc_id}.xlsx")
-        pdf_file_path= (f"C:/Users/user/Desktop/手開單/血液血清/pdf/{sc_id}.pdf")
+        pdf_file_path = (f"C:/Users/user/Desktop/手開單/血液血清/pdf/{sc_id}.pdf")
         wb.save(excel_file_path)
         wb.close()
         convert_to_pdf(excel_file_path,pdf_file_path)
         subprocess.run(['start', pdf_file_path], shell=True)
-        sc_file=SC.objects.get(scid=sc_id)
-        sc_file.excel_file,sc_file.pdf_file= excel_file_path,pdf_file_path
+        sc_file = SC.objects.get(scid=sc_id)
+        sc_file.excel_file,sc_file.pdf_file = excel_file_path,pdf_file_path
         sc_file.save()
         return redirect('SC_view')
     return render(request,'blood_serum.html',context)
@@ -127,28 +127,28 @@ def section_insch(request):
     # context={'PC_ID':pc_id}
     if request.method == 'POST':
         form_number = request.POST['no']
-        department=request.POST['department']
-        pi=request.POST['pi']
-        lab_tel=request.POST['lab-phone']
-        contact=request.POST['contact']
-        contact_tel=request.POST['contact-number']
-        description=request.POST['description']
+        department = request.POST['department']
+        pi = request.POST['pi']
+        lab_tel = request.POST['lab-phone']
+        contact = request.POST['contact']
+        contact_tel = request.POST['contact-number']
+        description = request.POST['description']
         discount = request.POST['discount']
        
-        a=request.POST['a']
-        b=request.POST['b']
-        c=request.POST['c']
-        d=request.POST['d']
-        e=request.POST['e']
-        f=request.POST['f']
-        g=request.POST['g']
-        h=request.POST['h']
-        i=request.POST['i']
-        j=request.POST['j']
-        k=request.POST['k']
-        date= request.POST['date']
+        a = request.POST['a']
+        b = request.POST['b']
+        c = request.POST['c']
+        d = request.POST['d']
+        e = request.POST['e']
+        f = request.POST['f']
+        g = request.POST['g']
+        h = request.POST['h']
+        i = request.POST['i']
+        j = request.POST['j']
+        k = request.POST['k']
+        date = request.POST['date']
         Pi,created = Principal_Investigator.objects.get_or_create(department=department,pi=pi,lab_tel=lab_tel)
-        contact1,created =Contact.objects.get_or_create(pi=Pi,name=contact,contact_number=contact_tel)   
+        contact1,created = Contact.objects.get_or_create(pi=Pi,name=contact,contact_number=contact_tel)   
         PC_INS.objects.create(pc_ins_id=form_number,discount=discount,description=description,date=date,pi=Pi,contact=contact1,A=a,B=b,C=c,D=d,E=e,F=f,G=g,H=h,I=i,J=j,K=k)
         file_path = os.path.join(os.path.dirname(__file__), 'static', '病理切片校內 v3.0.xlsx')
         wb = xw.Book(file_path)
@@ -160,19 +160,19 @@ def section_insch(request):
         ws.range('B6').value = contact
         ws.range('E6').value = contact_tel
         ws.range('B28').value = description
-        ws.range('E11').value =a
-        ws.range('E12').value =b
-        ws.range('E13').value =c
-        ws.range('E14').value =d
-        ws.range('E15').value =e
-        ws.range('E16').value =f
-        ws.range('E17').value =g
-        ws.range('E18').value =h
-        ws.range('E19').value =i
-        ws.range('E20').value =j
-        ws.range('E21').value =k
-        ws.range('B7').value =date
-        ws.range('D23').value =discount
+        ws.range('E11').value = a
+        ws.range('E12').value = b
+        ws.range('E13').value = c
+        ws.range('E14').value = d
+        ws.range('E15').value = e
+        ws.range('E16').value = f
+        ws.range('E17').value = g
+        ws.range('E18').value = h
+        ws.range('E19').value = i
+        ws.range('E20').value = j
+        ws.range('E21').value = k
+        ws.range('B7').value = date
+        ws.range('D23').value = int(discount)/100
         
         password='88516'
         # 使用 Excel VBA 的 Protect 方法
@@ -195,28 +195,28 @@ def section_outsch(request):
     
     if request.method == 'POST':
         form_number = request.POST['no']
-        department=request.POST['department']
-        pi=request.POST['pi']
-        lab_tel=request.POST['lab-phone']
-        contact=request.POST['contact']
-        contact_tel=request.POST['contact-number']
-        description=request.POST['description']
+        department = request.POST['department']
+        pi = request.POST['pi']
+        lab_tel = request.POST['lab-phone']
+        contact = request.POST['contact']
+        contact_tel = request.POST['contact-number']
+        description = request.POST['description']
         
-        a=request.POST['a']
-        b=request.POST['b']
-        c=request.POST['c']
-        d=request.POST['d']
-        e=request.POST['e']
-        f=request.POST['f']
-        g=request.POST['g']
-        h=request.POST['h']
-        i=request.POST['i']
-        j=request.POST['j']
-        k=request.POST['k']
+        a = request.POST['a']
+        b = request.POST['b']
+        c = request.POST['c']
+        d = request.POST['d']
+        e = request.POST['e']
+        f = request.POST['f']
+        g = request.POST['g']
+        h = request.POST['h']
+        i = request.POST['i']
+        j = request.POST['j']
+        k = request.POST['k']
         discount = request.POST['discount']
-        date= request.POST['date']
+        date = request.POST['date']
         Pi,created = Principal_Investigator.objects.get_or_create(department=department,pi=pi,lab_tel=lab_tel)
-        contact1,created =Contact.objects.get_or_create(pi=Pi,name=contact,contact_number=contact_tel)   
+        contact1,created = Contact.objects.get_or_create(pi=Pi,name=contact,contact_number=contact_tel)   
         NEW_PC_OUS = PC_OUS.objects.create(pc_out_id=form_number,discount=discount,description=description,date=date,pi=Pi,contact=contact1,A=a,B=b,C=c,D=d,E=e,F=f,G=g,H=h,I=i,J=j,K=k)
         file_path = os.path.join(os.path.dirname(__file__), 'static', '病理切片校外 v3.0.xlsx')
         wb = xw.Book(file_path)
@@ -239,9 +239,9 @@ def section_outsch(request):
         ws.range('E21').value =k
         ws.range('B7').value =date
         
-        ws.range('B27').value =description
-        ws.range('F2').value =form_number
-        ws.range('D23').value =discount
+        ws.range('B27').value = description
+        ws.range('F2').value = form_number
+        ws.range('D23').value = int(discount)/100
         password='88516'
         # 使用 Excel VBA 的 Protect 方法
         ws.api.Cells.Locked = True
@@ -271,19 +271,19 @@ def section_industry(request):
         contact_tel = request.POST['contact-number']
         description = request.POST['description']
         discount = request.POST['discount']
-        a=request.POST['a']
-        b=request.POST['b']
-        c=request.POST['c']
-        d=request.POST['d']
-        e=request.POST['e']
-        f=request.POST['f']
-        g=request.POST['g']
-        h=request.POST['h']
-        i=request.POST['i']
-        j=request.POST['j']
-        k=request.POST['k']
-        date= request.POST['date']
-        contact1,created =Contact.objects.get_or_create(name=contact,contact_number=contact_tel)   
+        a = request.POST['a']
+        b = request.POST['b']
+        c = request.POST['c']
+        d = request.POST['d']
+        e = request.POST['e']
+        f = request.POST['f']
+        g = request.POST['g']
+        h = request.POST['h']
+        i = request.POST['i']
+        j = request.POST['j']
+        k = request.POST['k']
+        date = request.POST['date']
+        contact1,created = Contact.objects.get_or_create(name=contact,contact_number=contact_tel)   
         NEW_PC_IND = PC_IND.objects.create(pc_ind_id=form_number,discount=discount,description=description,date=date,contact=contact1,A=a,B=b,C=c,D=d,E=e,F=f,G=g,H=h,I=i,J=j,K=k)
         
         file_path = os.path.join(os.path.dirname(__file__), 'static', '病理產業價 v3.0.xlsx')
@@ -292,22 +292,22 @@ def section_industry(request):
         ws.range('B4').value = department
         ws.range('B5').value = contact
         ws.range('E5').value = contact_tel
-        ws.range('E10').value =a
-        ws.range('E11').value =b
-        ws.range('E12').value =c
-        ws.range('E13').value =d
-        ws.range('E14').value =e
-        ws.range('E15').value =f
-        ws.range('E16').value =g
-        ws.range('E17').value =h
-        ws.range('E18').value =i
-        ws.range('E19').value =j
-        ws.range('E20').value =k
-        ws.range('B6').value =date
-        ws.range('D22').value =discount
-        ws.range('B27').value =description
-        ws.range('F2').value =form_number
-        password='88516'
+        ws.range('E10').value = a
+        ws.range('E11').value = b
+        ws.range('E12').value = c
+        ws.range('E13').value = d
+        ws.range('E14').value = e
+        ws.range('E15').value = f
+        ws.range('E16').value = g
+        ws.range('E17').value = h
+        ws.range('E18').value = i
+        ws.range('E19').value = j
+        ws.range('E20').value = k
+        ws.range('B6').value = date
+        ws.range('D22').value = int(discount)/100
+        ws.range('B27').value = description
+        ws.range('F2').value = form_number
+        password ='88516'
         # 使用 Excel VBA 的 Protect 方法
         ws.api.Cells.Locked = True
         ws.api.Protect(Password=password)
@@ -317,7 +317,7 @@ def section_industry(request):
         wb.close()
         convert_to_pdf(excel_file_path,pdf_file_path)
         subprocess.run(['start', pdf_file_path], shell=True)
-        sc_file=PC_IND.objects.get(pc_ind_id=form_number)
+        sc_file = PC_IND.objects.get(pc_ind_id=form_number)
         sc_file.excel_file,sc_file.pdf_file= excel_file_path,pdf_file_path
         sc_file.save()
         return redirect('PC_IND_view')
@@ -329,28 +329,28 @@ def monthly_settlement(request):
     ms_id=IDgenerator(year,max_id,'校內病理月結')
     context={'MS_ID':ms_id}
     if request.method == 'POST':
-        pi=request.POST['pi']
-        lab_tel=request.POST['lab-phone']
+        pi = request.POST['pi']
+        lab_tel = request.POST['lab-phone']
         department = request.POST['department']
         contact = request.POST['contact']
         contact_tel = request.POST['contact-number']
         description = request.POST['description']
         discount = request.POST['discount']
         申請單編號 =request.POST['apply-number']
-        a=request.POST['a']
-        b=request.POST['b']
-        c=request.POST['c']
-        d=request.POST['d']
-        e=request.POST['e']
-        f=request.POST['f']
-        g=request.POST['g']
-        h=request.POST['h']
-        i=request.POST['i']
-        j=request.POST['j']
-        k=request.POST['k']
-        date= request.POST['date']
+        a = request.POST['a']
+        b = request.POST['b']
+        c = request.POST['c']
+        d = request.POST['d']
+        e = request.POST['e']
+        f = request.POST['f']
+        g = request.POST['g']
+        h = request.POST['h']
+        i = request.POST['i']
+        j = request.POST['j']
+        k = request.POST['k']
+        date = request.POST['date']
         Pi,created = Principal_Investigator.objects.get_or_create(department=department,pi=pi,lab_tel=lab_tel)
-        contact1,created =Contact.objects.get_or_create(name=contact,contact_number=contact_tel)   
+        contact1,created = Contact.objects.get_or_create(name=contact,contact_number=contact_tel)   
         new_ms = MS.objects.create(pi=Pi,discount=discount,description=description,date=date,contact=contact1,A=a,B=b,C=c,D=d,E=e,F=f,G=g,H=h,I=i,J=j,K=k,申請單編號=申請單編號)
         file_path = os.path.join(os.path.dirname(__file__), 'static', '病理切片校內-月結版本 v1.0.xlsx')
         wb = xw.Book(file_path)
@@ -360,22 +360,22 @@ def monthly_settlement(request):
         ws.range('E5').value = lab_tel
         ws.range('B6').value = contact
         ws.range('E6').value = contact_tel
-        ws.range('E11').value =a
-        ws.range('E12').value =b
-        ws.range('E13').value =c
-        ws.range('E14').value =d
-        ws.range('E15').value =e
-        ws.range('E16').value =f
-        ws.range('E17').value =g
-        ws.range('E18').value =h
-        ws.range('E19').value =i
-        ws.range('E20').value =j
-        ws.range('E21').value =k
-        ws.range('B7').value =date
-        ws.range('D23').value =discount
-        ws.range('B27').value =description
-        ws.range('F2').value =ms_id
-        ws.range('B28').value =申請單編號
+        ws.range('E11').value = a
+        ws.range('E12').value = b
+        ws.range('E13').value = c
+        ws.range('E14').value = d
+        ws.range('E15').value = e
+        ws.range('E16').value = f
+        ws.range('E17').value = g
+        ws.range('E18').value = h
+        ws.range('E19').value = i
+        ws.range('E20').value = j
+        ws.range('E21').value = k
+        ws.range('B7').value = date
+        ws.range('D23').value = int(discount)/100
+        ws.range('B27').value = description
+        ws.range('F2').value = ms_id
+        ws.range('B28').value = 申請單編號
         password='88516'
         # 使用 Excel VBA 的 Protect 方法
         ws.api.Cells.Locked = True
@@ -385,7 +385,7 @@ def monthly_settlement(request):
         wb.save(excel_file_path)
         wb.close()
         convert_to_pdf(excel_file_path,pdf_file_path)
-        
+        subprocess.run(['start', pdf_file_path], shell=True)
         ms_file=MS.objects.get(pc_id=ms_id) 
         ms_file.excel_file,ms_file.pdf_file= excel_file_path,pdf_file_path
         ms_file.save()
@@ -448,61 +448,64 @@ def  monthly_settlement_view(request):
 def delete_form(request):
     form_type=request.GET['form_type']
     form_id =request.GET['id']
-    if form_type == 'QC':
-        object_data = QC.objects.get(qcid=form_id)
-        excel_file_path = os.path.abspath(object_data.excel_file)
-        pdf_file_path = os.path.abspath(object_data.pdf_file)
-        os.remove(excel_file_path); os.remove(pdf_file_path) #  這裡會有當檔案被開啟時無法被刪除的問題
-        object_data.delete()        
-        all_form=QC.objects.all().order_by('-date')
-        data= render_to_string('back/async/qclist.html',{'QCs':all_form})
-        return JsonResponse({'data':data})
-    elif form_type == 'SC':
-        object_data = SC.objects.get(scid=form_id)
-        excel_file_path = os.path.abspath(object_data.excel_file)
-        pdf_file_path = os.path.abspath(object_data.pdf_file)
-        os.remove(excel_file_path); os.remove(pdf_file_path)
-        object_data.delete()        
-        all_form=SC.objects.all().order_by('-date')
-        data= render_to_string('back/async/qclist.html',{'SCs':all_form})
-        return JsonResponse({'data':data})
-    elif form_type == 'PC_INS':
-        object_data = PC_INS.objects.get(pc_ins_id=form_id)
-        print(object_data)
-        excel_file_path = os.path.abspath(object_data.excel_file)
-        pdf_file_path = os.path.abspath(object_data.pdf_file)
-        os.remove(excel_file_path); os.remove(pdf_file_path)
-        object_data.delete()        
-        all_form=PC_INS.objects.all().order_by('-date')
-        data= render_to_string('back/async/pclist.html',{'PCs':all_form,'pc_type':PC_INS})
-        return JsonResponse({'data':data})
-    elif form_type == 'PC_OUS':
-        object_data = PC_OUS.objects.get(pc_out_id=form_id)
-        excel_file_path = os.path.abspath(object_data.excel_file)
-        pdf_file_path = os.path.abspath(object_data.pdf_file)
-        os.remove(excel_file_path); os.remove(pdf_file_path)
-        object_data.delete()        
-        all_form=PC_OUS.objects.all().order_by('-date')
-        data= render_to_string('back/async/pclist.html',{'PCs':all_form,'pc_type':PC_OUS})
-        return JsonResponse({'data':data})
-    elif form_type == 'MS':
-        object_data =MS.objects.get(pc_id=form_id)
-        excel_file_path = os.path.abspath(object_data.excel_file)
-        pdf_file_path = os.path.abspath(object_data.pdf_file)
-        os.remove(excel_file_path); os.remove(pdf_file_path)
-        object_data.delete()        
-        all_form=MS.objects.all().order_by('-date')
-        data= render_to_string('back/async/mslist.html',{'MSs':all_form})
-        return JsonResponse({'data':data})
-    else:
-        object_data = PC_IND.objects.get(pc_ind_id=form_id)
-        excel_file_path = os.path.abspath(object_data.excel_file)
-        pdf_file_path = os.path.abspath(object_data.pdf_file)
-        os.remove(excel_file_path); os.remove(pdf_file_path)
-        object_data.delete()        
-        all_form=PC_IND.objects.all().order_by('-date')
-        data= render_to_string('back/async/pclist.html',{'PCs':all_form,'pc_type':PC_IND})
-        return JsonResponse({'data':data})
+    model_type=eval(form_type)
+    data = delete_action(model_type,form_id)
+    return JsonResponse({'data':data})
+    # if form_type == 'QC':
+    #     object_data = QC.objects.get(qcid=form_id)
+    #     excel_file_path = os.path.abspath(object_data.excel_file)
+    #     pdf_file_path = os.path.abspath(object_data.pdf_file)
+    #     os.remove(excel_file_path); os.remove(pdf_file_path) #  這裡會有當檔案被開啟時無法被刪除的問題
+    #     object_data.delete()        
+    #     all_form=QC.objects.all().order_by('-date')
+    #     data= render_to_string('back/async/qclist.html',{'QCs':all_form})
+    #     return JsonResponse({'data':data})
+    # elif form_type == 'SC':
+    #     object_data = SC.objects.get(scid=form_id)
+    #     excel_file_path = os.path.abspath(object_data.excel_file)
+    #     pdf_file_path = os.path.abspath(object_data.pdf_file)
+    #     os.remove(excel_file_path); os.remove(pdf_file_path)
+    #     object_data.delete()        
+    #     all_form=SC.objects.all().order_by('-date')
+    #     data= render_to_string('back/async/qclist.html',{'SCs':all_form})
+    #     return JsonResponse({'data':data})
+    # elif form_type == 'PC_INS':
+    #     object_data = PC_INS.objects.get(pc_ins_id=form_id)
+    #     print(object_data)
+    #     excel_file_path = os.path.abspath(object_data.excel_file)
+    #     pdf_file_path = os.path.abspath(object_data.pdf_file)
+    #     os.remove(excel_file_path); os.remove(pdf_file_path)
+    #     object_data.delete()        
+    #     all_form=PC_INS.objects.all().order_by('-date')
+    #     data= render_to_string('back/async/pclist.html',{'PCs':all_form,'pc_type':PC_INS})
+    #     return JsonResponse({'data':data})
+    # elif form_type == 'PC_OUS':
+    #     object_data = PC_OUS.objects.get(pc_out_id=form_id)
+    #     excel_file_path = os.path.abspath(object_data.excel_file)
+    #     pdf_file_path = os.path.abspath(object_data.pdf_file)
+    #     os.remove(excel_file_path); os.remove(pdf_file_path)
+    #     object_data.delete()        
+    #     all_form=PC_OUS.objects.all().order_by('-date')
+    #     data= render_to_string('back/async/pclist.html',{'PCs':all_form,'pc_type':PC_OUS})
+    #     return JsonResponse({'data':data})
+    # elif form_type == 'MS':
+    #     object_data =MS.objects.get(id=form_id)
+    #     excel_file_path = os.path.abspath(object_data.excel_file)
+    #     pdf_file_path = os.path.abspath(object_data.pdf_file)
+    #     os.remove(excel_file_path); os.remove(pdf_file_path)
+    #     object_data.delete()        
+    #     all_form=MS.objects.all().order_by('-date')
+    #     data= render_to_string('back/async/mslist.html',{'MSs':all_form})
+    #     return JsonResponse({'data':data})
+    # else:
+    #     object_data = PC_IND.objects.get(pc_ind_id=form_id)
+    #     excel_file_path = os.path.abspath(object_data.excel_file)
+    #     pdf_file_path = os.path.abspath(object_data.pdf_file)
+    #     os.remove(excel_file_path); os.remove(pdf_file_path)
+    #     object_data.delete()        
+    #     all_form=PC_IND.objects.all().order_by('-date')
+    #     data= render_to_string('back/async/pclist.html',{'PCs':all_form,'pc_type':PC_IND})
+    #     return JsonResponse({'data':data})
 
 def update_pay(request):
     form_type=request.GET['form_type']

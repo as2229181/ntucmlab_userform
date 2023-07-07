@@ -1,3 +1,5 @@
+import os
+
 from openpyxl import load_workbook
 from django.http import HttpResponse
 from .models import *
@@ -20,6 +22,17 @@ def IDgenerator(year,Max_id,prefix):
         ID =  f"{year}{prefix}{str(num).zfill(4)}"
     return ID
 
+def delete_action(type,id):
+    object_data = type.objects.get(id=id)
+    excel_file_path = os.path.abspath(object_data.excel_file)
+    pdf_file_path = os.path.abspath(object_data.pdf_file)
+    os.remove(excel_file_path); os.remove(pdf_file_path) #  這裡會有當檔案被開啟時無法被刪除的問題
+    object_data.delete()
+    rest_form = type.objects.all().order_by('-date')
+    prefix = str(type.__name__)[:2]+'s'
+    prefix_lower=(str(type.__name__)[:2]).lower()
+    data = render_to_string(f'back/async/{prefix_lower}list.html',{prefix:rest_form})
+    return data
 def pay_status_change(type,id):
     object_data = type.objects.get(id=id)
     if object_data.pay == False:
