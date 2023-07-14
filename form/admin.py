@@ -18,7 +18,7 @@ class Principal_InvestigatorAdmin(admin.ModelAdmin):
     list_display = [
         'pi',
         'department',
-        
+       
         'lab_tel',
     ] 
 
@@ -30,7 +30,10 @@ class QCAdmin(admin.ModelAdmin):
         'contact',
         'date',
         'mus_number',
-        'rat_number'
+        'rat_number',
+        'tax',
+        'pay'
+
     ] 
 
 class SCAdmin(admin.ModelAdmin):    

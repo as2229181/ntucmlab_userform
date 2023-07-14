@@ -38,6 +38,7 @@ class QC(models.Model):
     rat_number = models.IntegerField(default=0,null=True,blank=True)
     excel_file = models.CharField(max_length=255, null=True, blank=True)
     pdf_file = models.CharField(max_length=255, null=True, blank=True)
+    tax = models.BooleanField(default=False)
     pay = models.BooleanField(default=False)
     class Meta:
         verbose_name = '健康監測手開單'
@@ -80,6 +81,7 @@ class SC(models.Model):
     CBC = models.IntegerField(default=0,null=True,blank=True)
     excel_file = models.CharField(max_length=255, null=True, blank=True)
     pdf_file = models.CharField(max_length=255, null=True, blank=True)
+    tax = models.BooleanField(default=False)
     pay = models.BooleanField(default=False)
     class Meta:
         verbose_name = '血液血清手開單'
