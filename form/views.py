@@ -16,12 +16,6 @@ def index(request):
 
 
 def health_monitor(request):
-    # year = timezone.now().year
-    # max_id= Max_ID.objects.get().QC_max
-    # print(max_id[:4] )
-    # qc_id=IDgenerator(year,max_id,'QC')
-    # print(qc_id)
-    # context={'QC_ID':qc_id}
     if request.method == "POST":
         form_number = request.POST["no"]
         department = request.POST["department"]
@@ -114,7 +108,7 @@ def blood_serum(request):
         contact1, created = Contact.objects.get_or_create(
             pi=Pi, name=contact, contact_number=contact_tel
         )
-        SC.objects.create(
+        sc_data = SC.objects.create(
             tax=tax,
             discount=discount,
             申請單編號=申請單編號,
@@ -157,15 +151,14 @@ def blood_serum(request):
         sc_file = SC.objects.get(scid=sc_id)
         sc_file.excel_file, sc_file.pdf_file = excel_file_path, pdf_file_path
         sc_file.save()
+        cache.set("SC", sc_data)
+        
+
         return redirect("SC_view")
     return render(request, "blood_serum.html", context)
 
 
 def section_insch(request):
-    # year = timezone.now().year
-    # max_id= Max_ID.objects.get().PC_max
-    # pc_id=IDgenerator(year,max_id,'PC')
-    # context={'PC_ID':pc_id}
     if request.method == "POST":
         form_number = request.POST["no"]
         department = request.POST["department"]
@@ -350,10 +343,6 @@ def section_outsch(request):
 
 
 def section_industry(request):
-    # year = timezone.now().year
-    # max_id= Max_ID.objects.get().PC_max
-    # pc_id=IDgenerator(year,max_id,'PC')
-    # context={'PC_ID':pc_id}
     if request.method == "POST":
         form_number = request.POST["no"]
         department = request.POST["department"]
@@ -528,8 +517,8 @@ def monthly_settlement(request):
 
 
 def QC_view(request):
-    QCs = cache.get("QC")
-    if not QCs:
+    QC_cache = cache.get("QC")
+    if not QC_cache:
         QCs = QC.objects.all().order_by("-date")
         cache.set("QC", QCs, 120)
     context = {"QCs": QCs}
@@ -537,33 +526,44 @@ def QC_view(request):
     return render(request, "back/health_monitor_list.html", context)
 
 
-@cache_page(60 * 15)
+
 def SC_view(request):
-    SCs = SC.objects.all().order_by("-date")
+    SC_cache = cache.get("SC")
+    if not SC_cache:
+        SCs = SC.objects.all().order_by("-date")
+        cache.set("SC", SCs, 120)
+       
     form_type = SC
     context = {"SCs": SCs, "form_type": form_type}
 
     return render(request, "back/blood&serun_list.html", context)
 
 
-@cache_page(60 * 15)
+
 def PC_IN_view(request):
-    PCs = PC_INS.objects.all().order_by("-date")
-    print(PCs)
+    PC_cache = cache.get("PC")
+    if not PC_cache:  
+        PCs = PC_INS.objects.all().order_by("-date")
+        cache.set("PC", PCs, 120)
     context = {"PCs": PCs}
     return render(request, "back/section_insch_list.html", context)
 
 
-@cache_page(60 * 15)
+
 def PC_OUT_view(request):
-    PCs = PC_OUS.objects.all().order_by("-date")
-    print(PCs)
+    PC_cache = cache.get("PC")
+    if not PC_cache: 
+        PCs = PC_OUS.objects.all().order_by("-date")
+        cache.set("PC", PCs, 120)
     context = {"PCs": PCs}
     return render(request, "back/section_outsch_list.html", context)
 
 
 def PC_IND_view(request):
-    PCs = PC_IND.objects.all().order_by("-date")
+    PC_cache = cache.get("PC")
+    if not PC_cache: 
+        PCs = PC_OUS.objects.all().order_by("-date")
+        cache.set("PC", PCs, 120)
     context = {"PCs": PCs}
     return render(request, "back/section_ind_list.html", context)
 

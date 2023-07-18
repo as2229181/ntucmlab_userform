@@ -43,24 +43,6 @@ class QC(models.Model):
     class Meta:
         verbose_name = '健康監測手開單'
         verbose_name_plural = '健康監測手開單'
-    
-    # def save(self, *args, **kwargs):
-    #     if not self.qcid:
-    #         # 获取当前年份
-    #         year = timezone.now().year
-    #         # 获取当前年份下已有的最大序号
-    #         max_serial_number = Max_ID.objects.filter(QC_max__startswith=str(year)).values_list('QC_max', flat=True).order_by('-QC_max').first()
-    #         #max_serial_number = QC.objects.filter(qcid__startswith=str(year)).values_list('qcid', flat=True).order_by('-qcid').first()
-    #         if max_serial_number:
-    #             # 从最大序号中提取数字部分并加1
-    #             num = int(max_serial_number[6:]) + 1
-    #         else:
-    #             # 如果该年份下没有序号，从001开始
-    #             num = 1
-    #         # 生成新的qcid
-    #         self.qcid = f"{year}QC{str(num).zfill(4)}"
-    #         Max_ID.objects.update(QC_max=self.qcid)
-    #     super().save(*args, **kwargs)
 
     
 
@@ -135,23 +117,7 @@ class PC_INS(models.Model):
     class Meta:
         verbose_name = '組織切片校內手開單'
         verbose_name_plural = '組織切片校內手開單'
-    # def save(self, *args, **kwargs):
-    #     if not self.pc_ins_id:
-    #         # 获取当前年份
-    #         year = timezone.now().year
-    #         # 获取当前年份下已有的最大序号
-    #         max_serial_number = Max_ID.objects.filter(PC_max__startswith=str(year)).values_list('PC_max', flat=True).order_by('-PC_max').first()
-    #         #max_serial_number = QC.objects.filter(qcid__startswith=str(year)).values_list('qcid', flat=True).order_by('-qcid').first()
-    #         if max_serial_number:
-    #             # 从最大序号中提取数字部分并加1
-    #             num = int(max_serial_number[6:]) + 1
-    #         el
-    #             # 如果该年份下没有序号，从001开始
-    #             num = 1
-    #         # 生成新的qcid
-    #         self.pc_ins_id = f"{year}PC{str(num).zfill(4)}"
-    #         Max_ID.objects.update(PC_max=self.pc_ins_id)
-    #     super().save(*args, **kwargs)
+
 
 '''
 For outside school
@@ -181,23 +147,7 @@ class PC_OUS(models.Model):
     class Meta:
         verbose_name = '組織切片校外手開單'
         verbose_name_plural = '組織切片校外手開單'
-    # def save(self, *args, **kwargs):
-    #     if not self.pc_out_id:
-    #         # 获取当前年份
-    #         year = timezone.now().year
-    #         # 获取当前年份下已有的最大序号
-    #         max_serial_number = Max_ID.objects.filter(PC_max__startswith=str(year)).values_list('PC_max', flat=True).order_by('-PC_max').first()
-    #         #max_serial_number = QC.objects.filter(qcid__startswith=str(year)).values_list('qcid', flat=True).order_by('-qcid').first()
-    #         if max_serial_number:
-    #             # 从最大序号中提取数字部分并加1
-    #             num = int(max_serial_number[6:]) + 1
-    #         else:
-    #             # 如果该年份下没有序号，从001开始
-    #             num = 1
-    #         # 生成新的qcid
-    #         self.pc_out_id = f"{year}PC{str(num).zfill(4)}"
-    #         Max_ID.objects.update(PC_max=self.pc_out_id)
-    #     super().save(*args, **kwargs)
+
 '''
 For industry
 '''
@@ -225,23 +175,7 @@ class PC_IND(models.Model):
     class Meta:
         verbose_name = '組織切片產業價手開單'
         verbose_name_plural = '組織切片產業價手開單'
-    # def save(self, *args, **kwargs):
-    #     if not self.pc_ind_id:
-    #         # 获取当前年份
-    #         year = timezone.now().year
-    #         # 获取当前年份下已有的最大序号
-    #         max_serial_number = Max_ID.objects.filter(PC_max__startswith=str(year)).values_list('PC_max', flat=True).order_by('-PC_max').first()
-    #         #max_serial_number = QC.objects.filter(qcid__startswith=str(year)).values_list('qcid', flat=True).order_by('-qcid').first()
-    #         if max_serial_number:
-    #             # 从最大序号中提取数字部分并加1
-    #             num = int(max_serial_number[6:]) + 1
-    #         else:
-    #             # 如果该年份下没有序号，从001开始
-    #             num = 1
-    #         # 生成新的qcid
-    #         self.pc_ind_id = f"{year}PC{str(num).zfill(4)}"
-    #         Max_ID.objects.update(PC_max=self.pc_ind_id)
-    #     super().save(*args, **kwargs)
+
 
 class MS(models.Model):
     pc_id = models.CharField(unique=True, max_length=20,default=None)
