@@ -3,11 +3,11 @@
 {% block content %}
 <div class="container-xxl bg-primary page-header">
     <div class="container text-center">
-        <h1 class="text-white animated zoomIn mb-3">血液血清檔案</h1>
+        <h1 class="text-white animated zoomIn mb-3">校內病理月結檔案</h1>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb justify-content-center">
                 <li class="breadcrumb-item"><a class="text-white" href="{% url 'index' %}">Home</a></li>
-                <li class="breadcrumb-item text-white active" aria-current="page">血液血清檔案</a></li>
+                <li class="breadcrumb-item text-white active" aria-current="page">校內病理月結檔案</a></li>
                 <!--<li class="breadcrumb-item text-white active" aria-current="page">Contact</li>-->
             </ol>
         </nav>
@@ -30,15 +30,15 @@
 						</tr>
 					</thead>
 					<tbody>
-                        {% for sc in SCs %}
+                        {% for ms in MSs %}
 						<tr>
 							<td>
-								<span class="user-link display-left">{{ sc.scid }}</span>
+								<span class="user-link display-left">{{ ms.pc_id }}</span>
 							</td>
 							<td>
-								{{sc.date}}
+								{{ms.date}}
 							</td>
-                            {% if sc.pay == True %}
+                            {% if ms.pay == True %}
 							<td class="text-center">
 								<span class="label label-default">已繳費</span>
 							</td>
@@ -48,7 +48,7 @@
 							</td>
                             {% endif %}
                             <td>
-								<a href="#">{{ sc.pi.pi }}</a>
+								<a href="#">{{ ms.pi.pi }}</a>
 							</td>
 							<td style="width: 20%;">
 								<a href="#" class="table-link">
@@ -57,18 +57,18 @@
 										<i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
 									</span>
 								</a>
-								<button  class="table-link update-but"  data-formtype="SC" data-id="{{ sc.id }}">
+								<button  class="table-link update-but"  data-formtype="MS" data-id="{{ ms.id }}">
 									<span class="fa-stack">
 										<i class="fa fa-square fa-stack-2x"></i>
 										<i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
 									</span>
 								</button>
-								<button  class="table-link danger delete-but" data-formtype="SC" data-id="{{ sc.id }}">
+								<button  class="table-link danger  delete-but" data-formtype="MS" data-id="{{ ms.id }}">
 									<span class="fa-stack">
 										<i class="fa fa-square fa-stack-2x"></i>
 										<i class="fa fa-trash-o fa-stack-1x fa-inverse" ></i>
 									</span>
-								</button>
+								</a>
 							</td>
 						</tr>
                         {% endfor %}	

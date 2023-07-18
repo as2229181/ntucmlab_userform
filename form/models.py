@@ -38,28 +38,11 @@ class QC(models.Model):
     rat_number = models.IntegerField(default=0,null=True,blank=True)
     excel_file = models.CharField(max_length=255, null=True, blank=True)
     pdf_file = models.CharField(max_length=255, null=True, blank=True)
+    tax = models.BooleanField(default=False)
     pay = models.BooleanField(default=False)
     class Meta:
         verbose_name = '健康監測手開單'
         verbose_name_plural = '健康監測手開單'
-    
-    # def save(self, *args, **kwargs):
-    #     if not self.qcid:
-    #         # 获取当前年份
-    #         year = timezone.now().year
-    #         # 获取当前年份下已有的最大序号
-    #         max_serial_number = Max_ID.objects.filter(QC_max__startswith=str(year)).values_list('QC_max', flat=True).order_by('-QC_max').first()
-    #         #max_serial_number = QC.objects.filter(qcid__startswith=str(year)).values_list('qcid', flat=True).order_by('-qcid').first()
-    #         if max_serial_number:
-    #             # 从最大序号中提取数字部分并加1
-    #             num = int(max_serial_number[6:]) + 1
-    #         else:
-    #             # 如果该年份下没有序号，从001开始
-    #             num = 1
-    #         # 生成新的qcid
-    #         self.qcid = f"{year}QC{str(num).zfill(4)}"
-    #         Max_ID.objects.update(QC_max=self.qcid)
-    #     super().save(*args, **kwargs)
 
     
 
@@ -80,6 +63,7 @@ class SC(models.Model):
     CBC = models.IntegerField(default=0,null=True,blank=True)
     excel_file = models.CharField(max_length=255, null=True, blank=True)
     pdf_file = models.CharField(max_length=255, null=True, blank=True)
+    tax = models.BooleanField(default=False)
     pay = models.BooleanField(default=False)
     class Meta:
         verbose_name = '血液血清手開單'
@@ -133,23 +117,7 @@ class PC_INS(models.Model):
     class Meta:
         verbose_name = '組織切片校內手開單'
         verbose_name_plural = '組織切片校內手開單'
-    # def save(self, *args, **kwargs):
-    #     if not self.pc_ins_id:
-    #         # 获取当前年份
-    #         year = timezone.now().year
-    #         # 获取当前年份下已有的最大序号
-    #         max_serial_number = Max_ID.objects.filter(PC_max__startswith=str(year)).values_list('PC_max', flat=True).order_by('-PC_max').first()
-    #         #max_serial_number = QC.objects.filter(qcid__startswith=str(year)).values_list('qcid', flat=True).order_by('-qcid').first()
-    #         if max_serial_number:
-    #             # 从最大序号中提取数字部分并加1
-    #             num = int(max_serial_number[6:]) + 1
-    #         el
-    #             # 如果该年份下没有序号，从001开始
-    #             num = 1
-    #         # 生成新的qcid
-    #         self.pc_ins_id = f"{year}PC{str(num).zfill(4)}"
-    #         Max_ID.objects.update(PC_max=self.pc_ins_id)
-    #     super().save(*args, **kwargs)
+
 
 '''
 For outside school
@@ -179,23 +147,7 @@ class PC_OUS(models.Model):
     class Meta:
         verbose_name = '組織切片校外手開單'
         verbose_name_plural = '組織切片校外手開單'
-    # def save(self, *args, **kwargs):
-    #     if not self.pc_out_id:
-    #         # 获取当前年份
-    #         year = timezone.now().year
-    #         # 获取当前年份下已有的最大序号
-    #         max_serial_number = Max_ID.objects.filter(PC_max__startswith=str(year)).values_list('PC_max', flat=True).order_by('-PC_max').first()
-    #         #max_serial_number = QC.objects.filter(qcid__startswith=str(year)).values_list('qcid', flat=True).order_by('-qcid').first()
-    #         if max_serial_number:
-    #             # 从最大序号中提取数字部分并加1
-    #             num = int(max_serial_number[6:]) + 1
-    #         else:
-    #             # 如果该年份下没有序号，从001开始
-    #             num = 1
-    #         # 生成新的qcid
-    #         self.pc_out_id = f"{year}PC{str(num).zfill(4)}"
-    #         Max_ID.objects.update(PC_max=self.pc_out_id)
-    #     super().save(*args, **kwargs)
+
 '''
 For industry
 '''
@@ -223,24 +175,52 @@ class PC_IND(models.Model):
     class Meta:
         verbose_name = '組織切片產業價手開單'
         verbose_name_plural = '組織切片產業價手開單'
-    # def save(self, *args, **kwargs):
-    #     if not self.pc_ind_id:
-    #         # 获取当前年份
-    #         year = timezone.now().year
-    #         # 获取当前年份下已有的最大序号
-    #         max_serial_number = Max_ID.objects.filter(PC_max__startswith=str(year)).values_list('PC_max', flat=True).order_by('-PC_max').first()
-    #         #max_serial_number = QC.objects.filter(qcid__startswith=str(year)).values_list('qcid', flat=True).order_by('-qcid').first()
-    #         if max_serial_number:
-    #             # 从最大序号中提取数字部分并加1
-    #             num = int(max_serial_number[6:]) + 1
-    #         else:
-    #             # 如果该年份下没有序号，从001开始
-    #             num = 1
-    #         # 生成新的qcid
-    #         self.pc_ind_id = f"{year}PC{str(num).zfill(4)}"
-    #         Max_ID.objects.update(PC_max=self.pc_ind_id)
-    #     super().save(*args, **kwargs)
 
+
+class MS(models.Model):
+    pc_id = models.CharField(unique=True, max_length=20,default=None)
+    pi = models.ForeignKey(Principal_Investigator,on_delete=models.SET_NULL,null=True,blank=True,related_name='pc_pi')
+    contact = models.ForeignKey(Contact,on_delete=models.SET_NULL,null=True,blank=True,related_name='pc_contact')
+    date = models.DateField()
+    description= models.CharField(max_length=1000,null=True,blank=True,default=None)
+    discount = models.CharField(max_length=6,null=True,blank=True,default='100%')
+    excel_file = models.CharField(max_length=255, null=True, blank=True)
+    pdf_file = models.CharField(max_length=255, null=True, blank=True)
+    申請單編號=models.CharField(max_length=1000,null=True,blank=True,default=None)
+    pay = models.BooleanField(default=False)
+    A = models.IntegerField(default=0,null=True,blank=True)
+    B = models.IntegerField(default=0,null=True,blank=True)
+    C = models.IntegerField(default=0,null=True,blank=True)
+    D = models.IntegerField(default=0,null=True,blank=True)
+    E = models.IntegerField(default=0,null=True,blank=True)
+    F = models.IntegerField(default=0,null=True,blank=True)
+    G = models.IntegerField(default=0,null=True,blank=True)
+    H = models.IntegerField(default=0,null=True,blank=True)
+    I = models.IntegerField(default=0,null=True,blank=True)
+    J = models.IntegerField(default=0,null=True,blank=True) 
+    K = models.IntegerField(default=0,null=True,blank=True)
+    class Meta:
+        verbose_name = '校內月結'
+        verbose_name_plural = '校內月結'
+    def save(self, *args, **kwargs):
+        if not self.pc_id:
+            # 获取当前年份
+            year = timezone.now().year
+            # 获取当前年份下已有的最大序号
+            max_serial_number = Max_ID.objects.filter(PC_max__startswith=str(year)).values_list('PC_max', flat=True).order_by('-PC_max').first()
+            #max_serial_number = QC.objects.filter(qcid__startswith=str(year)).values_list('qcid', flat=True).order_by('-qcid').first()
+            print(max_serial_number)
+            if max_serial_number:
+                # 从最大序号中提取数字部分并加1
+                num = int(max_serial_number[10:]) + 1
+            else:
+                # 如果该年份下没有序号，从001开始
+                num = 1
+            # 生成新的qcid
+            self.pc_id = f"{year}校內病理月結{str(num).zfill(4)}"
+            Max_ID.objects.update(PC_max=self.pc_id)
+        super().save(*args, **kwargs)
+    
 
 class Max_ID(models.Model):
     QC_max = models.CharField(max_length=1000,null=True,blank=True,default=None)

@@ -99,7 +99,12 @@ $(document).on('click', '.delete-but', function() {
       datatype:'json',
       
       success:function(response){
-        $('#form_table').html(response.data)
+        if(response.data){
+        $('#form_table').html(response.data);}
+        else {
+          alert("請先關閉檔案再刪除");
+          window.location.reload();
+        }
       }
     })
 })
