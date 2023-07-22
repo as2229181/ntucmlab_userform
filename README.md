@@ -19,5 +19,18 @@
 - 點選表單名稱可以進入表單列表
 
 # 手開單頁面 
+![image](https://github.com/as2229181/ntucmlab_userform/assets/122463207/58334d45-4561-4b4d-a5d2-d305ead09787)
+
+- 使用者在此頁面可以輸入所需資訊
+
+- ![image](https://github.com/as2229181/ntucmlab_userform/assets/122463207/ef7cae53-dcf3-470c-b4b3-0db63716a8da)
+  當編號輸入格式與當前不符合便會顯示錯誤
+
+- https://github.com/as2229181/ntucmlab_userform/assets/122463207/0cf16af7-acd6-4387-b80e-88d6cb4723de
+  輸入相對應價錢時頁面呈現的總價也會憶起變動
+  最後送出表單時會自動生成excel及pdf轉跳至表單列表頁面
+
+
+
 
 
