@@ -55,5 +55,8 @@
     - memcached
 # Database Schema
 ![image](https://github.com/as2229181/ntucmlab_userform/assets/122463207/1d0906db-1354-4cd9-9199-f96fc09ec63d)
-
+# Future work
+- 增加登入系統以及不同的授權等級
+- 部屬至伺服器
+- 使用docker開發
 
