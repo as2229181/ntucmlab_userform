@@ -51,8 +51,12 @@
     - Python
     - Django framework
     - Mysql
+
+  - 工具
+
     - Git
     - memcached
+      
 # Database Schema
 ![image](https://github.com/as2229181/ntucmlab_userform/assets/122463207/1d0906db-1354-4cd9-9199-f96fc09ec63d)
 # Future work
