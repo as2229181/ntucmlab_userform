@@ -23,14 +23,36 @@
 
 - 使用者在此頁面可以輸入所需資訊
 
-- ![image](https://github.com/as2229181/ntucmlab_userform/assets/122463207/ef7cae53-dcf3-470c-b4b3-0db63716a8da)
+- <img src="https://github.com/as2229181/ntucmlab_userform/assets/122463207/ef7cae53-dcf3-470c-b4b3-0db63716a8da" width="600px" heigh="450" >
+  
   當編號輸入格式與當前不符合便會顯示錯誤
 
-- https://github.com/as2229181/ntucmlab_userform/assets/122463207/0cf16af7-acd6-4387-b80e-88d6cb4723de
-  輸入相對應價錢時頁面呈現的總價也會憶起變動
+- ![未命名的影片_-_Made_with_Clipchamp_AdobeExpress](https://github.com/as2229181/ntucmlab_userform/assets/122463207/65d35ad1-0fc9-4471-8d7a-a4658a974136)
+
+  輸入相對應價錢時頁面呈現的總價也會一起變動
   最後送出表單時會自動生成excel及pdf轉跳至表單列表頁面
 
+# 表單列表
+- <img src="https://github.com/as2229181/ntucmlab_userform/assets/122463207/b23b1e1e-6e86-4be0-9013-f103f13420ae" width="600px" heigh="450" >
+
+  在此頁面呈現表單基本資訊紅色案你可以刪除表單，鉛筆按鈕可以更改繳費與否
 
 
+
+
+# 使用技術
+  - 前端
+
+    - BOOTSTRAP
+    - AJAX
+    
+  - 後端
+
+    - Python
+    - Django framework
+    - Mysql
+    - Git
+    - memcached
+# Database Schema
 
 
