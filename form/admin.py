@@ -43,6 +43,10 @@ class SCAdmin(admin.ModelAdmin):
     
 class PC_OUSAdmin(admin.ModelAdmin):   
 
+    def pc_out_id_display(self, obj):
+        return obj.A
+    pc_out_id_display.short_description = '編號'
+    
     def A_display(self, obj):
         return obj.A
     A_display.short_description = '1'
@@ -76,14 +80,17 @@ class PC_OUSAdmin(admin.ModelAdmin):
     def K_display(self, obj):
         return obj.K
     K_display.short_description = '11'
-    list_display=['pi','contact','date','A_display','B_display','C_display','D_display','E_display','F_display',
+    list_display=['pc_out_id_display','pi','contact','date','A_display','B_display','C_display','D_display','E_display','F_display',
                   'G_display','H_display','I_display','J_display','K_display']
 class PC_INSAdmin(admin.ModelAdmin):
     
-    list_display=['pi','contact','date','A_display','B_display','C_display','D_display','E_display','F_display',
+    list_display=['pc_ins_id_display','pi','contact','date','A_display','B_display','C_display','D_display','E_display','F_display',
                   'G_display','H_display','I_display','J_display','K_display']
     
 
+    def pc_ins_id_display(self, obj):
+        return obj.pc_ins_id
+    pc_ins_id_display.short_description = '編號'
     def A_display(self, obj):
         return obj.A
     A_display.short_description = '1'
@@ -120,10 +127,12 @@ class PC_INSAdmin(admin.ModelAdmin):
 
 class  PC_INDAdmin(admin.ModelAdmin):
    
-    list_display=['contact','date','A_display','B_display','C_display','D_display','E_display','F_display',
+    list_display=['pc_ind_id_display','contact','date','A_display','B_display','C_display','D_display','E_display','F_display',
                   'G_display','H_display','I_display','J_display','K_display']
     
-
+    def pc_ind_id_display(self, obj):
+        return obj.pc_ind_id
+    pc_ind_id_display.short_description = '編號'
     def A_display(self, obj):
         return obj.A
     A_display.short_description = '1'

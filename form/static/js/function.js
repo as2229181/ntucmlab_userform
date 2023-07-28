@@ -22,6 +22,7 @@ $(document).ready(function(){
     $("#no").on('blur', function() {
       let form_number = $(this).val(); // 獲取輸入框的值
       let form_type = $(this).attr('form-type')
+      if (form_type === "QC"){
       if (form_number.length === 10 && form_number.charAt(4) === form_type.charAt(0) && form_number.charAt(5) === form_type.charAt(1)) {
         // 如果長度等於 10，啟用提交按鈕
         $("#submitBtn").prop("disabled", false);
@@ -30,7 +31,21 @@ $(document).ready(function(){
         $("#submitBtn").prop("disabled", true);
         alert("編號格式輸入錯誤");
       }
+      } else if(form_type ==="P" ){
+        if (form_number.length === 9 && form_number.charAt(4) === form_type.charAt(0)){
+          $("#submitBtn").prop("disabled", false);
+        }
+        else {
+          // 如果長度不等於 10，禁用提交按鈕
+          $("#submitBtn").prop("disabled", true);
+          alert("編號格式輸入錯誤");
+      }
+    } 
     });
+
+    
+
+
 
     $("#sample-serum , #sample-blood ") .on('input',function(){
         let serum = parseInt($('#sample-serum').val());

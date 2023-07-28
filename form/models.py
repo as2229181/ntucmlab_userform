@@ -70,16 +70,16 @@ class SC(models.Model):
         verbose_name_plural = '血液血清手開單'
     def save(self, *args, **kwargs):
         if not self.scid:
-            # 获取当前年份
+            # 獲取當前年份
             year = timezone.now().year
-            # 获取当前年份下已有的最大序号
+            # 獲取當前年份下已有的最大序號
             max_serial_number = Max_ID.objects.filter(SC_max__startswith=str(year)).values_list('SC_max', flat=True).order_by('-SC_max').first()
             #max_serial_number = QC.objects.filter(qcid__startswith=str(year)).values_list('qcid', flat=True).order_by('-qcid').first()
             if max_serial_number:
-                # 从最大序号中提取数字部分并加1
+                # 從最大序号中提取數字部分並加1
                 num = int(max_serial_number[6:]) + 1
             else:
-                # 如果该年份下没有序号，从001开始
+                # 如果該年份下没有序號，從001開始
                 num = 1
         
             self.scid = f"{year}SC{str(num).zfill(4)}"
@@ -204,17 +204,17 @@ class MS(models.Model):
         verbose_name_plural = '校內月結'
     def save(self, *args, **kwargs):
         if not self.pc_id:
-            # 获取当前年份
+            # 獲取當前年分
             year = timezone.now().year
-            # 获取当前年份下已有的最大序号
+            # 獲取當前年份下已有的最大序號
             max_serial_number = Max_ID.objects.filter(PC_max__startswith=str(year)).values_list('PC_max', flat=True).order_by('-PC_max').first()
             #max_serial_number = QC.objects.filter(qcid__startswith=str(year)).values_list('qcid', flat=True).order_by('-qcid').first()
             print(max_serial_number)
             if max_serial_number:
-                # 从最大序号中提取数字部分并加1
+                # 從最大序號中提取數字部分并加1
                 num = int(max_serial_number[10:]) + 1
             else:
-                # 如果该年份下没有序号，从001开始
+                # 如果該年份下没有序號，從0001開始
                 num = 1
             # 生成新的qcid
             self.pc_id = f"{year}校內病理月結{str(num).zfill(4)}"

@@ -64,7 +64,7 @@ def health_monitor(request):
         ws.range("E12").value = rat_number
         ws.range("B7").value = date
         ws.range("D14").value = int(discount) / 100
-        ws.range("B19").value = description
+        ws.range("B21").value = description
         if tax == "False":
             ws.range("D17").value = 0
         password = "88516"
@@ -561,7 +561,7 @@ def PC_OUT_view(request):
 
 def PC_IND_view(request):
     PC_cache = cache.get("PC")
-    PCs = PC_OUS.objects.all().order_by("-date")
+    PCs = PC_IND.objects.all().order_by("-date")
     if not PC_cache: 
         cache.set("PC", PCs, 120)
     context = {"PCs": PCs}
