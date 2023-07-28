@@ -20,4 +20,4 @@ urlpatterns=[
 
     path('update_pay',views.update_pay,name='update_pay'),
 
-]
+]   
