@@ -64,7 +64,7 @@ def health_monitor(request):
         ws.range("E12").value = rat_number
         ws.range("B7").value = date
         ws.range("D14").value = int(discount) / 100
-        ws.range("B19").value = description
+        ws.range("B21").value = description
         if tax == "False":
             ws.range("D17").value = 0
         password = "88516"
@@ -518,8 +518,8 @@ def monthly_settlement(request):
 
 def QC_view(request):
     QC_cache = cache.get("QC")
-    if not QC_cache:
-        QCs = QC.objects.all().order_by("-date")
+    QCs = QC.objects.all().order_by("-date")
+    if not QC_cache:  
         cache.set("QC", QCs, 120)
     context = {"QCs": QCs}
 
@@ -529,8 +529,8 @@ def QC_view(request):
 
 def SC_view(request):
     SC_cache = cache.get("SC")
+    SCs = SC.objects.all().order_by("-date")
     if not SC_cache:
-        SCs = SC.objects.all().order_by("-date")
         cache.set("SC", SCs, 120)
        
     form_type = SC
@@ -542,8 +542,8 @@ def SC_view(request):
 
 def PC_IN_view(request):
     PC_cache = cache.get("PC")
+    PCs = PC_INS.objects.all().order_by("-date")
     if not PC_cache:  
-        PCs = PC_INS.objects.all().order_by("-date")
         cache.set("PC", PCs, 120)
     context = {"PCs": PCs}
     return render(request, "back/section_insch_list.html", context)
@@ -552,8 +552,8 @@ def PC_IN_view(request):
 
 def PC_OUT_view(request):
     PC_cache = cache.get("PC")
+    PCs = PC_OUS.objects.all().order_by("-date")
     if not PC_cache: 
-        PCs = PC_OUS.objects.all().order_by("-date")
         cache.set("PC", PCs, 120)
     context = {"PCs": PCs}
     return render(request, "back/section_outsch_list.html", context)
@@ -561,8 +561,8 @@ def PC_OUT_view(request):
 
 def PC_IND_view(request):
     PC_cache = cache.get("PC")
+    PCs = PC_IND.objects.all().order_by("-date")
     if not PC_cache: 
-        PCs = PC_OUS.objects.all().order_by("-date")
         cache.set("PC", PCs, 120)
     context = {"PCs": PCs}
     return render(request, "back/section_ind_list.html", context)
