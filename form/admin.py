@@ -3,7 +3,22 @@ from django.contrib import admin
 # Register your models here.
 from .models import *
 
+class Pc_ins(admin.TabularInline):
+    model = PC_INS
 
+class PC_out(admin.TabularInline):
+    model = PC_OUS   
+
+class PC_ind(admin.TabularInline):
+    model = PC_IND 
+
+class PcidAdmin(admin.ModelAdmin):
+    inlines=[Pc_ins,PC_out,PC_ind]
+    list_display = ["pcid_display"]
+    
+    def pcid_display(self, obj):
+        return obj.pcid
+    pcid_display.short_description = '組織切片編號'
 class ContactAdmin(admin.ModelAdmin):
 
     list_display = [        
@@ -42,9 +57,9 @@ class SCAdmin(admin.ModelAdmin):
     
     
 class PC_OUSAdmin(admin.ModelAdmin):   
-
+    
     def pc_out_id_display(self, obj):
-        return obj.A
+        return obj.pc_out_id.pcid
     pc_out_id_display.short_description = '編號'
     
     def A_display(self, obj):
@@ -89,7 +104,7 @@ class PC_INSAdmin(admin.ModelAdmin):
     
 
     def pc_ins_id_display(self, obj):
-        return obj.pc_ins_id
+        return obj.pc_ins_id.pcid
     pc_ins_id_display.short_description = '編號'
     def A_display(self, obj):
         return obj.A
@@ -126,12 +141,12 @@ class PC_INSAdmin(admin.ModelAdmin):
     K_display.short_description = '11'
 
 class  PC_INDAdmin(admin.ModelAdmin):
-   
+    
     list_display=['pc_ind_id_display','contact','date','A_display','B_display','C_display','D_display','E_display','F_display',
                   'G_display','H_display','I_display','J_display','K_display']
     
     def pc_ind_id_display(self, obj):
-        return obj.pc_ind_id
+        return obj.pc_ind_id.pcid
     pc_ind_id_display.short_description = '編號'
     def A_display(self, obj):
         return obj.A
@@ -213,3 +228,4 @@ admin.site.register(PC_OUS, PC_OUSAdmin)
 admin.site.register(PC_INS, PC_INSAdmin)
 admin.site.register(Max_ID)
 admin.site.register(MS, MSAdmin)
+admin.site.register(Pcid, PcidAdmin)
