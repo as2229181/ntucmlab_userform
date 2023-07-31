@@ -187,8 +187,14 @@ def section_insch(request):
         contact1, created = Contact.objects.get_or_create(
             pi=Pi, name=contact, contact_number=contact_tel
         )
+        try:
+            pc_ins_id = Pcid.objects.create(pcid=form_number)
+        except:
+            exist_pc_id = Pcid.objects.get(pcid=form_number)
+            context = {"id": exist_pc_id}
+            return render(request, "section_insch.html", context)
         PC_INS.objects.create(
-            pc_ins_id=form_number,
+            pc_ins_id=pc_ins_id,
             discount=discount,
             description=description,
             date=date,
@@ -242,7 +248,7 @@ def section_insch(request):
         wb.close()
         convert_to_pdf(excel_file_path, pdf_file_path)
         subprocess.run(["start", pdf_file_path], shell=True)
-        sc_file = PC_INS.objects.get(pc_ins_id=form_number)
+        sc_file = PC_INS.objects.get(pc_ins_id=pc_ins_id)
         sc_file.excel_file, sc_file.pdf_file = excel_file_path, pdf_file_path
         sc_file.save()
         return redirect("PC_IN_view")
@@ -279,8 +285,14 @@ def section_outsch(request):
         contact1, created = Contact.objects.get_or_create(
             pi=Pi, name=contact, contact_number=contact_tel
         )
+        try:
+            pc_out_id = Pcid.objects.create(pcid=form_number)
+        except:
+            exist_pc_id = Pcid.objects.get(pcid=form_number)
+            context = {"id": exist_pc_id}
+            return render(request, "section_insch.html", context)
         NEW_PC_OUS = PC_OUS.objects.create(
-            pc_out_id=form_number,
+            pc_out_id=pc_out_id,
             discount=discount,
             description=description,
             date=date,
@@ -335,7 +347,7 @@ def section_outsch(request):
         convert_to_pdf(excel_file_path, pdf_file_path)
         subprocess.run(["start", pdf_file_path], shell=True)
 
-        sc_file = PC_OUS.objects.get(pc_out_id=form_number)
+        sc_file = PC_OUS.objects.get(pc_out_id=pc_out_id)
         sc_file.excel_file, sc_file.pdf_file = excel_file_path, pdf_file_path
         sc_file.save()
         return redirect("PC_OUT_view")
@@ -365,8 +377,14 @@ def section_industry(request):
         contact1, created = Contact.objects.get_or_create(
             pi=None, name=contact, contact_number=contact_tel
         )
+        try:
+            pc_ind_id = Pcid.objects.create(pcid=form_number)
+        except:
+            exist_pc_id = Pcid.objects.get(pcid=form_number)
+            context = {"id": exist_pc_id}
+            return render(request, "section_insch.html", context)
         NEW_PC_IND = PC_IND.objects.create(
-            pc_ind_id=form_number,
+            pc_ind_id=pc_ind_id,
             discount=discount,
             description=description,
             date=date,
@@ -415,7 +433,7 @@ def section_industry(request):
         wb.close()
         convert_to_pdf(excel_file_path, pdf_file_path)
         subprocess.run(["start", pdf_file_path], shell=True)
-        sc_file = PC_IND.objects.get(pc_ind_id=form_number)
+        sc_file = PC_IND.objects.get(pc_ind_id=pc_ind_id)
         sc_file.excel_file, sc_file.pdf_file = excel_file_path, pdf_file_path
         sc_file.save()
         return redirect("PC_IND_view")

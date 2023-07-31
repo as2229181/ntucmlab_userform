@@ -87,13 +87,18 @@ class SC(models.Model):
         super().save(*args, **kwargs)
 
 
+class Pcid(models.Model):
+    pcid = models.CharField(unique=True, max_length=11,default=None)  
+    class Meta:
+        verbose_name = '切片表單編號'
+        verbose_name_plural = '切片表單編號'
 '''
 For inside school
 '''
 
 
 class PC_INS(models.Model):
-    pc_ins_id = models.CharField(unique=True, max_length=11,default=None)
+    pc_ins_id = models.OneToOneField(Pcid, on_delete= models.CASCADE)
     pi = models.ForeignKey(Principal_Investigator,on_delete=models.SET_NULL,null=True,blank=True,related_name='pc_ins_pi')
     contact = models.ForeignKey(Contact,on_delete=models.SET_NULL,null=True,blank=True,related_name='pc_ins_contact')
     date = models.DateField()
@@ -117,14 +122,16 @@ class PC_INS(models.Model):
     class Meta:
         verbose_name = '組織切片校內手開單'
         verbose_name_plural = '組織切片校內手開單'
-
+    def delete(self, *args, **kwargs):
+        self.pc_ins_id.delete()  
+        super().delete(*args, **kwargs)  
 
 '''
 For outside school
 '''
 
 class PC_OUS(models.Model):
-    pc_out_id = models.CharField(unique=True, max_length=11,default=None)
+    pc_out_id = models.OneToOneField(Pcid, on_delete= models.CASCADE)
     pi = models.ForeignKey(Principal_Investigator,on_delete=models.SET_NULL,null=True,blank=True,related_name='pc_ous_pi')
     contact = models.ForeignKey(Contact,on_delete=models.SET_NULL,null=True,blank=True,related_name='pc_ous_contact')
     date = models.DateField()
@@ -147,13 +154,15 @@ class PC_OUS(models.Model):
     class Meta:
         verbose_name = '組織切片校外手開單'
         verbose_name_plural = '組織切片校外手開單'
-
+    def delete(self, *args, **kwargs):
+        self.pc_out_id.delete()  
+        super().delete(*args, **kwargs)  
 '''
 For industry
 '''
 
 class PC_IND(models.Model):
-    pc_ind_id = models.CharField(unique=True, max_length=11,default=None)
+    pc_ind_id = models.OneToOneField(Pcid, on_delete= models.CASCADE)
     contact = models.ForeignKey(Contact,on_delete=models.SET_NULL,null=True,blank=True,related_name='pc_ind_contact')
     date = models.DateField()
     description= models.CharField(max_length=1000,null=True,blank=True,default=None)
@@ -175,7 +184,9 @@ class PC_IND(models.Model):
     class Meta:
         verbose_name = '組織切片產業價手開單'
         verbose_name_plural = '組織切片產業價手開單'
-
+    def delete(self, *args, **kwargs):
+        self.pc_ind_id.delete()  
+        super().delete(*args, **kwargs)
 
 class MS(models.Model):
     pc_id = models.CharField(unique=True, max_length=20,default=None)
@@ -220,7 +231,8 @@ class MS(models.Model):
             self.pc_id = f"{year}校內病理月結{str(num).zfill(4)}"
             Max_ID.objects.update(PC_max=self.pc_id)
         super().save(*args, **kwargs)
-    
+
+
 
 class Max_ID(models.Model):
     QC_max = models.CharField(max_length=1000,null=True,blank=True,default=None)

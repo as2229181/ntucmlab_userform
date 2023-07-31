@@ -18,15 +18,15 @@
         <tr>
             {% if pc.pc_ins_id %}
             <td>
-                <span class="user-link display-left">{{ pc.pc_ins_id }}</span>
+                <span class="user-link display-left">{{ pc.pc_ins_id.pcid }}</span>
             </td>
             {% elif pc.pc_out_id %}
             <td>
-                <span class="user-link display-left">{{ pc.pc_out_id }}</span>
+                <span class="user-link display-left">{{ pc.pc_out_id.pcid }}</span>
             </td>
             {% else %}
             <td>
-                <span class="user-link display-left">{{ pc.pc_ind_id }}</span>
+                <span class="user-link display-left">{{ pc.pc_ind_id.pcid }}</span>
             </td>
             {% endif %}
             <td>
@@ -44,7 +44,7 @@
 
             {% if pc_type == PC_INS %}
             <td>
-                <a href="#">{{ pc.pi.name }}</a>
+                <a href="#">{{ pc.pi.pi }}</a>
             </td>
             {% elif pc_type == PC_OUS %}
             <td>
@@ -69,13 +69,13 @@
                         <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                     </span>
                 </button>
-                <button  class="table-link danger delete-but"data-formtype="PC_INS" data-id="{{ pc.pc_ind_id }}">
+                <button  class="table-link danger delete-but"data-formtype="PC_INS" data-id="{{ pc.id }}">
                     <span class="fa-stack">
                         <i class="fa fa-square fa-stack-2x"></i>
                         <i class="fa fa-trash-o fa-stack-1x fa-inverse"  "></i>
                 </button>
                 {% elif pc_type == PC_OUS %}
-                <button  class="table-link update-but"  data-formtype="PC_OUS" data-id="{{ pc.id}}">
+                <button  class="table-link update-but"  data-formtype="PC_OUS" data-id="{{ pc.id }}">
                     <span class="fa-stack">
                         <i class="fa fa-square fa-stack-2x"></i>
                         <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
@@ -93,7 +93,7 @@
                         <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                     </span>
                 </button>
-                <button  class="table-link danger delete-but"data-formtype="PC_INS" data-id="{{ pc.id }}">
+                <button  class="table-link danger delete-but"data-formtype="PC_IND" data-id="{{ pc.id }}">
                     <span class="fa-stack">
                         <i class="fa fa-square fa-stack-2x"></i>
                         <i class="fa fa-trash-o fa-stack-1x fa-inverse"  "></i>

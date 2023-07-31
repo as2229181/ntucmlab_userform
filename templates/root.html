@@ -52,6 +52,18 @@
                     <h1 class="m-0">研發組表單</h1>
                     <!-- <img src="img/logo.png" alt="Logo"> -->
                 </a>
+                <div class="row justify-content-center">
+                    <div class="col-lg-7 wow fadeInUp" data-wow-delay="0.3s">
+                        <!-- 其他內容... -->
+                        {% if id %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ id.pcid }} 已經存在，請再次填寫表單編號。
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endif %}
+                        <!-- 其他內容... -->
+                    </div>
+                </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="fa fa-bars"></span>
                 </button>
