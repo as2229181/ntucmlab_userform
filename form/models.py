@@ -104,7 +104,7 @@ class PC_INS(models.Model):
     date = models.DateField()
     description= models.CharField(max_length=1000,null=True,blank=True,default=None)
     discount = models.CharField(max_length=6,null=True,blank=True,default='100%')
-    
+    tax = models.BooleanField(default=False)
     excel_file = models.CharField(max_length=255, null=True, blank=True)
     pdf_file = models.CharField(max_length=255, null=True, blank=True)
     pay = models.BooleanField(default=False)
@@ -119,6 +119,7 @@ class PC_INS(models.Model):
     I = models.IntegerField(default=0,null=True,blank=True)
     J = models.IntegerField(default=0,null=True,blank=True) 
     K = models.IntegerField(default=0,null=True,blank=True)
+    L = models.IntegerField(default=0,null=True,blank=True)
     class Meta:
         verbose_name = '組織切片校內手開單'
         verbose_name_plural = '組織切片校內手開單'
@@ -140,6 +141,7 @@ class PC_OUS(models.Model):
     excel_file = models.CharField(max_length=255, null=True, blank=True)
     pdf_file = models.CharField(max_length=255, null=True, blank=True)
     pay = models.BooleanField(default=False)
+    tax = models.BooleanField(default=False)
     A = models.IntegerField(default=0,null=True,blank=True)
     B = models.IntegerField(default=0,null=True,blank=True)
     C = models.IntegerField(default=0,null=True,blank=True)
@@ -151,6 +153,7 @@ class PC_OUS(models.Model):
     I = models.IntegerField(default=0,null=True,blank=True)
     J = models.IntegerField(default=0,null=True,blank=True) 
     K = models.IntegerField(default=0,null=True,blank=True)
+    L = models.IntegerField(default=0,null=True,blank=True)
     class Meta:
         verbose_name = '組織切片校外手開單'
         verbose_name_plural = '組織切片校外手開單'
@@ -166,10 +169,11 @@ class PC_IND(models.Model):
     contact = models.ForeignKey(Contact,on_delete=models.SET_NULL,null=True,blank=True,related_name='pc_ind_contact')
     date = models.DateField()
     description= models.CharField(max_length=1000,null=True,blank=True,default=None)
-    discount = models.CharField(max_length=6,null=True,blank=True,default='100%')
+    
     excel_file = models.CharField(max_length=255, null=True, blank=True)
     pdf_file = models.CharField(max_length=255, null=True, blank=True)
     pay = models.BooleanField(default=False)
+    tax = models.BooleanField(default=False)
     A = models.IntegerField(default=0,null=True,blank=True)
     B = models.IntegerField(default=0,null=True,blank=True)
     C = models.IntegerField(default=0,null=True,blank=True)
@@ -181,6 +185,7 @@ class PC_IND(models.Model):
     I = models.IntegerField(default=0,null=True,blank=True)
     J = models.IntegerField(default=0,null=True,blank=True) 
     K = models.IntegerField(default=0,null=True,blank=True)
+    L = models.IntegerField(default=0,null=True,blank=True)
     class Meta:
         verbose_name = '組織切片產業價手開單'
         verbose_name_plural = '組織切片產業價手開單'
@@ -210,6 +215,7 @@ class MS(models.Model):
     I = models.IntegerField(default=0,null=True,blank=True)
     J = models.IntegerField(default=0,null=True,blank=True) 
     K = models.IntegerField(default=0,null=True,blank=True)
+    L = models.IntegerField(default=0,null=True,blank=True)
     class Meta:
         verbose_name = '校內月結'
         verbose_name_plural = '校內月結'
