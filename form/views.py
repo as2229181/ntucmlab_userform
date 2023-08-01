@@ -180,6 +180,7 @@ def section_insch(request):
         i = request.POST["i"]
         j = request.POST["j"]
         k = request.POST["k"]
+        l = request.POST["l"]
         date = request.POST["date"]
         Pi, created = Principal_Investigator.objects.get_or_create(
             department=department, pi=pi, lab_tel=lab_tel
@@ -211,9 +212,10 @@ def section_insch(request):
             I=i,
             J=j,
             K=k,
+            L=l
         )
         file_path = os.path.join(
-            os.path.dirname(__file__), "static", "病理切片校內 v3.0.xlsx"
+            os.path.dirname(__file__), "static", "病理切片校內 v3.1.xlsx"
         )
         wb = xw.Book(file_path)
         ws = wb.sheets["Sheet1 "]
@@ -235,9 +237,9 @@ def section_insch(request):
         ws.range("E19").value = i
         ws.range("E20").value = j
         ws.range("E21").value = k
+        ws.range("E22").value = l
         ws.range("B7").value = date
         ws.range("D23").value = int(discount) / 100
-
         password = "88516"
         # 使用 Excel VBA 的 Protect 方法
         ws.api.Cells.Locked = True
@@ -277,6 +279,8 @@ def section_outsch(request):
         i = request.POST["i"]
         j = request.POST["j"]
         k = request.POST["k"]
+        l = request.POST["l"]
+        tax = request.POST["tax"]
         discount = request.POST["discount"]
         date = request.POST["date"]
         Pi, created = Principal_Investigator.objects.get_or_create(
@@ -298,6 +302,7 @@ def section_outsch(request):
             date=date,
             pi=Pi,
             contact=contact1,
+            tax=tax,
             A=a,
             B=b,
             C=c,
@@ -309,10 +314,16 @@ def section_outsch(request):
             I=i,
             J=j,
             K=k,
+            L=l
         )
-        file_path = os.path.join(
-            os.path.dirname(__file__), "static", "病理切片校外 v3.0.xlsx"
-        )
+        if tax == "True":
+            file_path = os.path.join(
+                os.path.dirname(__file__), "static", "病理切片校外含稅 v3.1.xlsx"
+            )
+        else:
+            file_path = os.path.join(
+                os.path.dirname(__file__), "static", "病理切片校外 v3.1.xlsx"
+            )
         wb = xw.Book(file_path)
         ws = wb.sheets["Sheet1 "]
         ws.range("B4").value = department
@@ -331,6 +342,7 @@ def section_outsch(request):
         ws.range("E19").value = i
         ws.range("E20").value = j
         ws.range("E21").value = k
+        ws.range("E22").value = l
         ws.range("B7").value = date
 
         ws.range("B27").value = description
@@ -361,7 +373,7 @@ def section_industry(request):
         contact = request.POST["contact"]
         contact_tel = request.POST["contact-number"]
         description = request.POST["description"]
-        discount = request.POST["discount"]
+        
         a = request.POST["a"]
         b = request.POST["b"]
         c = request.POST["c"]
@@ -373,6 +385,8 @@ def section_industry(request):
         i = request.POST["i"]
         j = request.POST["j"]
         k = request.POST["k"]
+        l = request.POST["l"]
+        tax = request.POST["tax"]
         date = request.POST["date"]
         contact1, created = Contact.objects.get_or_create(
             pi=None, name=contact, contact_number=contact_tel
@@ -385,7 +399,7 @@ def section_industry(request):
             return render(request, "section_insch.html", context)
         NEW_PC_IND = PC_IND.objects.create(
             pc_ind_id=pc_ind_id,
-            discount=discount,
+            tax=tax,
             description=description,
             date=date,
             contact=contact1,
@@ -400,9 +414,10 @@ def section_industry(request):
             I=i,
             J=j,
             K=k,
+            L=l
         )
 
-        file_path = os.path.join(os.path.dirname(__file__), "static", "病理產業價 v3.0.xlsx")
+        file_path = os.path.join(os.path.dirname(__file__), "static", "病理產業價 v3.1.xlsx")
         wb = xw.Book(file_path)
         ws = wb.sheets["Sheet1 "]
         ws.range("B4").value = department
@@ -419,8 +434,10 @@ def section_industry(request):
         ws.range("E18").value = i
         ws.range("E19").value = j
         ws.range("E20").value = k
+        ws.range("E21").value = l
         ws.range("B6").value = date
-        ws.range("D22").value = int(discount) / 100
+        if tax == "False":
+            ws.range("E24").value = 0
         ws.range("B27").value = description
         ws.range("F2").value = form_number
         password = "88516"
