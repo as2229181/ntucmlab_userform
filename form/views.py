@@ -239,7 +239,7 @@ def section_insch(request):
         ws.range("E21").value = k
         ws.range("E22").value = l
         ws.range("B7").value = date
-        ws.range("D23").value = int(discount) / 100
+        ws.range("D24").value = int(discount) / 100
         password = "88516"
         # 使用 Excel VBA 的 Protect 方法
         ws.api.Cells.Locked = True
@@ -347,7 +347,7 @@ def section_outsch(request):
 
         ws.range("B27").value = description
         ws.range("F2").value = form_number
-        ws.range("D23").value = int(discount) / 100
+    
         password = "88516"
         # 使用 Excel VBA 的 Protect 方法
         ws.api.Cells.Locked = True
@@ -438,7 +438,7 @@ def section_industry(request):
         ws.range("B6").value = date
         if tax == "False":
             ws.range("E24").value = 0
-        ws.range("B27").value = description
+        ws.range("B28").value = description
         ws.range("F2").value = form_number
         password = "88516"
         # 使用 Excel VBA 的 Protect 方法

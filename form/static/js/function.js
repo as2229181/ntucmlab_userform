@@ -1,20 +1,22 @@
 $(document).ready(function(){
-    $("#mus , #rat").on('input',function(){
+    $("#mus , #rat, #discount").on('input',function(){
         let mus = parseInt($('#mus').val());
         let rat = parseInt($('#rat').val());
+        let discount =parseInt($('#discount').val())/100;
+        console.log(discount);
         console.log(mus)
         console.log(rat)
         if (isNaN(mus) && isNaN(rat) ){
             $('#total-price').text(0);
         } else if (isNaN(mus)) {
-          let price = rat * 3020;
+          let price = (rat * 3020)*discount;
           $('#total-price').text(price);
         }else if (isNaN(rat)) {
-          let price = mus * 4650;
+          let price = (mus * 4650)*discount;
           $('#total-price').text(price);
         }
         else{
-            let price = mus * 4650 + rat * 3020;
+            let price = (mus * 4650 + rat * 3020)*discount;
             $('#total-price').text(price);
           }
             return false;
@@ -47,19 +49,21 @@ $(document).ready(function(){
 
 
 
-    $("#sample-serum , #sample-blood ") .on('input',function(){
+    $("#sample-serum , #sample-blood, #discount ") .on('input',function(){
         let serum = parseInt($('#sample-serum').val());
         let blood = parseInt($('#sample-blood').val());
+        let discount =parseInt($('#discount').val())/100;
+        console.log(discount);
         if (isNaN(serum) && isNaN(blood)) {
             $('#sc-total-price').text(0);
           } else if (isNaN(serum)) {
-            let price = blood * 450;
+            let price = (blood * 450) *discount;
             $('#sc-total-price').text(price);
           } else if (isNaN(blood)) {
-            let price = serum * 110;
+            let price = (serum * 110)* discount;
             $('#sc-total-price').text(price);
           } else {
-            let price = serum * 110 + blood * 450;
+            let price = (serum * 110 + blood * 450)*discount;
             $('#sc-total-price').text(price);
           }
             return false;
@@ -77,6 +81,8 @@ $(document).ready(function(){
         let j =parseInt($('#sample-pc-j').val());
         let k =parseInt($('#sample-pc-k').val());
         let l =parseInt($('#sample-pc-l').val());
+        let discount =parseInt($('#discount').val())/100;
+        console.log(discount);
         a = isNaN(a) ? 0 : a;
         b = isNaN(b) ? 0 : b;
         c = isNaN(c) ? 0 : c;
@@ -89,11 +95,12 @@ $(document).ready(function(){
         j = isNaN(j) ? 0 : j;
         k = isNaN(k) ? 0 : k;
         l = isNaN(l) ? 0 : l;
-        let price_in_sch = a * 60 +b * 60+ c * 70+ d * 60+ e * 200+ f * 100+ g * 70+ h * 100+ i * 550+ j * 150+ k * 150+ l * 200
+        discount = isNaN(discount) ? 0 : discount;
+        let price_in_sch = (a * 60 +b * 60+ c * 70+ d * 60+ e * 200+ f * 100+ g * 70+ h * 100+ i * 550+ j * 150+ k * 150+ l * 200)*discount;
         $('#pc-total-price-in-sch').text(price_in_sch);
-        let price_out_sch = a * 70 +b * 70+ c * 85+ d * 70+ e * 215+ f * 140+ g * 85+ h * 140+ i * 850+ j * 200+ k * 200+ l * 200
+        let price_out_sch = (a * 70 +b * 70+ c * 85+ d * 70+ e * 215+ f * 140+ g * 85+ h * 140+ i * 850+ j * 200+ k * 200+ l * 200)*discount;
         $('#pc-total-price-out-sch').text(price_out_sch);
-        let price_out_ind = a * 140 +b * 110+ c * 130+ d * 110+ e * 300+ f * 200+ g * 120+ h * 200+ i * 1100+ j * 280+ k * 280+ l * 200
+        let price_out_ind = (a * 140 +b * 110+ c * 130+ d * 110+ e * 300+ f * 200+ g * 120+ h * 200+ i * 1100+ j * 280+ k * 280+ l * 200)*discount;
         $('#pc-total-price-ind').text(price_out_ind);
        
     })
