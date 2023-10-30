@@ -1,5 +1,5 @@
 import os
-
+import shutil
 from openpyxl import load_workbook
 from django.http import HttpResponse, JsonResponse
 from .models import *
@@ -31,10 +31,13 @@ def IDgenerator(year, Max_id, prefix):
 def delete_action(type, id):
     object_data = type.objects.get(id=id)
     print(object_data)
+
+    dest_folder = 'C://Users//user//Desktop//newpath'
     try:
         excel_file_path = os.path.abspath(object_data.excel_file)
         try:
-            os.remove(excel_file_path)
+            new_path = os.path.join(dest_folder, os.path.basename(excel_file_path))
+            shutil.move(excel_file_path, new_path)
             object_data.excel_file = ""
             object_data.save()
         except:
@@ -46,7 +49,8 @@ def delete_action(type, id):
         pdf_file_path = os.path.abspath(object_data.pdf_file)
         print(pdf_file_path)
         try:
-            os.remove(pdf_file_path)
+            new_path = os.path.join(dest_folder, os.path.basename(pdf_file_path))
+            shutil.move(pdf_file_path, new_path)
             object_data.pdf_file_path = ""
             object_data.save()
         except:
