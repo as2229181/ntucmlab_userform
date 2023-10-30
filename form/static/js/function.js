@@ -77,6 +77,7 @@ $(document).ready(function(){
         let j =parseInt($('#sample-pc-j').val());
         let k =parseInt($('#sample-pc-k').val());
         let l =parseInt($('#sample-pc-l').val());
+        let discount = parseInt($('#discount').val())/100;
         a = isNaN(a) ? 0 : a;
         b = isNaN(b) ? 0 : b;
         c = isNaN(c) ? 0 : c;
@@ -89,11 +90,11 @@ $(document).ready(function(){
         j = isNaN(j) ? 0 : j;
         k = isNaN(k) ? 0 : k;
         l = isNaN(l) ? 0 : l;
-        let price_in_sch = a * 60 +b * 60+ c * 70+ d * 60+ e * 200+ f * 100+ g * 70+ h * 100+ i * 550+ j * 150+ k * 150+ l * 200
+        let price_in_sch = (a * 60 +b * 60+ c * 70+ d * 60+ e * 200+ f * 100+ g * 70+ h * 100+ i * 550+ j * 150+ k * 150+ l * 200)* discount
         $('#pc-total-price-in-sch').text(price_in_sch);
-        let price_out_sch = a * 70 +b * 70+ c * 85+ d * 70+ e * 215+ f * 140+ g * 85+ h * 140+ i * 850+ j * 200+ k * 200+ l * 200
+        let price_out_sch = (a * 70 +b * 70+ c * 85+ d * 70+ e * 215+ f * 140+ g * 85+ h * 140+ i * 850+ j * 200+ k * 200+ l * 200)* discount
         $('#pc-total-price-out-sch').text(price_out_sch);
-        let price_out_ind = a * 140 +b * 110+ c * 130+ d * 110+ e * 300+ f * 200+ g * 120+ h * 200+ i * 1100+ j * 280+ k * 280+ l * 200
+        let price_out_ind = (a * 140 +b * 110+ c * 130+ d * 110+ e * 300+ f * 200+ g * 120+ h * 200+ i * 1100+ j * 280+ k * 280+ l * 200)* discount
         $('#pc-total-price-ind').text(price_out_ind);
        
     })
