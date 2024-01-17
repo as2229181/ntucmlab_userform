@@ -33,8 +33,8 @@ $(document).ready(function(){
         $("#submitBtn").prop("disabled", true);
         alert("編號格式輸入錯誤");
       }
-      } else if(form_type ==="P" ){
-        if (form_number.length === 9 && form_number.charAt(4) === form_type.charAt(0)){
+      } else if(form_type ==="PC" ){
+        if (form_number.length === 10 && form_number.charAt(4) === form_type.charAt(0) && form_number.charAt(5) === form_type.charAt(1)){
           $("#submitBtn").prop("disabled", false);
         }
         else {

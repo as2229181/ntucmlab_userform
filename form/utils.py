@@ -32,7 +32,7 @@ def delete_action(type, id):
     object_data = type.objects.get(id=id)
     print(object_data)
 
-    dest_folder = 'C://Users//user//Desktop//newpath'
+    dest_folder = 'C://Users//user//Desktop//手開單//刪除'
     try:
         excel_file_path = os.path.abspath(object_data.excel_file)
         try:

@@ -225,7 +225,7 @@ def section_insch(request):
         ws.range("E5").value = lab_tel
         ws.range("B6").value = contact
         ws.range("E6").value = contact_tel
-        ws.range("B28").value = description
+        ws.range("B29").value = description
         ws.range("E11").value = a
         ws.range("E12").value = b
         ws.range("E13").value = c
@@ -618,7 +618,6 @@ def delete_form(request):
     message = " "
     try:
         data = delete_action(model_type, form_id)
-        print(data)
     except Exception as e:
         message = f"無法刪除檔案，請關閉檔案在嘗試刪除，錯誤訊息: {str(e)}"
         return HttpResponse(message)
