@@ -4,8 +4,8 @@ from django.utils import timezone
 import xlwings as xw
 from django.http import JsonResponse, HttpResponse
 from .utils import convert_to_pdf, IDgenerator, pay_status_change, delete_action
-from django.views.decorators.cache import cache_page
 from django.core.cache import cache
+from .google_sheet import GoogleSheet
 import subprocess
 import os
 
@@ -67,6 +67,7 @@ def health_monitor(request):
         ws.range("B21").value = description
         if tax == "False":
             ws.range("D17").value = 0
+        total_count = ws.range("D18").value
         password = "88516"
         # 使用 Excel VBA 的 Protect 方法
         ws.api.Cells.Locked = True
@@ -80,6 +81,16 @@ def health_monitor(request):
         qc_file = QC.objects.get(qcid=form_number)
         qc_file.excel_file, qc_file.pdf_file = excel_file_path, pdf_file_path
         qc_file.save()
+
+        # Manpulate health minitor google sheet
+        google_sheet = GoogleSheet()
+        if mus_number != "0" and rat_number == "0":
+            row_data = [form_number, pi, date, department, contact, '','','','','','','','', mus_number,'','','','','','',form_number, total_count ]
+        elif rat_number != "0" and mus_number == "0":    
+            row_data = [form_number, pi, date, department, contact, '','','','','','','','', rat_number,'','','','','','',form_number, total_count]
+        elif mus_number != "0" and rat_number != "0":
+            row_data = [form_number, pi, date, department, contact, '','','','','','', '','',f'Mus:{mus_number}, Rat:{rat_number}','','','','','','',form_number, total_count]
+        google_sheet.health_monitor_manpulate(row_data)
         return redirect("QC_view")
     return render(request, "health_monitor.html")
 
@@ -138,6 +149,7 @@ def blood_serum(request):
         ws.range("D14").value = int(discount) / 100
         if tax == "False":
             ws.range("D17").value = 0
+        total_count = ws.range("D18").value    
         password = "88516"
         # 使用 Excel VBA 的 Protect 方法
         ws.api.Cells.Locked = True
@@ -153,7 +165,10 @@ def blood_serum(request):
         sc_file.save()
         cache.set("SC", sc_data)
         
-
+        # Manpulate google sheet
+        google_sheet = GoogleSheet()
+        row_data = [sc_id, pi, contact, date, department,lab_tel, contact_tel, '', '', total_count]
+        google_sheet.blood_serum_manpulate(row_data)    
         return redirect("SC_view")
     return render(request, "blood_serum.html", context)
 
@@ -240,6 +255,7 @@ def section_insch(request):
         ws.range("E22").value = l
         ws.range("B7").value = date
         ws.range("D24").value = int(discount) / 100
+        total_count = ws.range("D26").value
         password = "88516"
         # 使用 Excel VBA 的 Protect 方法
         ws.api.Cells.Locked = True
@@ -253,6 +269,11 @@ def section_insch(request):
         sc_file = PC_INS.objects.get(pc_ins_id=pc_ins_id)
         sc_file.excel_file, sc_file.pdf_file = excel_file_path, pdf_file_path
         sc_file.save()
+        # Manpulate google sheet
+        google_sheet = GoogleSheet()
+        search_value = form_number
+        value_to_update = {"B":pi, "C":contact, "D":a, "E":b, "F":c, "G":d, "H":e, "I":f, "J":g, "K":h, "L":i, "M":j, "N":k, "O":l, "P":total_count, "Q":description, "U":date, "V":department}
+        google_sheet.section_insch_manpulate(search_value, value_to_update)
         return redirect("PC_IN_view")
 
     return render(request, "section_insch.html")
@@ -347,7 +368,7 @@ def section_outsch(request):
 
         ws.range("B27").value = description
         ws.range("F2").value = form_number
-    
+        total_count = ws.range("D24").value
         password = "88516"
         # 使用 Excel VBA 的 Protect 方法
         ws.api.Cells.Locked = True
@@ -362,6 +383,11 @@ def section_outsch(request):
         sc_file = PC_OUS.objects.get(pc_out_id=pc_out_id)
         sc_file.excel_file, sc_file.pdf_file = excel_file_path, pdf_file_path
         sc_file.save()
+
+        google_sheet = GoogleSheet()
+        search_value = form_number
+        value_to_update = {"B":pi, "C":contact, "D":a, "E":b, "F":c, "G":d, "H":e, "I":f, "J":g, "K":h, "L":i, "M":j, "N":k, "O":l, "P":total_count, "Q":description, "U":date, "V":department}
+        google_sheet.section_insch_manpulate(search_value, value_to_update)
         return redirect("PC_OUT_view")
     return render(request, "section_outsch.html")
 
@@ -440,6 +466,7 @@ def section_industry(request):
             ws.range("E24").value = 0
         ws.range("B28").value = description
         ws.range("F2").value = form_number
+        total_count = ws.range("D25").value
         password = "88516"
         # 使用 Excel VBA 的 Protect 方法
         ws.api.Cells.Locked = True
@@ -453,6 +480,11 @@ def section_industry(request):
         sc_file = PC_IND.objects.get(pc_ind_id=pc_ind_id)
         sc_file.excel_file, sc_file.pdf_file = excel_file_path, pdf_file_path
         sc_file.save()
+
+        google_sheet = GoogleSheet()
+        search_value = form_number
+        value_to_update = {"C":contact, "D":a, "E":b, "F":c, "G":d, "H":e, "I":f, "J":g, "K":h, "L":i, "M":j, "N":k, "O":l, "P":total_count, "Q":description, "U":date, "V":department}
+        google_sheet.section_insch_manpulate(search_value, value_to_update)
         return redirect("PC_IND_view")
     return render(request, "section_industry.html")
 
@@ -619,6 +651,7 @@ def delete_form(request):
     try:
         data = delete_action(model_type, form_id)
     except Exception as e:
+        print(e)
         message = f"無法刪除檔案，請關閉檔案在嘗試刪除，錯誤訊息: {str(e)}"
         return HttpResponse(message)
     return JsonResponse({"data": data,"message":message})
@@ -631,3 +664,4 @@ def update_pay(request):
     model_type = eval(form_type)
     data = pay_status_change(model_type, form_id)
     return JsonResponse({"data": data})
+

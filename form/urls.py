@@ -15,7 +15,6 @@ urlpatterns=[
     path('PC_OUT_view',views.PC_OUT_view,name='PC_OUT_view'),
     path('PC_IND_view',views.PC_IND_view,name='PC_IND_view'),
     path('monthly_settlement_view',views.monthly_settlement_view,name='monthly_settlement_view'),
-    
     path('delete_form',views.delete_form,name='delete_form'),
 
     path('update_pay',views.update_pay,name='update_pay'),

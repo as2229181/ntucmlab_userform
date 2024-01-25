@@ -3,23 +3,38 @@ $(document).ready(function(){
         let mus = parseInt($('#mus').val());
         let rat = parseInt($('#rat').val());
         let discount =parseInt($('#discount').val())/100;
-        console.log(discount);
-        console.log(mus)
-        console.log(rat)
-        if (isNaN(mus) && isNaN(rat) ){
+        let tax = parseInt($('#tax').val())
+        if (tax === false){
+            if (isNaN(mus) && isNaN(rat) ){
+                $('#total-price').text(0);
+            } else if (isNaN(mus)) {
+              let price = Math.ceil((rat * 3020)*discount);
+              $('#total-price').text(price);
+            }else if (isNaN(rat)) {
+              let price = Math.ceil((mus * 4650)*discount);
+              $('#total-price').text(price);
+            }
+            else{
+                let price = Math.ceil((mus * 4650 + rat * 3020)*discount);
+                $('#total-price').text(price);
+              }
+                return false;}
+        else{
+          if (isNaN(mus) && isNaN(rat) ){
             $('#total-price').text(0);
-        } else if (isNaN(mus)) {
-          let price = (rat * 3020)*discount;
+          } 
+        else if (isNaN(mus)) {
+          let price = Math.ceil((rat * 3020)*discount*1.05);
           $('#total-price').text(price);
         }else if (isNaN(rat)) {
-          let price = (mus * 4650)*discount;
+          let price = Math.ceil((mus * 4650)*discount*1.05);
           $('#total-price').text(price);
         }
         else{
-            let price = (mus * 4650 + rat * 3020)*discount;
-            $('#total-price').text(price);
-          }
-            return false;
+          let price = Math.ceil((mus * 4650 + rat * 3020)*discount*1.05);
+          $('#total-price').text(price);
+        }
+          return false;}
     });
     $("#no").on('blur', function() {
       let form_number = $(this).val(); // 獲取輸入框的值
@@ -34,11 +49,11 @@ $(document).ready(function(){
         alert("編號格式輸入錯誤");
       }
       } else if(form_type ==="PC" ){
-        if (form_number.length === 10 && form_number.charAt(4) === form_type.charAt(0) && form_number.charAt(5) === form_type.charAt(1)){
+        if (form_number.length === 9 && form_number.charAt(4) === form_type.charAt(0)){
           $("#submitBtn").prop("disabled", false);
         }
         else {
-          // 如果長度不等於 10，禁用提交按鈕
+          // 如果長度不等於 9，禁用提交按鈕
           $("#submitBtn").prop("disabled", true);
           alert("編號格式輸入錯誤");
       }
@@ -53,20 +68,36 @@ $(document).ready(function(){
         let serum = parseInt($('#sample-serum').val());
         let blood = parseInt($('#sample-blood').val());
         let discount =parseInt($('#discount').val())/100;
-        console.log(discount);
+        let tax = parseInt($('#tax').val())
+        if (tax === false){
         if (isNaN(serum) && isNaN(blood)) {
             $('#sc-total-price').text(0);
           } else if (isNaN(serum)) {
-            let price = (blood * 450) *discount;
+            let price = Math.ceil((blood * 450) *discount);
             $('#sc-total-price').text(price);
           } else if (isNaN(blood)) {
-            let price = (serum * 110)* discount;
+            let price = Math.ceil((serum * 110)* discount);
             $('#sc-total-price').text(price);
           } else {
-            let price = (serum * 110 + blood * 450)*discount;
+            let price = Math.ceil((serum * 110 + blood * 450)*discount);
+            $('#sc-total-price').text(price);
+          }
+            return false;}
+        else{
+          if (isNaN(serum) && isNaN(blood)) {
+            $('#sc-total-price').text(0);
+          } else if (isNaN(serum)) {
+            let price = Math.ceil((blood * 450)*discount*1.05);
+            $('#sc-total-price').text(price);
+          } else if (isNaN(blood)) {
+            let price = Math.ceil((serum * 110)*discount*1.05);
+            $('#sc-total-price').text(price);
+          } else {
+            let price = Math.ceil((serum * 110 + blood * 450)*discount*1.05);
             $('#sc-total-price').text(price);
           }
             return false;
+        }    
     })
     $(".pc").on('input',function(){
         let a =parseInt($('#sample-pc-a').val());
@@ -82,7 +113,8 @@ $(document).ready(function(){
         let k =parseInt($('#sample-pc-k').val());
         let l =parseInt($('#sample-pc-l').val());
         let discount =parseInt($('#discount').val())/100;
-        console.log(discount);
+        let tax = parseInt($('#tax').val())
+        console.log(tax);
         a = isNaN(a) ? 0 : a;
         b = isNaN(b) ? 0 : b;
         c = isNaN(c) ? 0 : c;
@@ -96,17 +128,23 @@ $(document).ready(function(){
         k = isNaN(k) ? 0 : k;
         l = isNaN(l) ? 0 : l;
         discount = isNaN(discount) ? 0 : discount;
-        let price_in_sch = (a * 60 +b * 60+ c * 70+ d * 60+ e * 200+ f * 100+ g * 70+ h * 100+ i * 550+ j * 150+ k * 150+ l * 200)*discount;
-        $('#pc-total-price-in-sch').text(price_in_sch);
-        let price_out_sch = (a * 70 +b * 70+ c * 85+ d * 70+ e * 215+ f * 140+ g * 85+ h * 140+ i * 850+ j * 200+ k * 200+ l * 200)*discount;
-        $('#pc-total-price-out-sch').text(price_out_sch);
-        let price_out_ind = (a * 140 +b * 110+ c * 130+ d * 110+ e * 300+ f * 200+ g * 120+ h * 200+ i * 1100+ j * 280+ k * 280+ l * 200)*discount;
-        $('#pc-total-price-ind').text(price_out_ind);
-       
-    })
-    
-  
-  
+        if (tax === false || isNaN(tax)){
+            let price_in_sch = Math.ceil((a * 60 +b * 60+ c * 70+ d * 60+ e * 200+ f * 100+ g * 70+ h * 100+ i * 550+ j * 150+ k * 150+ l * 200)*discount);
+            $('#pc-total-price-in-sch').text(price_in_sch);
+            let price_out_sch = Math.ceil((a * 70 +b * 70+ c * 85+ d * 70+ e * 215+ f * 140+ g * 85+ h * 140+ i * 850+ j * 200+ k * 200+ l * 200)*discount);
+            $('#pc-total-price-out-sch').text(price_out_sch);
+            let price_out_ind = Math.ceil((a * 140 +b * 110+ c * 130+ d * 110+ e * 300+ f * 200+ g * 120+ h * 200+ i * 1100+ j * 280+ k * 280+ l * 200)*discount);
+            $('#pc-total-price-ind').text(price_out_ind);
+            }
+        else{
+            let price_in_sch = Math.ceil((a * 60 +b * 60+ c * 70+ d * 60+ e * 200+ f * 100+ g * 70+ h * 100+ i * 550+ j * 150+ k * 150+ l * 200)*discount*1.05);
+            $('#pc-total-price-in-sch').text(price_in_sch);
+            let price_out_sch = Math.ceil((a * 70 +b * 70+ c * 85+ d * 70+ e * 215+ f * 140+ g * 85+ h * 140+ i * 850+ j * 200+ k * 200+ l * 200)*discount*1.05);
+            $('#pc-total-price-out-sch').text(price_out_sch);
+            let price_out_ind = Math.ceil((a * 140 +b * 110+ c * 130+ d * 110+ e * 300+ f * 200+ g * 120+ h * 200+ i * 1100+ j * 280+ k * 280+ l * 200)*discount*1.05);
+            $('#pc-total-price-ind').text(price_out_ind);
+        }
+    }) 
 })
 
 $(document).on('click', '.delete-but', function() {

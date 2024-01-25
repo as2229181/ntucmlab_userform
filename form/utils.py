@@ -1,5 +1,6 @@
 import os
 import shutil
+import pygsheets
 from openpyxl import load_workbook
 from django.http import HttpResponse, JsonResponse
 from .models import *
@@ -40,9 +41,11 @@ def delete_action(type, id):
             shutil.move(excel_file_path, new_path)
             object_data.excel_file = ""
             object_data.save()
-        except:
+        except Exception as e:
+            print(e)
             return None 
-    except:
+    except Exception as e:
+        print(e)
         pass
 
     try:  
@@ -53,9 +56,11 @@ def delete_action(type, id):
             shutil.move(pdf_file_path, new_path)
             object_data.pdf_file_path = ""
             object_data.save()
-        except:
+        except Exception as e:
+            print(e)
             return None 
-    except:
+    except Exception as e:
+        print(e)
         pass    
     object_data.delete()
     cache.delete(f"{type.__name__}:{object_data.id}")
@@ -64,12 +69,7 @@ def delete_action(type, id):
     prefix_lower = (str(type.__name__)[:2]).lower()
     data = render_to_string(f"back/async/{prefix_lower}list.html", {prefix: rest_form,"pc_type":type})
     print(data)
-    return data
-        
-
-            
-    
-
+    return data       
 
 def pay_status_change(type, id):
     object_data = type.objects.get(id=id)
@@ -100,3 +100,4 @@ def pay_status_change(type, id):
             f"back/async/{prefix_lower}list.html", {prefix: all_form}
         )
         return data
+
