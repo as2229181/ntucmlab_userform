@@ -127,6 +127,7 @@ $(document).ready(function(){
         k = isNaN(k) ? 0 : k;
         l = isNaN(l) ? 0 : l;
         discount = isNaN(discount) ? 0 : discount;
+        console.log(discount);
         if (!taxChecked){
             let price_in_sch = Math.ceil((a * 60 +b * 60+ c * 70+ d * 60+ e * 200+ f * 100+ g * 70+ h * 100+ i * 550+ j * 150+ k * 150+ l * 200)*discount);
             $('#pc-total-price-in-sch').text(price_in_sch);
