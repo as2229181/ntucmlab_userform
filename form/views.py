@@ -273,7 +273,7 @@ def section_insch(request):
         google_sheet = GoogleSheet()
         search_value = form_number
         value_to_update = {"B":pi, "C":contact, "D":a, "E":b, "F":c, "G":d, "H":e, "I":f, "J":g, "K":h, "L":i, "M":j, "N":k, "O":l, "P":total_count, "Q":description, "U":date, "V":department}
-        google_sheet.section_insch_manpulate(search_value, value_to_update)
+        google_sheet.section_manpulate(search_value, value_to_update)
         return redirect("PC_IN_view")
 
     return render(request, "section_insch.html")
@@ -387,7 +387,7 @@ def section_outsch(request):
         google_sheet = GoogleSheet()
         search_value = form_number
         value_to_update = {"B":pi, "C":contact, "D":a, "E":b, "F":c, "G":d, "H":e, "I":f, "J":g, "K":h, "L":i, "M":j, "N":k, "O":l, "P":total_count, "Q":description, "U":date, "V":department}
-        google_sheet.section_insch_manpulate(search_value, value_to_update)
+        google_sheet.section_manpulate(search_value, value_to_update)
         return redirect("PC_OUT_view")
     return render(request, "section_outsch.html")
 
@@ -484,7 +484,7 @@ def section_industry(request):
         google_sheet = GoogleSheet()
         search_value = form_number
         value_to_update = {"C":contact, "D":a, "E":b, "F":c, "G":d, "H":e, "I":f, "J":g, "K":h, "L":i, "M":j, "N":k, "O":l, "P":total_count, "Q":description, "U":date, "V":department}
-        google_sheet.section_insch_manpulate(search_value, value_to_update)
+        google_sheet.section_manpulate(search_value, value_to_update)
         return redirect("PC_IND_view")
     return render(request, "section_industry.html")
 
@@ -658,8 +658,15 @@ def delete_form(request):
 
 
 def update_pay(request):
+    """Change the payment status!
+    Form_type params:
+    Serum and blood :SC
+    Health monitor: QC
+    Section insch: PC_INS
+    Section outsch: PC_OUS
+    Section industry: PC_IND
+    """
     form_type = request.GET["form_type"]
-
     form_id = request.GET["id"]
     model_type = eval(form_type)
     data = pay_status_change(model_type, form_id)

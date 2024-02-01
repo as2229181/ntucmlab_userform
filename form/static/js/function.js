@@ -3,8 +3,8 @@ $(document).ready(function(){
         let mus = parseInt($('#mus').val());
         let rat = parseInt($('#rat').val());
         let discount =parseInt($('#discount').val())/100;
-        let tax = parseInt($('#tax').val())
-        if (tax === false){
+        let taxChecked = $('#tax:checked').length > 0;
+        if (!taxChecked){
             if (isNaN(mus) && isNaN(rat) ){
                 $('#total-price').text(0);
             } else if (isNaN(mus)) {
@@ -68,8 +68,8 @@ $(document).ready(function(){
         let serum = parseInt($('#sample-serum').val());
         let blood = parseInt($('#sample-blood').val());
         let discount =parseInt($('#discount').val())/100;
-        let tax = parseInt($('#tax').val())
-        if (tax === false){
+        let taxChecked = $('#tax:checked').length > 0;
+        if (!taxChecked){
         if (isNaN(serum) && isNaN(blood)) {
             $('#sc-total-price').text(0);
           } else if (isNaN(serum)) {
@@ -113,8 +113,7 @@ $(document).ready(function(){
         let k =parseInt($('#sample-pc-k').val());
         let l =parseInt($('#sample-pc-l').val());
         let discount =parseInt($('#discount').val())/100;
-        let tax = parseInt($('#tax').val())
-        console.log(tax);
+        let taxChecked = $('#tax:checked').length > 0;
         a = isNaN(a) ? 0 : a;
         b = isNaN(b) ? 0 : b;
         c = isNaN(c) ? 0 : c;
@@ -128,20 +127,20 @@ $(document).ready(function(){
         k = isNaN(k) ? 0 : k;
         l = isNaN(l) ? 0 : l;
         discount = isNaN(discount) ? 0 : discount;
-        if (tax === false || isNaN(tax)){
+        if (!taxChecked){
             let price_in_sch = Math.ceil((a * 60 +b * 60+ c * 70+ d * 60+ e * 200+ f * 100+ g * 70+ h * 100+ i * 550+ j * 150+ k * 150+ l * 200)*discount);
             $('#pc-total-price-in-sch').text(price_in_sch);
             let price_out_sch = Math.ceil((a * 70 +b * 70+ c * 85+ d * 70+ e * 215+ f * 140+ g * 85+ h * 140+ i * 850+ j * 200+ k * 200+ l * 200)*discount);
             $('#pc-total-price-out-sch').text(price_out_sch);
-            let price_out_ind = Math.ceil((a * 140 +b * 110+ c * 130+ d * 110+ e * 300+ f * 200+ g * 120+ h * 200+ i * 1100+ j * 280+ k * 280+ l * 200)*discount);
+            let price_out_ind = Math.ceil(a * 140 +b * 110+ c * 130+ d * 110+ e * 300+ f * 200+ g * 120+ h * 200+ i * 1100+ j * 280+ k * 280+ l * 200);
             $('#pc-total-price-ind').text(price_out_ind);
             }
-        else{
+        else {
             let price_in_sch = Math.ceil((a * 60 +b * 60+ c * 70+ d * 60+ e * 200+ f * 100+ g * 70+ h * 100+ i * 550+ j * 150+ k * 150+ l * 200)*discount*1.05);
             $('#pc-total-price-in-sch').text(price_in_sch);
             let price_out_sch = Math.ceil((a * 70 +b * 70+ c * 85+ d * 70+ e * 215+ f * 140+ g * 85+ h * 140+ i * 850+ j * 200+ k * 200+ l * 200)*discount*1.05);
             $('#pc-total-price-out-sch').text(price_out_sch);
-            let price_out_ind = Math.ceil((a * 140 +b * 110+ c * 130+ d * 110+ e * 300+ f * 200+ g * 120+ h * 200+ i * 1100+ j * 280+ k * 280+ l * 200)*discount*1.05);
+            let price_out_ind = Math.ceil((a * 140 +b * 110+ c * 130+ d * 110+ e * 300+ f * 200+ g * 120+ h * 200+ i * 1100+ j * 280+ k * 280+ l * 200)*1.05);
             $('#pc-total-price-ind').text(price_out_ind);
         }
     }) 
@@ -150,8 +149,6 @@ $(document).ready(function(){
 $(document).on('click', '.delete-but', function() {
   let id = $(this).attr('data-id')
   let form_type =$(this).attr('data-formtype')
-  console.log(id)
-  console.log(form_type)
     $.ajax({
       url:'/form/delete_form',
       data:{
@@ -173,8 +170,6 @@ $(document).on('click', '.delete-but', function() {
 $(document).on('click', '.update-but', function() {
   let id = $(this).attr('data-id')
   let form_type =$(this).attr('data-formtype')
-  console.log(id)
-  console.log(form_type)
     $.ajax({
       url:'/form/update_pay',
       data:{

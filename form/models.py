@@ -43,6 +43,8 @@ class QC(models.Model):
     class Meta:
         verbose_name = '健康監測手開單'
         verbose_name_plural = '健康監測手開單'
+    def __str__(self):
+        return self.qcid    
 
     
 
@@ -85,7 +87,8 @@ class SC(models.Model):
             self.scid = f"{year}SC{str(num).zfill(4)}"
             Max_ID.objects.update(SC_max=self.scid)
         super().save(*args, **kwargs)
-
+    def __str__(self):
+        return self.scid    
 
 class Pcid(models.Model):
     pcid = models.CharField(unique=True, max_length=11,default=None)  
@@ -126,6 +129,8 @@ class PC_INS(models.Model):
     def delete(self, *args, **kwargs):
         self.pc_ins_id.delete()  
         super().delete(*args, **kwargs)  
+    def __str__(self):
+        return self.pc_ins_id.pcid
 
 '''
 For outside school
@@ -160,6 +165,8 @@ class PC_OUS(models.Model):
     def delete(self, *args, **kwargs):
         self.pc_out_id.delete()  
         super().delete(*args, **kwargs)  
+    def __str__(self):
+        return self.pc_out_id
 '''
 For industry
 '''
@@ -192,6 +199,8 @@ class PC_IND(models.Model):
     def delete(self, *args, **kwargs):
         self.pc_ind_id.delete()  
         super().delete(*args, **kwargs)
+    def __str__(self):
+        return self.pc_ind_id   
 
 class MS(models.Model):
     pc_id = models.CharField(unique=True, max_length=20,default=None)
