@@ -27,9 +27,7 @@ def health_monitor(request):
         rat_number = request.POST["rat-number"]
         date = request.POST["date"]
         discount = request.POST["discount"]
-        tax = request.POST["tax"]
-        print(type(discount))
-        print(tax,type(tax))
+        tax = request.POST.get("tax", "False")
         description = request.POST["description"]
         Pi, created = Principal_Investigator.objects.get_or_create(
             department=department, pi=pi, lab_tel=lab_tel
@@ -111,7 +109,7 @@ def blood_serum(request):
         date = request.POST["date"]
         description = request.POST["description"]
         discount = request.POST["discount"]
-        tax = request.POST["tax"]
+        tax = request.POST.get("tax", "False")
         申請單編號 = request.POST["apply-number"]
         Pi, created = Principal_Investigator.objects.get_or_create(
             department=department, pi=pi, lab_tel=lab_tel
@@ -301,7 +299,8 @@ def section_outsch(request):
         j = request.POST["j"]
         k = request.POST["k"]
         l = request.POST["l"]
-        tax = request.POST["tax"]
+        tax = request.POST.get("tax", "False")
+        
         discount = request.POST["discount"]
         date = request.POST["date"]
         Pi, created = Principal_Investigator.objects.get_or_create(
@@ -412,7 +411,7 @@ def section_industry(request):
         j = request.POST["j"]
         k = request.POST["k"]
         l = request.POST["l"]
-        tax = request.POST["tax"]
+        tax = request.POST.get("tax", "False")
         date = request.POST["date"]
         contact1, created = Contact.objects.get_or_create(
             pi=None, name=contact, contact_number=contact_tel
